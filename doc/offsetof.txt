@@ -1,0 +1,96 @@
+  
+# offsetof(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | CONFORMING TO | EXAMPLES |
+COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    OFFSETOF(3)             Linux Programmer's Manual            OFFSETOF(3)
+    
+## NAME         top
+    
+    
+           offsetof - offset of a structure member
+    
+## SYNOPSIS         top
+    
+    
+           #include <stddef.h>
+    
+           size_t offsetof( _type_ , _member_ );
+    
+## DESCRIPTION         top
+    
+    
+           The macro offsetof () returns the offset of the field _member_ from
+           the start of the structure _type_.
+    
+           This macro is useful because the sizes of the fields that compose
+           a structure can vary across implementations, and compilers may
+           insert different numbers of padding bytes between fields.
+           Consequently, an element's offset is not necessarily given by the
+           sum of the sizes of the previous elements.
+    
+           A compiler error will result if _member_ is not aligned to a byte
+           boundary (i.e., it is a bit field).
+    
+## RETURN VALUE         top
+    
+    
+           offsetof () returns the offset of the given _member_ within the
+           given _type_ , in units of bytes.
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C89, C99.
+    
+## EXAMPLES         top
+    
+    
+           On a Linux/i386 system, when compiled using the default gcc(1)
+           options, the program below produces the following output:
+    
+               $ ./a.out
+               offsets: i=0; c=4; d=8 a=16
+               sizeof(struct s)=16
+    
+       Program source
+    
+           #include <stddef.h>
+           #include <stdio.h>
+           #include <stdlib.h>
+    
+           int
+           main(void)
+           {
+               struct s {
+                   int i;
+                   char c;
+                   double d;
+                   char a[];
+               };
+    
+               / Output is compiler dependent /
+    
+               printf("offsets: i=%zu; c=%zu; d=%zu a=%zu\n",
+                       offsetof(struct s, i), offsetof(struct s, c),
+                       offsetof(struct s, d), offsetof(struct s, a));
+               printf("sizeof(struct s)=%zu\n", sizeof(struct s));
+    
+               exit(EXIT_SUCCESS);
+           }
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2020-11-01                    OFFSETOF(3)
+    

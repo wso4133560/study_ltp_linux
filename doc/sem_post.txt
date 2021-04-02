@@ -1,0 +1,93 @@
+  
+# sem_post(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | NOTES | EXAMPLES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    SEM_POST(3)             Linux Programmer's Manual            SEM_POST(3)
+    
+## NAME         top
+    
+    
+           sem_post - unlock a semaphore
+    
+## SYNOPSIS         top
+    
+    
+           #include <semaphore.h>
+    
+           int sem_post(sem_t  _sem_ );
+    
+           Link with _-pthread_.
+    
+## DESCRIPTION         top
+    
+    
+           sem_post () increments (unlocks) the semaphore pointed to by _sem_.
+           If the semaphore's value consequently becomes greater than zero,
+           then another process or thread blocked in a sem_wait(3) call will
+           be woken up and proceed to lock the semaphore.
+    
+## RETURN VALUE         top
+    
+    
+           sem_post () returns 0 on success; on error, the value of the
+           semaphore is left unchanged, -1 is returned, and _errno_ is set to
+           indicate the error.
+    
+## ERRORS         top
+    
+    
+           EINVAL _sem_ is not a valid semaphore.
+    
+           EOVERFLOW
+                  The maximum allowable value for a semaphore would be
+                  exceeded.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ sem_post ()                            │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001.
+    
+## NOTES         top
+    
+    
+           sem_post () is async-signal-safe: it may be safely called within a
+           signal handler.
+    
+## EXAMPLES         top
+    
+    
+           See sem_wait(3) and shm_open(3).
+    
+## SEE ALSO         top
+    
+    
+           sem_getvalue(3), sem_wait(3), sem_overview(7), signal-safety(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                    SEM_POST(3)
+    

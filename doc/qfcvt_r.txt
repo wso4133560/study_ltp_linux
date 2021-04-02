@@ -1,0 +1,93 @@
+  
+# ecvt_r(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    ECVT_R(3)               Linux Programmer's Manual              ECVT_R(3)
+    
+## NAME         top
+    
+    
+           ecvt_r, fcvt_r, qecvt_r, qfcvt_r - convert a floating-point
+           number to a string
+    
+## SYNOPSIS         top
+    
+    
+           #include <stdlib.h>
+    
+           int ecvt_r(double _number_ , int _ndigits_ , int restrict _decpt_ ,
+                      int restrict _sign_ , char restrict _buf_ , size_t _len_ );
+           int fcvt_r(double _number_ , int _ndigits_ , int restrict _decpt_ ,
+                      int restrict _sign_ , char restrict _buf_ , size_t _len_ );
+    
+           int qecvt_r(long double _number_ , int _ndigits_ , int restrict _decpt_ ,
+                      int restrict _sign_ , char restrict _buf_ , size_t _len_ );
+           int qfcvt_r(long double _number_ , int _ndigits_ , int restrict _decpt_ ,
+                      int restrict _sign_ , char restrict _buf_ , size_t _len_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           ecvt_r (), fcvt_r (), qecvt_r (), qfcvt_r ():
+               / Glibc since 2.19: / _DEFAULT_SOURCE
+                   || / Glibc <= 2.19: / _SVID_SOURCE || _BSD_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           The functions ecvt_r (), fcvt_r (), qecvt_r (), and qfcvt_r () are
+           identical to ecvt(3), fcvt(3), qecvt(3), and qfcvt(3),
+           respectively, except that they do not return their result in a
+           static buffer, but instead use the supplied _buf_ of size _len_.  See
+           ecvt(3) and qecvt(3).
+    
+## RETURN VALUE         top
+    
+    
+           These functions return 0 on success, and -1 otherwise.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ ecvt_r (), fcvt_r (), qecvt_r (),        │ Thread safety │ MT-Safe │
+           │ qfcvt_r ()                             │               │         │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           These functions are GNU extensions.
+    
+## NOTES         top
+    
+    
+           These functions are obsolete.  Instead, sprintf(3) is
+           recommended.
+    
+## SEE ALSO         top
+    
+    
+           ecvt(3), qecvt(3), sprintf(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                      ECVT_R(3)
+    

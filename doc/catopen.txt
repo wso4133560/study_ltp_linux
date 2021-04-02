@@ -1,0 +1,118 @@
+  
+# catopen(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ENVIRONMENT | ATTRIBUTES |
+CONFORMING TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    CATOPEN(3)              Linux Programmer's Manual             CATOPEN(3)
+    
+## NAME         top
+    
+    
+           catopen, catclose - open/close a message catalog
+    
+## SYNOPSIS         top
+    
+    
+           #include <nl_types.h>
+    
+           nl_catd catopen(const char  _name_ , int _flag_ );
+           int catclose(nl_catd _catalog_ );
+    
+## DESCRIPTION         top
+    
+    
+           The function catopen () opens a message catalog and returns a
+           catalog descriptor.  The descriptor remains valid until
+           catclose () or execve(2).  If a file descriptor is used to
+           implement catalog descriptors, then the FD_CLOEXEC flag will be
+           set.
+    
+           The argument _name_ specifies the name of the message catalog to be
+           opened.  If _name_ specifies an absolute path (i.e., contains a
+           '/'), then _name_ specifies a pathname for the message catalog.
+           Otherwise, the environment variable NLSPATH is used with _name_
+           substituted for %N (see locale(7)).  It is unspecified whether
+           NLSPATH will be used when the process has root privileges.  If
+           NLSPATH does not exist in the environment, or if a message
+           catalog cannot be opened in any of the paths specified by it,
+           then an implementation defined path is used.  This latter default
+           path may depend on the LC_MESSAGES locale setting when the _flag_
+           argument is NL_CAT_LOCALE and on the LANG environment variable
+           when the _flag_ argument is 0.  Changing the LC_MESSAGES part of
+           the locale may invalidate open catalog descriptors.
+    
+           The _flag_ argument to catopen () is used to indicate the source for
+           the language to use.  If it is set to NL_CAT_LOCALE , then it will
+           use the current locale setting for LC_MESSAGES.  Otherwise, it
+           will use the LANG environment variable.
+    
+           The function catclose () closes the message catalog identified by
+           _catalog_.  It invalidates any subsequent references to the message
+           catalog defined by _catalog_.
+    
+## RETURN VALUE         top
+    
+    
+           The function catopen () returns a message catalog descriptor of
+           type _nl_catd_ on success.  On failure, it returns _(nl_catd) -1_ and
+           sets _errno_ to indicate the error.  The possible error values
+           include all possible values for the open(2) call.
+    
+           The function catclose () returns 0 on success, or -1 on failure.
+    
+## ENVIRONMENT         top
+    
+    
+           LC_MESSAGES
+                  May be the source of the LC_MESSAGES locale setting, and
+                  thus determine the language to use if _flag_ is set to
+                  NL_CAT_LOCALE.
+    
+           LANG The language to use if _flag_ is 0.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────┬───────────────┬─────────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────┼───────────────┼─────────────┤
+           │ catopen ()                         │ Thread safety │ MT-Safe env │
+           ├──────────────────────────────────┼───────────────┼─────────────┤
+           │ catclose ()                        │ Thread safety │ MT-Safe     │
+           └──────────────────────────────────┴───────────────┴─────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008.
+    
+## NOTES         top
+    
+    
+           The above is the POSIX.1 description.  The glibc value for
+           NL_CAT_LOCALE is 1.  The default path varies, but usually looks
+           at a number of places below _/usr/share/locale_.
+    
+## SEE ALSO         top
+    
+    
+           catgets(3), setlocale(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                     CATOPEN(3)
+    

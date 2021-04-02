@@ -1,0 +1,99 @@
+  
+# copysign(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    COPYSIGN(3)             Linux Programmer's Manual            COPYSIGN(3)
+    
+## NAME         top
+    
+    
+           copysign, copysignf, copysignl - copy sign of a number
+    
+## SYNOPSIS         top
+    
+    
+           #include <math.h>
+    
+           double copysign(double _x_ , double _y_ );
+           float copysignf(float _x_ , float _y_ );
+           long double copysignl(long double _x_ , long double _y_ );
+    
+           Link with _-lm_.
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           copysign (), copysignf (), copysignl ():
+               _ISOC99_SOURCE || _POSIX_C_SOURCE >= 200112L
+                   || / Since glibc 2.19: / _DEFAULT_SOURCE
+                   || / Glibc <= 2.19: / _BSD_SOURCE || _SVID_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           These functions return a value whose absolute value matches that
+           of _x_ , but whose sign bit matches that of _y_.
+    
+           For example, _copysign(42.0, -1.0)_ and _copysign(-42.0, -1.0)_ both
+           return -42.0.
+    
+## RETURN VALUE         top
+    
+    
+           On success, these functions return a value whose magnitude is
+           taken from _x_ and whose sign is taken from _y_.
+    
+           If _x_ is a NaN, a NaN with the sign bit of _y_ is returned.
+    
+## ERRORS         top
+    
+    
+           No errors occur.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ copysign (), copysignf (), copysignl ()  │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           C99, POSIX.1-2001, POSIX.1-2008.  This function is defined in IEC
+           559 (and the appendix with recommended functions in IEEE 754/IEEE
+           854).
+    
+## NOTES         top
+    
+    
+           On architectures where the floating-point formats are not IEEE
+           754 compliant, these functions may treat a negative zero as
+           positive.
+    
+## SEE ALSO         top
+    
+    
+           signbit(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                    COPYSIGN(3)
+    

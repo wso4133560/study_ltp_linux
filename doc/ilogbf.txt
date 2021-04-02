@@ -1,0 +1,126 @@
+  
+# ilogb(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | BUGS | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    ILOGB(3)                Linux Programmer's Manual               ILOGB(3)
+    
+## NAME         top
+    
+    
+           ilogb, ilogbf, ilogbl - get integer exponent of a floating-point
+           value
+    
+## SYNOPSIS         top
+    
+    
+           #include <math.h>
+    
+           int ilogb(double _x_ );
+           int ilogbf(float _x_ );
+           int ilogbl(long double _x_ );
+    
+           Link with _-lm_.
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           ilogb ():
+               _ISOC99_SOURCE || _POSIX_C_SOURCE >= 200112L
+                   || _XOPEN_SOURCE >= 500
+                   || / Since glibc 2.19: / _DEFAULT_SOURCE
+                   || / Glibc <= 2.19: / _BSD_SOURCE || _SVID_SOURCE
+    
+           ilogbf (), ilogbl ():
+               _ISOC99_SOURCE || _POSIX_C_SOURCE >= 200112L
+                   || / Since glibc 2.19: / _DEFAULT_SOURCE
+                   || / Glibc <= 2.19: / _BSD_SOURCE || _SVID_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           These functions return the exponent part of their argument as a
+           signed integer.  When no error occurs, these functions are
+           equivalent to the corresponding logb(3) functions, cast to _int_.
+    
+## RETURN VALUE         top
+    
+    
+           On success, these functions return the exponent of _x_ , as a signed
+           integer.
+    
+           If _x_ is zero, then a domain error occurs, and the functions
+           return FP_ILOGB0.
+    
+           If _x_ is a NaN, then a domain error occurs, and the functions
+           return FP_ILOGBNAN.
+    
+           If _x_ is negative infinity or positive infinity, then a domain
+           error occurs, and the functions return INT_MAX.
+    
+## ERRORS         top
+    
+    
+           See math_error(7) for information on how to determine whether an
+           error has occurred when calling these functions.
+    
+           The following errors can occur:
+    
+           Domain error: _x_ is 0 or a NaN
+                  An invalid floating-point exception ( FE_INVALID ) is
+                  raised, and _errno_ is set to EDOM (but see BUGS).
+    
+           Domain error: _x_ is an infinity
+                  An invalid floating-point exception ( FE_INVALID ) is
+                  raised, and _errno_ is set to EDOM (but see BUGS).
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ ilogb (), ilogbf (), ilogbl ()           │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           C99, POSIX.1-2001, POSIX.1-2008.
+    
+## BUGS         top
+    
+    
+           Before version 2.16, the following bugs existed in the glibc
+           implementation of these functions:
+    
+             The domain error case where _x_ is 0 or a NaN did not cause
+              _errno_ to be set or (on some architectures) raise a floating-
+              point exception.
+    
+             The domain error case where _x_ is an infinity did not cause
+              _errno_ to be set or raise a floating-point exception.
+    
+## SEE ALSO         top
+    
+    
+           log(3), logb(3), significand(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                       ILOGB(3)
+    

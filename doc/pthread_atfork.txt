@@ -1,0 +1,110 @@
+  
+# pthread_atfork(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | CONFORMING TO | NOTES
+| SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    PTHREAD_ATFORK(3)       Linux Programmer's Manual      PTHREAD_ATFORK(3)
+    
+## NAME         top
+    
+    
+           pthread_atfork - register fork handlers
+    
+## SYNOPSIS         top
+    
+    
+           #include <pthread.h>
+    
+           int pthread_atfork(void ( _prepare_ )(void), void ( _parent_ )(void),
+                              void ( _child_ )(void));
+    
+           Link with _-pthread_.
+    
+## DESCRIPTION         top
+    
+    
+           The pthread_atfork () function registers fork handlers that are to
+           be executed when fork(2) is called by this thread.  The handlers
+           are executed in the context of the thread that calls fork(2).
+    
+           Three kinds of handler can be registered:
+    
+             _prepare_ specifies a handler that is executed before fork(2)
+              processing starts.
+    
+             _parent_ specifies a handler that is executed in the parent
+              process after fork(2) processing completes.
+    
+             _child_ specifies a handler that is executed in the child
+              process after fork(2) processing completes.
+    
+           Any of the three arguments may be NULL if no handler is needed in
+           the corresponding phase of fork(2) processing.
+    
+## RETURN VALUE         top
+    
+    
+           On success, pthread_atfork () returns zero.  On error, it returns
+           an error number.  pthread_atfork () may be called multiple times
+           by a thread, to register multiple handlers for each phase.  The
+           handlers for each phase are called in a specified order: the
+           _prepare_ handlers are called in reverse order of registration; the
+           _parent_ and _child_ handlers are called in the order of
+           registration.
+    
+## ERRORS         top
+    
+    
+           ENOMEM Could not allocate memory to record the form handler
+                  entry.
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008.
+    
+## NOTES         top
+    
+    
+           When fork(2) is called in a multithreaded process, only the
+           calling thread is duplicated in the child process.  The original
+           intention of pthread_atfork () was to allow the calling thread to
+           be returned to a consistent state.  For example, at the time of
+           the call to fork(2), other threads may have locked mutexes that
+           are visible in the user-space memory duplicated in the child.
+           Such mutexes would never be unlocked, since the threads that
+           placed the locks are not duplicated in the child.  The intent of
+           pthread_atfork () was to provide a mechanism whereby the
+           application (or a library) could ensure that mutexes and other
+           process and thread state would be restored to a consistent state.
+           In practice, this task is generally too difficult to be
+           practicable.
+    
+           After a fork(2) in a multithreaded process returns in the child,
+           the child should call only async-signal-safe functions (see
+           signal-safety(7)) until such time as it calls execve(2) to
+           execute a new program.
+    
+           POSIX.1 specifies that pthread_atfork () shall not fail with the
+           error EINTR.
+    
+## SEE ALSO         top
+    
+    
+           fork(2), atexit(3), pthreads(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2020-08-13              PTHREAD_ATFORK(3)
+    

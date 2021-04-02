@@ -1,0 +1,81 @@
+  
+# significand(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | ATTRIBUTES | CONFORMING TO | SEE ALSO |
+COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    SIGNIFICAND(3)          Linux Programmer's Manual         SIGNIFICAND(3)
+    
+## NAME         top
+    
+    
+           significand, significandf, significandl - get mantissa of
+           floating-point number
+    
+## SYNOPSIS         top
+    
+    
+           #include <math.h>
+    
+           double significand(double _x_ );
+           float significandf(float _x_ );
+           long double significandl(long double _x_ );
+    
+           Link with _-lm_.
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           significand (), significandf (), significandl ():
+               / Since glibc 2.19: / _DEFAULT_SOURCE
+                   || / Glibc <= 2.19: / _BSD_SOURCE || _SVID_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           These functions return the mantissa of _x_ scaled to the range
+           [1,2).  They are equivalent to
+    
+               scalb(x, (double) -ilogb(x))
+    
+           This function exists mainly for use in certain standardized tests
+           for IEEE 754 conformance.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ significand (), significandf (),        │ Thread safety │ MT-Safe │
+           │ significandl ()                        │               │         │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           These functions are nonstandard; the _double_ version is available
+           on a number of other systems.
+    
+## SEE ALSO         top
+    
+    
+           ilogb(3), scalb(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                 SIGNIFICAND(3)
+    

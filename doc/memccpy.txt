@@ -1,0 +1,74 @@
+  
+# memccpy(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    MEMCCPY(3)              Linux Programmer's Manual             MEMCCPY(3)
+    
+## NAME         top
+    
+    
+           memccpy - copy memory area
+    
+## SYNOPSIS         top
+    
+    
+           #include <string.h>
+    
+           void memccpy(void restrict _dest_ , const void restrict _src_ ,
+                         int _c_ , size_t _n_ );
+    
+## DESCRIPTION         top
+    
+    
+           The memccpy () function copies no more than _n_ bytes from memory
+           area _src_ to memory area _dest_ , stopping when the character _c_ is
+           found.
+    
+           If the memory areas overlap, the results are undefined.
+    
+## RETURN VALUE         top
+    
+    
+           The memccpy () function returns a pointer to the next character in
+           _dest_ after _c_ , or NULL if _c_ was not found in the first _n_
+           characters of _src_.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ memccpy ()                             │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, SVr4, 4.3BSD.
+    
+## SEE ALSO         top
+    
+    
+           bcopy(3), bstring(3), memcpy(3), memmove(3), strcpy(3),
+           strncpy(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                     MEMCCPY(3)
+    

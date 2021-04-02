@@ -1,0 +1,90 @@
+  
+# dlerror(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | VERSIONS | ATTRIBUTES | CONFORMING TO | NOTES
+| EXAMPLES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    DLERROR(3)              Linux Programmer's Manual             DLERROR(3)
+    
+## NAME         top
+    
+    
+           dlerror - obtain error diagnostic for functions in the dlopen API
+    
+## SYNOPSIS         top
+    
+    
+           #include <dlfcn.h>
+    
+           char dlerror(void);
+    
+           Link with _-ldl_.
+    
+## DESCRIPTION         top
+    
+    
+           The dlerror () function returns a human-readable, null-terminated
+           string describing the most recent error that occurred from a call
+           to one of the functions in the dlopen API since the last call to
+           dlerror ().  The returned string does _not_ include a trailing
+           newline.
+    
+           dlerror () returns NULL if no errors have occurred since
+           initialization or since it was last called.
+    
+## VERSIONS         top
+    
+    
+           dlerror () is present in glibc 2.0 and later.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ dlerror ()                             │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001.
+    
+## NOTES         top
+    
+    
+           The message returned by dlerror () may reside in a statically
+           allocated buffer that is overwritten by subsequent dlerror ()
+           calls.
+    
+       History
+           This function is part of the dlopen API, derived from SunOS.
+    
+## EXAMPLES         top
+    
+    
+           See dlopen(3).
+    
+## SEE ALSO         top
+    
+    
+           dladdr(3), dlinfo(3), dlopen(3), dlsym(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                     DLERROR(3)
+    

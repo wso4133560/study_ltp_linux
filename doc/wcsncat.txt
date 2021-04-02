@@ -1,0 +1,76 @@
+  
+# wcsncat(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    WCSNCAT(3)              Linux Programmer's Manual             WCSNCAT(3)
+    
+## NAME         top
+    
+    
+           wcsncat - concatenate two wide-character strings
+    
+## SYNOPSIS         top
+    
+    
+           #include <wchar.h>
+    
+           wchar_t wcsncat(wchar_t restrict _dest_ , const wchar_t restrict _src_ ,
+                            size_t _n_ );
+    
+## DESCRIPTION         top
+    
+    
+           The wcsncat () function is the wide-character equivalent of the
+           strncat(3) function.  It copies at most _n_ wide characters from
+           the wide-character string pointed to by _src_ to the end of the
+           wide-character string pointed to by _dest_ , and adds a terminating
+           null wide character (L'\0').
+    
+           The strings may not overlap.
+    
+           The programmer must ensure that there is room for at least
+           _wcslen(dest)_ + _n_ +1 wide characters at _dest_.
+    
+## RETURN VALUE         top
+    
+    
+           wcsncat () returns _dest_.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ wcsncat ()                             │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C99.
+    
+## SEE ALSO         top
+    
+    
+           strncat(3), wcscat(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                     WCSNCAT(3)
+    

@@ -1,0 +1,108 @@
+  
+# cacosh(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | VERSIONS | ATTRIBUTES | CONFORMING TO |
+EXAMPLES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    CACOSH(3)               Linux Programmer's Manual              CACOSH(3)
+    
+## NAME         top
+    
+    
+           cacosh, cacoshf, cacoshl - complex arc hyperbolic cosine
+    
+## SYNOPSIS         top
+    
+    
+           #include <complex.h>
+    
+           double complex cacosh(double complex _z_ );
+           float complex cacoshf(float complex _z_ );
+           long double complex cacoshl(long double complex _z_ );
+    
+           Link with _-lm_.
+    
+## DESCRIPTION         top
+    
+    
+           These functions calculate the complex arc hyperbolic cosine of _z_.
+           If _y = cacosh(z)_ , then _z = ccosh(y)_.  The imaginary part of _y_ is
+           chosen in the interval [-pi,pi].  The real part of _y_ is chosen
+           nonnegative.
+    
+           One has:
+    
+               cacosh(z) = 2  clog(csqrt((z + 1) / 2) + csqrt((z - 1) / 2))
+    
+## VERSIONS         top
+    
+    
+           These functions first appeared in glibc in version 2.1.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ cacosh (), cacoshf (), cacoshl ()        │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           C99, POSIX.1-2001, POSIX.1-2008.
+    
+## EXAMPLES         top
+    
+    
+           / Link with "-lm" /
+    
+           #include <complex.h>
+           #include <stdlib.h>
+           #include <unistd.h>
+           #include <stdio.h>
+    
+           int
+           main(int argc, char argv[])
+           {
+               double complex z, c, f;
+    
+               if (argc != 3) {
+                   fprintf(stderr, "Usage: %s <real> <imag>\n", argv[0]);
+                   exit(EXIT_FAILURE);
+               }
+    
+               z = atof(argv[1]) + atof(argv[2])  I;
+    
+               c = cacosh(z);
+               printf("cacosh() = %6.3f %6.3fi\n", creal(c), cimag(c));
+    
+               f = 2  clog(csqrt((z + 1)/2) + csqrt((z - 1)/2));
+               printf("formula  = %6.3f %6.3fi\n", creal(f2), cimag(f2));
+    
+               exit(EXIT_SUCCESS);
+           }
+    
+## SEE ALSO         top
+    
+    
+           acosh(3), cabs(3), ccosh(3), cimag(3), complex(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                      CACOSH(3)
+    

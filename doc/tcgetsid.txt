@@ -1,0 +1,92 @@
+  
+# tcgetsid(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | VERSIONS | ATTRIBUTES
+| CONFORMING TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    TCGETSID(3)             Linux Programmer's Manual            TCGETSID(3)
+    
+## NAME         top
+    
+    
+           tcgetsid - get session ID
+    
+## SYNOPSIS         top
+    
+    
+           #define _XOPEN_SOURCE 500 / See feature_test_macros(7) /
+           #include <termios.h>
+    
+           pid_t tcgetsid(int _fd_ );
+    
+## DESCRIPTION         top
+    
+    
+           The function tcgetsid () returns the session ID of the current
+           session that has the terminal associated to _fd_ as controlling
+           terminal.  This terminal must be the controlling terminal of the
+           calling process.
+    
+## RETURN VALUE         top
+    
+    
+           When _fd_ refers to the controlling terminal of our session, the
+           function tcgetsid () will return the session ID of this session.
+           Otherwise, -1 is returned, and _errno_ is set to indicate the
+           error.
+    
+## ERRORS         top
+    
+    
+           EBADF _fd_ is not a valid file descriptor.
+    
+           ENOTTY The calling process does not have a controlling terminal,
+                  or it has one but it is not described by _fd_.
+    
+## VERSIONS         top
+    
+    
+           tcgetsid () is provided in glibc since version 2.1.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ tcgetsid ()                            │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008.
+    
+## NOTES         top
+    
+    
+           This function is implemented via the TIOCGSID ioctl (2), present
+           since Linux 2.1.71.
+    
+## SEE ALSO         top
+    
+    
+           getsid(2)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                    TCGETSID(3)
+    

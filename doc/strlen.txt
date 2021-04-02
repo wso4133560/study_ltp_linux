@@ -1,0 +1,68 @@
+  
+# strlen(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    STRLEN(3)               Linux Programmer's Manual              STRLEN(3)
+    
+## NAME         top
+    
+    
+           strlen - calculate the length of a string
+    
+## SYNOPSIS         top
+    
+    
+           #include <string.h>
+    
+           size_t strlen(const char  _s_ );
+    
+## DESCRIPTION         top
+    
+    
+           The strlen () function calculates the length of the string pointed
+           to by _s_ , excluding the terminating null byte ('\0').
+    
+## RETURN VALUE         top
+    
+    
+           The strlen () function returns the number of bytes in the string
+           pointed to by _s_.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ strlen ()                              │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C89, C99, C11, SVr4, 4.3BSD.
+    
+## SEE ALSO         top
+    
+    
+           string(3), strnlen(3), wcslen(3), wcsnlen(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                      STRLEN(3)
+    

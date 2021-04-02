@@ -1,0 +1,57 @@
+  
+# clog2(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | CONFORMING TO | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    CLOG2(3)                Linux Programmer's Manual               CLOG2(3)
+    
+## NAME         top
+    
+    
+           clog2, clog2f, clog2l - base-2 logarithm of a complex number
+    
+## SYNOPSIS         top
+    
+    
+           #include <complex.h>
+    
+           double complex clog2(double complex _z_ );
+           float complex clog2f(float complex _z_ );
+           long double complex clog2l(long double complex _z_ );
+    
+## DESCRIPTION         top
+    
+    
+           The call _clog2(z)_ is equivalent to clog(z)/log(2).
+    
+           The other functions perform the same task for _float_ and _long_
+           _double_.
+    
+           Note that _z_ close to zero will cause an overflow.
+    
+## CONFORMING TO         top
+    
+    
+           These function names are reserved for future use in C99.
+    
+           Not yet in glibc, as at version 2.19.
+    
+## SEE ALSO         top
+    
+    
+           cabs(3), cexp(3), clog(3), clog10(3), complex(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                       CLOG2(3)
+    

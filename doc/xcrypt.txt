@@ -1,0 +1,90 @@
+  
+# xcrypt(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | VERSIONS | ATTRIBUTES | BUGS |
+SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    XCRYPT(3)               Linux Programmer's Manual              XCRYPT(3)
+    
+## NAME         top
+    
+    
+           xencrypt, xdecrypt, passwd2des - RFS password encryption
+    
+## SYNOPSIS         top
+    
+    
+           #include <rpc/des_crypt.h>
+    
+           void passwd2des(char _passwd_ , char  _key_ );
+    
+           int xencrypt(char  _secret_ , char  _passwd_ );
+           int xdecrypt(char  _secret_ , char  _passwd_ );
+    
+## DESCRIPTION         top
+    
+    
+           WARNING : Do not use these functions in new code. They do not
+           achieve any type of acceptable cryptographic security guarantees.
+    
+           The function passwd2des () takes a character string _passwd_ of
+           arbitrary length and fills a character array _key_ of length 8.
+           The array _key_ is suitable for use as DES key.  It has odd parity
+           set in bit 0 of each byte.  Both other functions described here
+           use this function to turn their argument _passwd_ into a DES key.
+    
+           The xencrypt () function takes the ASCII character string _secret_
+           given in hex, which must have a length that is a multiple of 16,
+           encrypts it using the DES key derived from _passwd_ by
+           passwd2des (), and outputs the result again in _secret_ as a hex
+           string of the same length.
+    
+           The xdecrypt () function performs the converse operation.
+    
+## RETURN VALUE         top
+    
+    
+           The functions xencrypt () and xdecrypt () return 1 on success and 0
+           on error.
+    
+## VERSIONS         top
+    
+    
+           These functions are available in glibc since version 2.1.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ passwd2des (), xencrypt (), xdecrypt ()  │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## BUGS         top
+    
+    
+           The prototypes are missing from the abovementioned include file.
+    
+## SEE ALSO         top
+    
+    
+           cbc_crypt(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                      XCRYPT(3)
+    

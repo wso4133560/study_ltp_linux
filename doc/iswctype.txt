@@ -1,0 +1,82 @@
+  
+# iswctype(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    ISWCTYPE(3)             Linux Programmer's Manual            ISWCTYPE(3)
+    
+## NAME         top
+    
+    
+           iswctype - wide-character classification
+    
+## SYNOPSIS         top
+    
+    
+           #include <wctype.h>
+    
+           int iswctype(wint_t _wc_ , wctype_t _desc_ );
+    
+## DESCRIPTION         top
+    
+    
+           If _wc_ is a wide character having the character property
+           designated by _desc_ (or in other words: belongs to the character
+           class designated by _desc_ ), the iswctype () function returns
+           nonzero.  Otherwise, it returns zero.  If _wc_ is WEOF , zero is
+           returned.
+    
+           _desc_ must be a character property descriptor returned by the
+           wctype(3) function.
+    
+## RETURN VALUE         top
+    
+    
+           The iswctype () function returns nonzero if the _wc_ has the
+           designated property.  Otherwise, it returns 0.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ iswctype ()                            │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C99.
+    
+## NOTES         top
+    
+    
+           The behavior of iswctype () depends on the LC_CTYPE category of
+           the current locale.
+    
+## SEE ALSO         top
+    
+    
+           iswalnum(3), iswalpha(3), iswblank(3), iswcntrl(3), iswdigit(3),
+           iswgraph(3), iswlower(3), iswprint(3), iswpunct(3), iswspace(3),
+           iswupper(3), iswxdigit(3), wctype(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                    ISWCTYPE(3)
+    

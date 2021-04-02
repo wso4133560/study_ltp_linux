@@ -1,0 +1,126 @@
+  
+# io_getevents(2) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | VERSIONS | CONFORMING
+TO | NOTES | BUGS | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    IO_GETEVENTS(2)         Linux Programmer's Manual        IO_GETEVENTS(2)
+    
+## NAME         top
+    
+    
+           io_getevents - read asynchronous I/O events from the completion
+           queue
+    
+## SYNOPSIS         top
+    
+    
+           #include <linux/aio_abi.h>         / Defines needed types /
+           #include <linux/time.h>            / Defines 'struct timespec' /
+    
+           int io_getevents(aio_context_t _ctx_id_ , long _min_nr_ , long _nr_ ,
+                            struct io_event  _events_ , struct timespec  _timeout_ );
+    
+           _Note_ : There is no glibc wrapper for this system call; see NOTES.
+    
+## DESCRIPTION         top
+    
+    
+           _Note_ : this page describes the raw Linux system call interface.
+           The wrapper function provided by _libaio_ uses a different type for
+           the _ctx_id_ argument.  See NOTES.
+    
+           The io_getevents () system call attempts to read at least _min_nr_
+           events and up to _nr_ events from the completion queue of the AIO
+           context specified by _ctx_id_.
+    
+           The _timeout_ argument specifies the amount of time to wait for
+           events, and is specified as a relative timeout in a structure of
+           the following form:
+    
+               struct timespec {
+                   time_t tv_sec;      / seconds /
+                   long   tv_nsec;     / nanoseconds [0 .. 999999999] /
+               };
+    
+           The specified time will be rounded up to the system clock
+           granularity and is guaranteed not to expire early.
+    
+           Specifying _timeout_ as NULL means block indefinitely until at
+           least _min_nr_ events have been obtained.
+    
+## RETURN VALUE         top
+    
+    
+           On success, io_getevents () returns the number of events read.
+           This may be 0, or a value less than _min_nr_ , if the _timeout_
+           expired.  It may also be a nonzero value less than _min_nr_ , if the
+           call was interrupted by a signal handler.
+    
+           For the failure return, see NOTES.
+    
+## ERRORS         top
+    
+    
+           EFAULT Either _events_ or _timeout_ is an invalid pointer.
+    
+           EINTR Interrupted by a signal handler; see signal(7).
+    
+           EINVAL _ctx_id_ is invalid.  _min_nr_ is out of range or _nr_ is out of
+                  range.
+    
+           ENOSYS io_getevents () is not implemented on this architecture.
+    
+## VERSIONS         top
+    
+    
+           The asynchronous I/O system calls first appeared in Linux 2.5.
+    
+## CONFORMING TO         top
+    
+    
+           io_getevents () is Linux-specific and should not be used in
+           programs that are intended to be portable.
+    
+## NOTES         top
+    
+    
+           Glibc does not provide a wrapper for this system call.  You could
+           invoke it using syscall(2).  But instead, you probably want to
+           use the io_getevents () wrapper function provided by _libaio_.
+    
+           Note that the _libaio_ wrapper function uses a different type
+           ( _io_context_t_ ) for the _ctx_id_ argument.  Note also that the
+           _libaio_ wrapper does not follow the usual C library conventions
+           for indicating errors: on error it returns a negated error number
+           (the negative of one of the values listed in ERRORS).  If the
+           system call is invoked via syscall(2), then the return value
+           follows the usual conventions for indicating an error: -1, with
+           _errno_ set to a (positive) value that indicates the error.
+    
+## BUGS         top
+    
+    
+           An invalid _ctx_id_ may cause a segmentation fault instead of
+           generating the error EINVAL.
+    
+## SEE ALSO         top
+    
+    
+           io_cancel(2), io_destroy(2), io_setup(2), io_submit(2), aio(7),
+           time(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                IO_GETEVENTS(2)
+    

@@ -1,0 +1,100 @@
+  
+# fgetwc(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    FGETWC(3)               Linux Programmer's Manual              FGETWC(3)
+    
+## NAME         top
+    
+    
+           fgetwc, getwc - read a wide character from a FILE stream
+    
+## SYNOPSIS         top
+    
+    
+           #include <stdio.h>
+           #include <wchar.h>
+    
+           wint_t fgetwc(FILE  _stream_ );
+           wint_t getwc(FILE  _stream_ );
+    
+## DESCRIPTION         top
+    
+    
+           The fgetwc () function is the wide-character equivalent of the
+           fgetc(3) function.  It reads a wide character from _stream_ and
+           returns it.  If the end of stream is reached, or if
+           _ferror(stream)_ becomes true, it returns WEOF.  If a wide-
+           character conversion error occurs, it sets _errno_ to EILSEQ and
+           returns WEOF.
+    
+           The getwc () function or macro functions identically to fgetwc ().
+           It may be implemented as a macro, and may evaluate its argument
+           more than once.  There is no reason ever to use it.
+    
+           For nonlocking counterparts, see unlocked_stdio(3).
+    
+## RETURN VALUE         top
+    
+    
+           On success, fgetwc () returns the next wide-character from the
+           stream.  Otherwise, WEOF is returned, and _errno_ is set to
+           indicate the error.
+    
+## ERRORS         top
+    
+    
+           Apart from the usual ones, there is
+    
+           EILSEQ The data obtained from the input stream does not form a
+                  valid character.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ fgetwc (), getwc ()                     │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C99.
+    
+## NOTES         top
+    
+    
+           The behavior of fgetwc () depends on the LC_CTYPE category of the
+           current locale.
+    
+           In the absence of additional information passed to the fopen(3)
+           call, it is reasonable to expect that fgetwc () will actually read
+           a multibyte sequence from the stream and then convert it to a
+           wide character.
+    
+## SEE ALSO         top
+    
+    
+           fgetws(3), fputwc(3), ungetwc(3), unlocked_stdio(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                      FGETWC(3)
+    

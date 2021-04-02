@@ -1,0 +1,79 @@
+  
+# pthread_mutexattr_init(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | CONFORMING TO | NOTES | SEE
+ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    PTHREAD_MUTEXATTR_INIT(3)inux Programmer's ManualHREAD_MUTEXATTR_INIT(3)
+    
+## NAME         top
+    
+    
+           pthread_mutexattr_init, pthread_mutexattr_destroy - initialize
+           and destroy a mutex attributes object
+    
+## SYNOPSIS         top
+    
+    
+           #include <pthread.h>
+    
+           int pthread_mutexattr_init(pthread_mutexattr_t  _attr_ );
+           int pthread_mutexattr_destroy(pthread_mutexattr_t  _attr_ );
+    
+           Compile and link with _-pthread_.
+    
+## DESCRIPTION         top
+    
+    
+           The pthread_mutexattr_init () function initializes the mutex
+           attributes object pointed to by _attr_ with default values for all
+           attributes defined by the implementation.
+    
+           The results of initializing an already initialized mutex
+           attributes object are undefined.
+    
+           The pthread_mutexattr_destroy () function destroys a mutex
+           attribute object (making it uninitialized).  Once a mutex
+           attributes object has been destroyed, it can be reinitialized
+           with pthread_mutexattr_init ().
+    
+           The results of destroying an uninitialized mutex attributes
+           object are undefined.
+    
+## RETURN VALUE         top
+    
+    
+           On success, these functions return 0.  On error, they return a
+           positive error number.
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008.
+    
+## NOTES         top
+    
+    
+           Subsequent changes to a mutex attributes object do not affect
+           mutex that have already been initialized using that object.
+    
+## SEE ALSO         top
+    
+    
+           pthread_mutex_init (3), pthread_mutexattr_getpshared(3),
+           pthread_mutexattr_getrobust(3), pthreads(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2019-10-10      PTHREAD_MUTEXATTR_INIT(3)
+    

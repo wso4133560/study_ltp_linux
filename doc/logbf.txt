@@ -1,0 +1,114 @@
+  
+# logb(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    LOGB(3)                 Linux Programmer's Manual                LOGB(3)
+    
+## NAME         top
+    
+    
+           logb, logbf, logbl - get exponent of a floating-point value
+    
+## SYNOPSIS         top
+    
+    
+           #include <math.h>
+    
+           double logb(double _x_ );
+           float logbf(float _x_ );
+           long double logbl(long double _x_ );
+    
+           Link with _-lm_.
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           logb ():
+               _ISOC99_SOURCE || _POSIX_C_SOURCE >= 200112L
+                   || _XOPEN_SOURCE >= 500
+                   || / Since glibc 2.19: / _DEFAULT_SOURCE
+                   || / Glibc <= 2.19: / _BSD_SOURCE || _SVID_SOURCE
+    
+           logbf (), logbl ():
+               _ISOC99_SOURCE || _POSIX_C_SOURCE >= 200112L
+                   || / Since glibc 2.19: / _DEFAULT_SOURCE
+                   || / Glibc <= 2.19: / _BSD_SOURCE || _SVID_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           These functions extract the exponent from the internal floating-
+           point representation of _x_ and return it as a floating-point
+           value.  The integer constant FLT_RADIX , defined in _< float.h>_,
+           indicates the radix used for the system's floating-point
+           representation.  If FLT_RADIX is 2, logb( _x_ ) is equal to
+           floor(log2( _x_ )) , except that it is probably faster.
+    
+           If _x_ is subnormal, logb () returns the exponent _x_ would have if it
+           were normalized.
+    
+## RETURN VALUE         top
+    
+    
+           On success, these functions return the exponent of _x_.
+    
+           If _x_ is a NaN, a NaN is returned.
+    
+           If _x_ is zero, then a pole error occurs, and the functions return
+           - HUGE_VAL , - HUGE_VALF , or - HUGE_VALL , respectively.
+    
+           If _x_ is negative infinity or positive infinity, then positive
+           infinity is returned.
+    
+## ERRORS         top
+    
+    
+           See math_error(7) for information on how to determine whether an
+           error has occurred when calling these functions.
+    
+           The following errors can occur:
+    
+           Pole error: _x_ is 0
+                  A divide-by-zero floating-point exception ( FE_DIVBYZERO )
+                  is raised.
+    
+           These functions do not set _errno_.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ logb (), logbf (), logbl ()              │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           C99, POSIX.1-2001, POSIX.1-2008.
+    
+## SEE ALSO         top
+    
+    
+           ilogb(3), log(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                        LOGB(3)
+    

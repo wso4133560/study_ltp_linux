@@ -1,0 +1,173 @@
+  
+# iconv(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | VERSIONS | ATTRIBUTES
+| CONFORMING TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    ICONV(3)                Linux Programmer's Manual               ICONV(3)
+    
+## NAME         top
+    
+    
+           iconv - perform character set conversion
+    
+## SYNOPSIS         top
+    
+    
+           #include <iconv.h>
+    
+           size_t iconv(iconv_t _cd_ ,
+                        char restrict _inbuf_ , size_t restrict _inbytesleft_ ,
+                        char restrict _outbuf_ , size_t restrict _outbytesleft_ );
+    
+## DESCRIPTION         top
+    
+    
+           The iconv () function converts a sequence of characters in one
+           character encoding to a sequence of characters in another
+           character encoding.  The _cd_ argument is a conversion descriptor,
+           previously created by a call to iconv_open(3); the conversion
+           descriptor defines the character encodings that iconv () uses for
+           the conversion.  The _inbuf_ argument is the address of a variable
+           that points to the first character of the input sequence;
+           _inbytesleft_ indicates the number of bytes in that buffer.  The
+           _outbuf_ argument is the address of a variable that points to the
+           first byte available in the output buffer; _outbytesleft_ indicates
+           the number of bytes available in the output buffer.
+    
+           The main case is when _inbuf_ is not NULL and _inbuf_ is not NULL.
+           In this case, the iconv () function converts the multibyte
+           sequence starting at _inbuf_ to a multibyte sequence starting at
+           _outbuf_.  At most _inbytesleft_ bytes, starting at _inbuf_ , will be
+           read.  At most _outbytesleft_ bytes, starting at _outbuf_ , will be
+           written.
+    
+           The iconv () function converts one multibyte character at a time,
+           and for each character conversion it increments _inbuf_ and
+           decrements _inbytesleft_ by the number of converted input bytes,
+           it increments _outbuf_ and decrements _outbytesleft_ by the number
+           of converted output bytes, and it updates the conversion state
+           contained in _cd_.  If the character encoding of the input is
+           stateful, the iconv () function can also convert a sequence of
+           input bytes to an update to the conversion state without
+           producing any output bytes; such input is called a _shift_
+           _sequence_.  The conversion can stop for four reasons:
+    
+           1. An invalid multibyte sequence is encountered in the input.  In
+              this case, it sets _errno_ to EILSEQ and returns _(size_t) -1_.
+              _inbuf_ is left pointing to the beginning of the invalid
+              multibyte sequence.
+    
+           2. The input byte sequence has been entirely converted, that is,
+              _inbytesleft_ has gone down to 0.  In this case, iconv ()
+              returns the number of nonreversible conversions performed
+              during this call.
+    
+           3. An incomplete multibyte sequence is encountered in the input,
+              and the input byte sequence terminates after it.  In this
+              case, it sets _errno_ to EINVAL and returns _(size_t) -1_.  _inbuf_
+              is left pointing to the beginning of the incomplete multibyte
+              sequence.
+    
+           4. The output buffer has no more room for the next converted
+              character.  In this case, it sets _errno_ to E2BIG and returns
+              _(size_t) -1_.
+    
+           A different case is when _inbuf_ is NULL or _inbuf_ is NULL, but
+           _outbuf_ is not NULL and _outbuf_ is not NULL.  In this case, the
+           iconv () function attempts to set _cd_ 's conversion state to the
+           initial state and store a corresponding shift sequence at
+           _outbuf_.  At most _outbytesleft_ bytes, starting at _outbuf_ , will
+           be written.  If the output buffer has no more room for this reset
+           sequence, it sets _errno_ to E2BIG and returns _(size_t) -1_.
+           Otherwise, it increments _outbuf_ and decrements _outbytesleft_ by
+           the number of bytes written.
+    
+           A third case is when _inbuf_ is NULL or _inbuf_ is NULL, and _outbuf_
+           is NULL or _outbuf_ is NULL.  In this case, the iconv () function
+           sets _cd_ 's conversion state to the initial state.
+    
+## RETURN VALUE         top
+    
+    
+           The iconv () function returns the number of characters converted
+           in a nonreversible way during this call; reversible conversions
+           are not counted.  In case of error, iconv () returns _(size_t) -1_
+           and sets _errno_ to indicate the error.
+    
+## ERRORS         top
+    
+    
+           The following errors can occur, among others:
+    
+           E2BIG There is not sufficient room at _outbuf_.
+    
+           EILSEQ An invalid multibyte sequence has been encountered in the
+                  input.
+    
+           EINVAL An incomplete multibyte sequence has been encountered in
+                  the input.
+    
+## VERSIONS         top
+    
+    
+           This function is available in glibc since version 2.1.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────┬───────────────┬─────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────┼───────────────┼─────────────────┤
+           │ iconv ()                       │ Thread safety │ MT-Safe race:cd │
+           └──────────────────────────────┴───────────────┴─────────────────┘
+    
+           The iconv () function is MT-Safe, as long as callers arrange for
+           mutual exclusion on the _cd_ argument.
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008.
+    
+## NOTES         top
+    
+    
+           In each series of calls to iconv (), the last should be one with
+           _inbuf_ or _inbuf_ equal to NULL, in order to flush out any
+           partially converted input.
+    
+           Although _inbuf_ and _outbuf_ are typed as _char _ , this does not
+           mean that the objects they point can be interpreted as C strings
+           or as arrays of characters: the interpretation of character byte
+           sequences is handled internally by the conversion functions.  In
+           some encodings, a zero byte may be a valid part of a multibyte
+           character.
+    
+           The caller of iconv () must ensure that the pointers passed to the
+           function are suitable for accessing characters in the appropriate
+           character set.  This includes ensuring correct alignment on
+           platforms that have tight restrictions on alignment.
+    
+## SEE ALSO         top
+    
+    
+           iconv_close(3), iconv_open(3), iconvconfig(8)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                       ICONV(3)
+    

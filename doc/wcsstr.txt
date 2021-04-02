@@ -1,0 +1,75 @@
+  
+# wcsstr(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    WCSSTR(3)               Linux Programmer's Manual              WCSSTR(3)
+    
+## NAME         top
+    
+    
+           wcsstr - locate a substring in a wide-character string
+    
+## SYNOPSIS         top
+    
+    
+           #include <wchar.h>
+    
+           wchar_t wcsstr(const wchar_t  _haystack_ , const wchar_t  _needle_ );
+    
+## DESCRIPTION         top
+    
+    
+           The wcsstr () function is the wide-character equivalent of the
+           strstr(3) function.  It searches for the first occurrence of the
+           wide-character string _needle_ (without its terminating null wide
+           character (L'\0')) as a substring in the wide-character string
+           _haystack_.
+    
+## RETURN VALUE         top
+    
+    
+           The wcsstr () function returns a pointer to the first occurrence
+           of _needle_ in _haystack_.  It returns NULL if _needle_ does not occur
+           as a substring in _haystack_.
+    
+           Note the special case: If _needle_ is the empty wide-character
+           string, the return value is always _haystack_ itself.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ wcsstr ()                              │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C99.
+    
+## SEE ALSO         top
+    
+    
+           strstr(3), wcschr(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                      WCSSTR(3)
+    

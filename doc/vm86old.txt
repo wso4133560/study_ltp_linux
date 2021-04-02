@@ -1,0 +1,74 @@
+  
+# vm86(2) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | CONFORMING TO |
+COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    VM86(2)                 Linux Programmer's Manual                VM86(2)
+    
+## NAME         top
+    
+    
+           vm86old, vm86 - enter virtual 8086 mode
+    
+## SYNOPSIS         top
+    
+    
+           #include <sys/vm86.h>
+    
+           int vm86old(struct vm86_struct  _info_ );
+           int vm86(unsigned long _fn_ , struct vm86plus_struct  _v86_ );
+    
+## DESCRIPTION         top
+    
+    
+           The system call vm86 () was introduced in Linux 0.97p2.  In Linux
+           2.1.15 and 2.0.28, it was renamed to vm86old (), and a new vm86 ()
+           was introduced.  The definition of _struct vm86_struct_ was changed
+           in 1.1.8 and 1.1.9.
+    
+           These calls cause the process to enter VM86 mode (virtual-8086 in
+           Intel literature), and are used by dosemu.
+    
+           VM86 mode is an emulation of real mode within a protected mode
+           task.
+    
+## RETURN VALUE         top
+    
+    
+           On success, zero is returned.  On error, -1 is returned, and
+           _errno_ is set to indicate the error.
+    
+## ERRORS         top
+    
+    
+           EFAULT This return value is specific to i386 and indicates a
+                  problem with getting user-space data.
+    
+           ENOSYS This return value indicates the call is not implemented on
+                  the present architecture.
+    
+           EPERM Saved kernel stack exists.  (This is a kernel sanity
+                  check; the saved stack should exist only within vm86 mode
+                  itself.)
+    
+## CONFORMING TO         top
+    
+    
+           This call is specific to Linux on 32-bit Intel processors, and
+           should not be used in programs intended to be portable.
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                        VM86(2)
+    

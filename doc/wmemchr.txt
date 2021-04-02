@@ -1,0 +1,70 @@
+  
+# wmemchr(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    WMEMCHR(3)              Linux Programmer's Manual             WMEMCHR(3)
+    
+## NAME         top
+    
+    
+           wmemchr - search a wide character in a wide-character array
+    
+## SYNOPSIS         top
+    
+    
+           #include <wchar.h>
+    
+           wchar_t wmemchr(const wchar_t  _s_ , wchar_t _c_ , size_t _n_ );
+    
+## DESCRIPTION         top
+    
+    
+           The wmemchr () function is the wide-character equivalent of the
+           memchr(3) function.  It searches the _n_ wide characters starting
+           at _s_ for the first occurrence of the wide character _c_.
+    
+## RETURN VALUE         top
+    
+    
+           The wmemchr () function returns a pointer to the first occurrence
+           of _c_ among the _n_ wide characters starting at _s_ , or NULL if _c_ does
+           not occur among these.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ wmemchr ()                             │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C99.
+    
+## SEE ALSO         top
+    
+    
+           memchr(3), wcschr(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                     WMEMCHR(3)
+    

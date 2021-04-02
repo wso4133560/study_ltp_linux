@@ -1,0 +1,140 @@
+  
+# sigsetops(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    SIGSETOPS(3)            Linux Programmer's Manual           SIGSETOPS(3)
+    
+## NAME         top
+    
+    
+           sigemptyset, sigfillset, sigaddset, sigdelset, sigismember -
+           POSIX signal set operations
+    
+## SYNOPSIS         top
+    
+    
+           #include <signal.h>
+    
+           int sigemptyset(sigset_t  _set_ );
+           int sigfillset(sigset_t  _set_ );
+    
+           int sigaddset(sigset_t  _set_ , int _signum_ );
+           int sigdelset(sigset_t  _set_ , int _signum_ );
+    
+           int sigismember(const sigset_t  _set_ , int _signum_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           sigemptyset (), sigfillset (), sigaddset (), sigdelset (),
+           sigismember ():
+               _POSIX_C_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           These functions allow the manipulation of POSIX signal sets.
+    
+           sigemptyset () initializes the signal set given by _set_ to empty,
+           with all signals excluded from the set.
+    
+           sigfillset () initializes _set_ to full, including all signals.
+    
+           sigaddset () and sigdelset () add and delete respectively signal
+           _signum_ from _set_.
+    
+           sigismember () tests whether _signum_ is a member of _set_.
+    
+           Objects of type _sigset_t_ must be initialized by a call to either
+           sigemptyset () or sigfillset () before being passed to the
+           functions sigaddset (), sigdelset (), and sigismember () or the
+           additional glibc functions described below ( sigisemptyset (),
+           sigandset (), and sigorset ()).  The results are undefined if this
+           is not done.
+    
+## RETURN VALUE         top
+    
+    
+           sigemptyset (), sigfillset (), sigaddset (), and sigdelset () return
+           0 on success and -1 on error.
+    
+           sigismember () returns 1 if _signum_ is a member of _set_ , 0 if _signum_
+           is not a member, and -1 on error.
+    
+           On error, these functions set _errno_ to indicate the error.
+    
+## ERRORS         top
+    
+    
+           EINVAL _signum_ is not a valid signal.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ sigemptyset (), sigfillset (),          │ Thread safety │ MT-Safe │
+           │ sigaddset (), sigdelset (),             │               │         │
+           │ sigismember (), sigisemptyset (),       │               │         │
+           │ sigorset (), sigandset ()               │               │         │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008.
+    
+## NOTES         top
+    
+    
+           When creating a filled signal set, the glibc sigfillset ()
+           function does not include the two real-time signals used
+           internally by the NPTL threading implementation.  See nptl(7) for
+           details.
+    
+       Glibc extensions
+           If the _GNU_SOURCE feature test macro is defined, then _< signal.h>_
+           exposes three other functions for manipulating signal sets:
+    
+           int sigisemptyset(const sigset_t  _set_ );
+           int sigorset(sigset_t  _dest_ , const sigset_t  _left_ ,
+                         const sigset_t  _right_ );
+           int sigandset(sigset_t  _dest_ , const sigset_t  _left_ ,
+                         const sigset_t  _right_ );
+    
+           sigisemptyset () returns 1 if _set_ contains no signals, and 0
+           otherwise.
+    
+           sigorset () places the union of the sets _left_ and _right_ in _dest_.
+           sigandset () places the intersection of the sets _left_ and _right_ in
+           _dest_.  Both functions return 0 on success, and -1 on failure.
+    
+           These functions are nonstandard (a few other systems provide
+           similar functions) and their use should be avoided in portable
+           applications.
+    
+## SEE ALSO         top
+    
+    
+           sigaction(2), sigpending(2), sigprocmask(2), sigsuspend(2)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                   SIGSETOPS(3)
+    

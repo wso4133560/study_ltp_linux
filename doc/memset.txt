@@ -1,0 +1,67 @@
+  
+# memset(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    MEMSET(3)               Linux Programmer's Manual              MEMSET(3)
+    
+## NAME         top
+    
+    
+           memset - fill memory with a constant byte
+    
+## SYNOPSIS         top
+    
+    
+           #include <string.h>
+    
+           void memset(void  _s_ , int _c_ , size_t _n_ );
+    
+## DESCRIPTION         top
+    
+    
+           The memset () function fills the first _n_ bytes of the memory area
+           pointed to by _s_ with the constant byte _c_.
+    
+## RETURN VALUE         top
+    
+    
+           The memset () function returns a pointer to the memory area _s_.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ memset ()                              │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C89, C99, SVr4, 4.3BSD.
+    
+## SEE ALSO         top
+    
+    
+           bstring(3), bzero(3), swab(3), wmemset(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                      MEMSET(3)
+    

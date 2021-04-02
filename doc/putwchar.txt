@@ -1,0 +1,82 @@
+  
+# putwchar(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    PUTWCHAR(3)             Linux Programmer's Manual            PUTWCHAR(3)
+    
+## NAME         top
+    
+    
+           putwchar - write a wide character to standard output
+    
+## SYNOPSIS         top
+    
+    
+           #include <wchar.h>
+    
+           wint_t putwchar(wchar_t _wc_ );
+    
+## DESCRIPTION         top
+    
+    
+           The putwchar () function is the wide-character equivalent of the
+           putchar(3) function.  It writes the wide character _wc_ to _stdout_.
+           If _ferror(stdout)_ becomes true, it returns WEOF.  If a wide
+           character conversion error occurs, it sets _errno_ to EILSEQ and
+           returns WEOF.  Otherwise, it returns _wc_.
+    
+           For a nonlocking counterpart, see unlocked_stdio(3).
+    
+## RETURN VALUE         top
+    
+    
+           The putwchar () function returns _wc_ if no error occurred, or WEOF
+           to indicate an error.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ putwchar ()                            │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C99.
+    
+## NOTES         top
+    
+    
+           The behavior of putwchar () depends on the LC_CTYPE category of
+           the current locale.
+    
+           It is reasonable to expect that putwchar () will actually write
+           the multibyte sequence corresponding to the wide character _wc_.
+    
+## SEE ALSO         top
+    
+    
+           fputwc(3), unlocked_stdio(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                    PUTWCHAR(3)
+    

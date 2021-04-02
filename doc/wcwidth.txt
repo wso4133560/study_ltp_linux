@@ -1,0 +1,81 @@
+  
+# wcwidth(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    WCWIDTH(3)              Linux Programmer's Manual             WCWIDTH(3)
+    
+## NAME         top
+    
+    
+           wcwidth - determine columns needed for a wide character
+    
+## SYNOPSIS         top
+    
+    
+           #define _XOPEN_SOURCE / See feature_test_macros(7) /
+           #include <wchar.h>
+    
+           int wcwidth(wchar_t _c_ );
+    
+## DESCRIPTION         top
+    
+    
+           The wcwidth () function returns the number of columns needed to
+           represent the wide character _c_.  If _c_ is a printable wide
+           character, the value is at least 0.  If _c_ is null wide character
+           (L'\0'), the value is 0.  Otherwise, -1 is returned.
+    
+## RETURN VALUE         top
+    
+    
+           The wcwidth () function returns the number of column positions for
+           _c_.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌───────────────────────────────┬───────────────┬────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├───────────────────────────────┼───────────────┼────────────────┤
+           │ wcwidth ()                      │ Thread safety │ MT-Safe locale │
+           └───────────────────────────────┴───────────────┴────────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008.
+    
+           Note that glibc before 2.2.5 used the prototype
+    
+           int wcwidth(wint_t _c_ );
+    
+## NOTES         top
+    
+    
+           The behavior of wcwidth () depends on the LC_CTYPE category of the
+           current locale.
+    
+## SEE ALSO         top
+    
+    
+           iswprint(3), wcswidth(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                     WCWIDTH(3)
+    

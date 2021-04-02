@@ -1,0 +1,114 @@
+  
+# inet_ntop(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | BUGS | EXAMPLES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    INET_NTOP(3)            Linux Programmer's Manual           INET_NTOP(3)
+    
+## NAME         top
+    
+    
+           inet_ntop - convert IPv4 and IPv6 addresses from binary to text
+           form
+    
+## SYNOPSIS         top
+    
+    
+           #include <arpa/inet.h>
+    
+           const char inet_ntop(int _af_ , const void restrict _src_ ,
+                                 char restrict _dst_ , socklen_t _size_ );
+    
+## DESCRIPTION         top
+    
+    
+           This function converts the network address structure _src_ in the
+           _af_ address family into a character string.  The resulting string
+           is copied to the buffer pointed to by _dst_ , which must be a non-
+           null pointer.  The caller specifies the number of bytes available
+           in this buffer in the argument _size_.
+    
+           inet_ntop () extends the inet_ntoa(3) function to support multiple
+           address families, inet_ntoa(3) is now considered to be deprecated
+           in favor of inet_ntop ().  The following address families are
+           currently supported:
+    
+           AF_INET
+                  _src_ points to a _struct in_addr_ (in network byte order)
+                  which is converted to an IPv4 network address in the
+                  dotted-decimal format, " _ddd.ddd.ddd.ddd_ ".  The buffer _dst_
+                  must be at least INET_ADDRSTRLEN bytes long.
+    
+           AF_INET6
+                  _src_ points to a _struct in6_addr_ (in network byte order)
+                  which is converted to a representation of this address in
+                  the most appropriate IPv6 network address format for this
+                  address.  The buffer _dst_ must be at least INET6_ADDRSTRLEN
+                  bytes long.
+    
+## RETURN VALUE         top
+    
+    
+           On success, inet_ntop () returns a non-null pointer to _dst_.  NULL
+           is returned if there was an error, with _errno_ set to indicate the
+           error.
+    
+## ERRORS         top
+    
+    
+           EAFNOSUPPORT
+                  _af_ was not a valid address family.
+    
+           ENOSPC The converted address string would exceed the size given
+                  by _size_.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌───────────────────────────────┬───────────────┬────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├───────────────────────────────┼───────────────┼────────────────┤
+           │ inet_ntop ()                    │ Thread safety │ MT-Safe locale │
+           └───────────────────────────────┴───────────────┴────────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008.  Note that RFC 2553 defines a
+           prototype where the last argument _size_ is of type _size_t_.  Many
+           systems follow RFC 2553.  Glibc 2.0 and 2.1 have _size_t_ , but 2.2
+           and later have _socklen_t_.
+    
+## BUGS         top
+    
+    
+           AF_INET6 converts IPv4-mapped IPv6 addresses into an IPv6 format.
+    
+## EXAMPLES         top
+    
+    
+           See inet_pton(3).
+    
+## SEE ALSO         top
+    
+    
+           getnameinfo(3), inet(3), inet_pton(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                   INET_NTOP(3)
+    

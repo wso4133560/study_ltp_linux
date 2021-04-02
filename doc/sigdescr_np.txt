@@ -1,0 +1,136 @@
+  
+# strsignal(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | VERSIONS | ATTRIBUTES |
+CONFORMING TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    STRSIGNAL(3)            Linux Programmer's Manual           STRSIGNAL(3)
+    
+## NAME         top
+    
+    
+           strsignal, sigdescr_np, sigdescr_np, sys_siglist - return string
+           describing signal
+    
+## SYNOPSIS         top
+    
+    
+           #include <string.h>
+    
+           char strsignal(int _sig_ );
+           char sigdescr_np(int _sig_ );
+           char sigabbrev_np(int _sig_ );
+    
+           extern const char  const _sys_siglist_ [];
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           sigabbrev_np (), sigdescr_np ():
+               _GNU_SOURCE
+    
+           strsignal ():
+               From glibc 2.10 to 2.31:
+                   _POSIX_C_SOURCE >= 200809L
+               Before glibc 2.10:
+                   _GNU_SOURCE
+    
+           _sys_siglist_ :
+               Since glibc 2.19:
+                   _DEFAULT_SOURCE
+               Glibc 2.19 and earlier:
+                   _BSD_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           The strsignal () function returns a string describing the signal
+           number passed in the argument _sig_.  The string can be used only
+           until the next call to strsignal ().  The string returned by
+           strsignal () is localized according to the LC_MESSAGES category in
+           the current locale.
+    
+           The sigdescr_np () function returns a string describing the signal
+           number passed in the argument _sig_.  Unlike strsignal () this
+           string is not influenced by the current locale.
+    
+           The sigabbrev_np () function returns the abbreviated name of the
+           signal, _sig_.  For example, given the value SIGINT , it returns the
+           string "INT".
+    
+           The (deprecated) array _sys_siglist_ holds the signal description
+           strings indexed by signal number.  The strsignal () or the
+           sigdescr_np () function should be used instead of this array; see
+           also VERSIONS.
+    
+## RETURN VALUE         top
+    
+    
+           The strsignal () function returns the appropriate description
+           string, or an unknown signal message if the signal number is
+           invalid.  On some systems (but not on Linux), NULL may instead be
+           returned for an invalid signal number.
+    
+           The sigdescr_np () and sigdabbrev_np () functions return the
+           appropriate description string.  The returned string is
+           statically allocated and valid for the lifetime of the program.
+           These functions return NULL for an invalid signal number.
+    
+## VERSIONS         top
+    
+    
+           sigdescr_np () and sigdabbrev_np () first appeared in glibc 2.32.
+    
+           Starting with version 2.32, the _sys_siglist_ symbol is no longer
+           exported by glibc.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌───────────────┬───────────────┬────────────────────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├───────────────┼───────────────┼────────────────────────────────┤
+           │ strsignal ()    │ Thread safety │ MT-Unsafe race:strsignal       │
+           │               │               │ locale                         │
+           ├───────────────┼───────────────┼────────────────────────────────┤
+           │ sigdescr_np (), │ Thread safety │ MT-Safe                        │
+           │ sigabbrev_np () │               │                                │
+           └───────────────┴───────────────┴────────────────────────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           strsignal (): POSIX.1-2008.  Present on Solaris and the BSDs.
+    
+           sigdescr_np () and sigdabbrev_np () are GNU extensions.
+    
+           _sys_siglist_ is nonstandard, but present on many other systems.
+    
+## NOTES         top
+    
+    
+           sigdescr_np () and sigdabbrev_np () are thread-safe and async-
+           signal-safe.
+    
+## SEE ALSO         top
+    
+    
+           psignal(3), strerror(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                   STRSIGNAL(3)
+    

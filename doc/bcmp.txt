@@ -1,0 +1,72 @@
+  
+# bcmp(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    BCMP(3)                 Linux Programmer's Manual                BCMP(3)
+    
+## NAME         top
+    
+    
+           bcmp - compare byte sequences
+    
+## SYNOPSIS         top
+    
+    
+           #include <strings.h>
+    
+           int bcmp(const void  _s1_ , const void  _s2_ , size_t _n_ );
+    
+## DESCRIPTION         top
+    
+    
+           The bcmp () function compares the two byte sequences _s1_ and _s2_ of
+           length _n_ each.  If they are equal, and in particular if _n_ is
+           zero, bcmp () returns 0.  Otherwise, it returns a nonzero result.
+    
+## RETURN VALUE         top
+    
+    
+           The bcmp () function returns 0 if the byte sequences are equal,
+           otherwise a nonzero result is returned.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ bcmp ()                                │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           4.3BSD.  This function is deprecated (marked as LEGACY in
+           POSIX.1-2001): use memcmp(3) in new programs.  POSIX.1-2008
+           removes the specification of bcmp ().
+    
+## SEE ALSO         top
+    
+    
+           bstring(3), memcmp(3), strcasecmp(3), strcmp(3), strcoll(3),
+           strncasecmp(3), strncmp(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                        BCMP(3)
+    

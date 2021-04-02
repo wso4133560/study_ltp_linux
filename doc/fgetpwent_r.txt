@@ -1,0 +1,178 @@
+  
+# getpwent_r(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | NOTES | EXAMPLES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    GETPWENT_R(3)           Linux Programmer's Manual          GETPWENT_R(3)
+    
+## NAME         top
+    
+    
+           getpwent_r, fgetpwent_r - get passwd file entry reentrantly
+    
+## SYNOPSIS         top
+    
+    
+           #include <pwd.h>
+    
+           int getpwent_r(struct passwd restrict _pwbuf_ ,
+                          char restrict _buf_ , size_t _buflen_ ,
+                          struct passwd restrict _pwbufp_ );
+           int fgetpwent_r(FILE restrict _stream_ , struct passwd restrict _pwbuf_ ,
+                          char restrict _buf_ , size_t _buflen_ ,
+                          struct passwd restrict _pwbufp_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           getpwent_r (),
+               Since glibc 2.19:
+                   _DEFAULT_SOURCE
+               Glibc 2.19 and earlier:
+                   _BSD_SOURCE || _SVID_SOURCE
+    
+           fgetpwent_r ():
+               Since glibc 2.19:
+                   _DEFAULT_SOURCE
+               Glibc 2.19 and earlier:
+                   _SVID_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           The functions getpwent_r () and fgetpwent_r () are the reentrant
+           versions of getpwent(3) and fgetpwent(3).  The former reads the
+           next passwd entry from the stream initialized by setpwent(3).
+           The latter reads the next passwd entry from _stream_.
+    
+           The _passwd_ structure is defined in _< pwd.h>_ as follows:
+    
+               struct passwd {
+                   char    pw_name;      / username /
+                   char    pw_passwd;    / user password /
+                   uid_t    pw_uid;       / user ID /
+                   gid_t    pw_gid;       / group ID /
+                   char    pw_gecos;     / user information /
+                   char    pw_dir;       / home directory /
+                   char    pw_shell;     / shell program /
+               };
+    
+           For more information about the fields of this structure, see
+           passwd(5).
+    
+           The nonreentrant functions return a pointer to static storage,
+           where this static storage contains further pointers to user name,
+           password, gecos field, home directory and shell.  The reentrant
+           functions described here return all of that in caller-provided
+           buffers.  First of all there is the buffer _pwbuf_ that can hold a
+           _struct passwd_.  And next the buffer _buf_ of size _buflen_ that can
+           hold additional strings.  The result of these functions, the
+           _struct passwd_ read from the stream, is stored in the provided
+           buffer _pwbuf_ , and a pointer to this _struct passwd_ is returned in
+           _pwbufp_.
+    
+## RETURN VALUE         top
+    
+    
+           On success, these functions return 0 and _pwbufp_ is a pointer to
+           the _struct passwd_.  On error, these functions return an error
+           value and _pwbufp_ is NULL.
+    
+## ERRORS         top
+    
+    
+           ENOENT No more entries.
+    
+           ERANGE Insufficient buffer space supplied.  Try again with larger
+                  buffer.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────┬───────────────┬─────────────────────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────┼───────────────┼─────────────────────────────────┤
+           │ getpwent_r ()  │ Thread safety │ MT-Unsafe race:pwent locale     │
+           ├──────────────┼───────────────┼─────────────────────────────────┤
+           │ fgetpwent_r () │ Thread safety │ MT-Safe                         │
+           └──────────────┴───────────────┴─────────────────────────────────┘
+           In the above table, _pwent_ in _race:pwent_ signifies that if any of
+           the functions setpwent (), getpwent (), endpwent (), or getpwent_r ()
+           are used in parallel in different threads of a program, then data
+           races could occur.
+    
+## CONFORMING TO         top
+    
+    
+           These functions are GNU extensions, done in a style resembling
+           the POSIX version of functions like getpwnam_r(3).  Other systems
+           use the prototype
+    
+               struct passwd 
+               getpwent_r(struct passwd pwd, char buf, int buflen);
+    
+           or, better,
+    
+               int
+               getpwent_r(struct passwd pwd, char buf, int buflen,
+                          FILE pw_fp);
+    
+## NOTES         top
+    
+    
+           The function getpwent_r () is not really reentrant since it shares
+           the reading position in the stream with all other threads.
+    
+## EXAMPLES         top
+    
+    
+           #define _GNU_SOURCE
+           #include <pwd.h>
+           #include <stdio.h>
+           #include <stdint.h>
+           #define BUFLEN 4096
+    
+           int
+           main(void)
+           {
+               struct passwd pw;
+               struct passwd pwp;
+               char buf[BUFLEN];
+               int i;
+    
+               setpwent();
+               while (1) {
+                   i = getpwent_r(&pw, buf, sizeof(buf), &pwp);
+                   if (i)
+                       break;
+                   printf("%s (%jd)\tHOME %s\tSHELL %s\n", pwp->pw_name,
+                          (intmax_t) pwp->pw_uid, pwp->pw_dir, pwp->pw_shell);
+               }
+               endpwent();
+               exit(EXIT_SUCCESS);
+           }
+    
+## SEE ALSO         top
+    
+    
+           fgetpwent(3), getpw(3), getpwent(3), getpwnam(3), getpwuid(3),
+           putpwent(3), passwd(5)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                  GETPWENT_R(3)
+    

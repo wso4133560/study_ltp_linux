@@ -1,0 +1,120 @@
+  
+# perror(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | VERSIONS | ATTRIBUTES | CONFORMING TO | NOTES
+| SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    PERROR(3)               Linux Programmer's Manual              PERROR(3)
+    
+## NAME         top
+    
+    
+           perror - print a system error message
+    
+## SYNOPSIS         top
+    
+    
+           #include <stdio.h>
+    
+           void perror(const char  _s_ );
+    
+           #include <errno.h>
+    
+           const char  const _sys_errlist_ [];
+           int _sys_nerr_ ;
+           int _errno_ ; / Not really declared this way; see errno(3) /
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           _sys_errlist_ , _sys_nerr_ :
+               From glibc 2.19 to 2.31:
+                   _DEFAULT_SOURCE
+               Glibc 2.19 and earlier:
+                   _BSD_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           The perror () function produces a message on standard error
+           describing the last error encountered during a call to a system
+           or library function.
+    
+           First (if _s_ is not NULL and _s_ is not a null byte ('\0')), the
+           argument string _s_ is printed, followed by a colon and a blank.
+           Then an error message corresponding to the current value of _errno_
+           and a new-line.
+    
+           To be of most use, the argument string should include the name of
+           the function that incurred the error.
+    
+           The global error list _sys_errlist_ [], which can be indexed by
+           _errno_ , can be used to obtain the error message without the
+           newline.  The largest message number provided in the table is
+           _sys_nerr_ -1.  Be careful when directly accessing this list,
+           because new error values may not have been added to
+           _sys_errlist_ [].  The use of _sys_errlist_ [] is nowadays deprecated;
+           use strerror(3) instead.
+    
+           When a system call fails, it usually returns -1 and sets the
+           variable _errno_ to a value describing what went wrong.  (These
+           values can be found in _< errno.h>_.)  Many library functions do
+           likewise.  The function perror () serves to translate this error
+           code into human-readable form.  Note that _errno_ is undefined
+           after a successful system call or library function call: this
+           call may well change this variable, even though it succeeds, for
+           example because it internally used some other library function
+           that failed.  Thus, if a failing call is not immediately followed
+           by a call to perror (), the value of _errno_ should be saved.
+    
+## VERSIONS         top
+    
+    
+           Since glibc version 2.32, the declarations of _sys_errlist_ and
+           _sys_nerr_ are no longer exposed by _< stdio.h>_.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────┬───────────────┬─────────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────┼───────────────┼─────────────────────┤
+           │ perror ()                  │ Thread safety │ MT-Safe race:stderr │
+           └──────────────────────────┴───────────────┴─────────────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           perror (), _errno_ : POSIX.1-2001, POSIX.1-2008, C89, C99, 4.3BSD.
+    
+           The externals _sys_nerr_ and _sys_errlist_ derive from BSD, but are
+           not specified in POSIX.1.
+    
+## NOTES         top
+    
+    
+           The externals _sys_nerr_ and _sys_errlist_ are defined by glibc, but
+           in _< stdio.h>_.
+    
+## SEE ALSO         top
+    
+    
+           err(3), errno(3), error(3), strerror(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                      PERROR(3)
+    

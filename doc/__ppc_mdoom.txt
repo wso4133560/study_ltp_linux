@@ -1,0 +1,90 @@
+  
+# __ppc_yield(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | VERSIONS | ATTRIBUTES | CONFORMING TO | SEE
+ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    __PPC_YIELD(3)          Linux Programmer'sManual          __PPC_YIELD(3)
+    
+## NAME         top
+    
+    
+           __ppc_yield, __ppc_mdoio, __ppc_mdoom - Hint the processor to
+           release shared resources
+    
+## SYNOPSIS         top
+    
+    
+           #include <sys/platform/ppc.h>
+    
+           void __ppc_yield(void);
+           void __ppc_mdoio(void);
+           void __ppc_mdoom(void);
+    
+## DESCRIPTION         top
+    
+    
+           These functions provide hints about the usage of resources that
+           are shared with other processors on the Power architecture.  They
+           can be used, for example, if a program waiting on a lock intends
+           to divert the shared resources to be used by other processors.
+    
+           __ppc_yield () provides a hint that performance will probably be
+           improved if shared resources dedicated to the executing processor
+           are released for use by other processors.
+    
+           __ppc_mdoio () provides a hint that performance will probably be
+           improved if shared resources dedicated to the executing processor
+           are released until all outstanding storage accesses to caching-
+           inhibited storage have been completed.
+    
+           __ppc_mdoom () provides a hint that performance will probably be
+           improved if shared resources dedicated to the executing processor
+           are released until all outstanding storage accesses to cacheable
+           storage for which the data is not in the cache have been
+           completed.
+    
+## VERSIONS         top
+    
+    
+           These functions first appeared in glibc in version 2.18.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ __ppc_yield (), __ppc_mdoio (),         │ Thread safety │ MT-Safe │
+           │ __ppc_mdoom ()                         │               │         │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           These functions are nonstandard GNU extensions.
+    
+## SEE ALSO         top
+    
+    
+           __ppc_set_ppr_med(3)
+    
+           _Power ISA, Book II - Section 3.2 ("or" architecture)_
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU C Library                  2021-03-22                 __PPC_YIELD(3)
+    

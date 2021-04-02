@@ -1,0 +1,124 @@
+  
+# charmap(5) -- Linux manual page
+NAME | DESCRIPTION | FILES | CONFORMING TO | EXAMPLES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    CHARMAP(5)              Linux Programmer's Manual             CHARMAP(5)
+    
+## NAME         top
+    
+    
+           charmap - character set description file
+    
+## DESCRIPTION         top
+    
+    
+           A character set description (charmap) defines all available
+           characters and their encodings in a character set.  localedef(1)
+           can use charmaps to create locale variants for different
+           character sets.
+    
+       Syntax
+           The charmap file starts with a header that may consist of the
+           following keywords:
+    
+           < _code_set_name_ >
+                  is followed by the name of the character map.
+    
+           < _comment_char_ >
+                  is followed by a character that will be used as the
+                  comment character for the rest of the file.  It defaults
+                  to the number sign (#).
+    
+           < _escape_char_ >
+                  is followed by a character that should be used as the
+                  escape character for the rest of the file to mark
+                  characters that should be interpreted in a special way.
+                  It defaults to the backslash (\).
+    
+           < _mb_cur_max_ >
+                  is followed by the maximum number of bytes for a
+                  character.  The default value is 1.
+    
+           < _mb_cur_min_ >
+                  is followed by the minimum number of bytes for a
+                  character.  This value must be less than or equal than
+                  < _mb_cur_max_ >.  If not specified, it defaults to
+                  < _mb_cur_max_ >.
+    
+           The character set definition section starts with the keyword
+           _CHARMAP_ in the first column.
+    
+           The following lines may have one of the two following forms to
+           define the character set:
+    
+           < _character_ > _byte-sequence comment_
+                  This form defines exactly one character and its byte
+                  sequence, _comment_ being optional.
+    
+           < _character_ >..< _character_ > _byte-sequence comment_
+                  This form defines a character range and its byte sequence,
+                  _comment_ being optional.
+    
+           The character set definition section ends with the string _END_
+           _CHARMAP_.
+    
+           The character set definition section may optionally be followed
+           by a section to define widths of characters.
+    
+           The _WIDTH_DEFAULT_ keyword can be used to define the default width
+           for all characters not explicitly listed.  The default character
+           width is 1.
+    
+           The width section for individual characters starts with the
+           keyword _WIDTH_ in the first column.
+    
+           The following lines may have one of the two following forms to
+           define the widths of the characters:
+    
+           < _character_ > _width_
+                  This form defines the width of exactly one character.
+    
+           < _character_ >...< _character_ > _width_
+                  This form defines the width for all the characters in the
+                  range.
+    
+           The width definition section ends with the string _END WIDTH_.
+    
+## FILES         top
+    
+    
+           _/usr/share/i18n/charmaps_
+                  Usual default character map path.
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.2.
+    
+## EXAMPLES         top
+    
+    
+           The Euro sign is defined as follows in the _UTF-8_ charmap:
+    
+           <U20AC>     /xe2/x82/xac EURO SIGN
+    
+## SEE ALSO         top
+    
+    
+           iconv(1), locale(1), localedef(1), locale(5), charsets(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2020-06-09                     CHARMAP(5)
+    

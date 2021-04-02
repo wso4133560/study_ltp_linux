@@ -1,0 +1,81 @@
+  
+# pthread_equal(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    PTHREAD_EQUAL(3)        Linux Programmer's Manual       PTHREAD_EQUAL(3)
+    
+## NAME         top
+    
+    
+           pthread_equal - compare thread IDs
+    
+## SYNOPSIS         top
+    
+    
+           #include <pthread.h>
+    
+           int pthread_equal(pthread_t _t1_ , pthread_t _t2_ );
+    
+           Compile and link with _-pthread_.
+    
+## DESCRIPTION         top
+    
+    
+           The pthread_equal () function compares two thread identifiers.
+    
+## RETURN VALUE         top
+    
+    
+           If the two thread IDs are equal, pthread_equal () returns a
+           nonzero value; otherwise, it returns 0.
+    
+## ERRORS         top
+    
+    
+           This function always succeeds.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ pthread_equal ()                       │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008.
+    
+## NOTES         top
+    
+    
+           The pthread_equal () function is necessary because thread IDs
+           should be considered opaque: there is no portable way for
+           applications to directly compare two _pthread_t_ values.
+    
+## SEE ALSO         top
+    
+    
+           pthread_create(3), pthread_self(3), pthreads(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22               PTHREAD_EQUAL(3)
+    

@@ -1,0 +1,83 @@
+  
+# malloc_usable_size(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    MALLOC_USABLE_SIZE(3)   Linux Programmer's Manual  MALLOC_USABLE_SIZE(3)
+    
+## NAME         top
+    
+    
+           malloc_usable_size - obtain size of block of memory allocated
+           from heap
+    
+## SYNOPSIS         top
+    
+    
+           #include <malloc.h>
+    
+           size_t malloc_usable_size (void  _ptr_ );
+    
+## DESCRIPTION         top
+    
+    
+           The malloc_usable_size () function returns the number of usable
+           bytes in the block pointed to by _ptr_ , a pointer to a block of
+           memory allocated by malloc(3) or a related function.
+    
+## RETURN VALUE         top
+    
+    
+           malloc_usable_size () returns the number of usable bytes in the
+           block of allocated memory pointed to by _ptr_.  If _ptr_ is NULL, 0
+           is returned.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ malloc_usable_size ()                  │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           This function is a GNU extension.
+    
+## NOTES         top
+    
+    
+           The value returned by malloc_usable_size () may be greater than
+           the requested size of the allocation because of alignment and
+           minimum size constraints.  Although the excess bytes can be
+           overwritten by the application without ill effects, this is not
+           good programming practice: the number of excess bytes in an
+           allocation depends on the underlying implementation.
+    
+           The main use of this function is for debugging and introspection.
+    
+## SEE ALSO         top
+    
+    
+           malloc(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22          MALLOC_USABLE_SIZE(3)
+    

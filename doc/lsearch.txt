@@ -1,0 +1,88 @@
+  
+# lsearch(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+BUGS | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    LSEARCH(3)              Linux Programmer's Manual             LSEARCH(3)
+    
+## NAME         top
+    
+    
+           lfind, lsearch - linear search of an array
+    
+## SYNOPSIS         top
+    
+    
+           #include <search.h>
+    
+           void lfind(const void  _key_ , const void  _base_ , size_t  _nmemb_ ,
+                       size_t _size_ , int( _compar_ )(const void , const void ));
+           void lsearch(const void  _key_ , void  _base_ , size_t  _nmemb_ ,
+                       size_t _size_ , int( _compar_ )(const void , const void ));
+    
+## DESCRIPTION         top
+    
+    
+           lfind () and lsearch () perform a linear search for _key_ in the
+           array _base_ which has _nmemb_ elements of _size_ bytes each.  The
+           comparison function referenced by _compar_ is expected to have two
+           arguments which point to the _key_ object and to an array member,
+           in that order, and which returns zero if the _key_ object matches
+           the array member, and nonzero otherwise.
+    
+           If lsearch () does not find a matching element, then the _key_
+           object is inserted at the end of the table, and _nmemb_ is
+           incremented.  In particular, one should know that a matching
+           element exists, or that more room is available.
+    
+## RETURN VALUE         top
+    
+    
+           lfind () returns a pointer to a matching member of the array, or
+           NULL if no match is found.  lsearch () returns a pointer to a
+           matching member of the array, or to the newly added member if no
+           match is found.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ lfind (), lsearch ()                    │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, SVr4, 4.3BSD.  Present in libc since
+           libc-4.6.27.
+    
+## BUGS         top
+    
+    
+           The naming is unfortunate.
+    
+## SEE ALSO         top
+    
+    
+           bsearch(3), hsearch(3), tsearch(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                     LSEARCH(3)
+    

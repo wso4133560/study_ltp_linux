@@ -1,0 +1,72 @@
+  
+# wmemmove(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    WMEMMOVE(3)             Linux Programmer's Manual            WMEMMOVE(3)
+    
+## NAME         top
+    
+    
+           wmemmove - copy an array of wide-characters
+    
+## SYNOPSIS         top
+    
+    
+           #include <wchar.h>
+    
+           wchar_t wmemmove(wchar_t  _dest_ , const wchar_t  _src_ , size_t _n_ );
+    
+## DESCRIPTION         top
+    
+    
+           The wmemmove () function is the wide-character equivalent of the
+           memmove(3) function.  It copies _n_ wide characters from the array
+           starting at _src_ to the array starting at _dest_.  The arrays may
+           overlap.
+    
+           The programmer must ensure that there is room for at least _n_ wide
+           characters at _dest_.
+    
+## RETURN VALUE         top
+    
+    
+           wmemmove () returns _dest_.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ wmemmove ()                            │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C99.
+    
+## SEE ALSO         top
+    
+    
+           memmove(3), wmemcpy(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                    WMEMMOVE(3)
+    

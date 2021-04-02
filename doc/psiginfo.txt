@@ -1,0 +1,107 @@
+  
+# psignal(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | VERSIONS | ATTRIBUTES |
+CONFORMING TO | BUGS | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    PSIGNAL(3)              Linux Programmer's Manual             PSIGNAL(3)
+    
+## NAME         top
+    
+    
+           psignal, psiginfo - print signal description
+    
+## SYNOPSIS         top
+    
+    
+           #include <signal.h>
+    
+           void psignal(int _sig_ , const char  _s_ );
+           void psiginfo(const siginfo_t  _pinfo_ , const char  _s_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           psignal ():
+               Since glibc 2.19:
+                       _DEFAULT_SOURCE
+               Glibc 2.19 and earlier:
+                   _BSD_SOURCE || _SVID_SOURCE
+    
+           psiginfo ():
+               _POSIX_C_SOURCE >= 200809L
+    
+## DESCRIPTION         top
+    
+    
+           The psignal () function displays a message on _stderr_ consisting of
+           the string _s_ , a colon, a space, a string describing the signal
+           number _sig_ , and a trailing newline.  If the string _s_ is NULL or
+           empty, the colon and space are omitted.  If _sig_ is invalid, the
+           message displayed will indicate an unknown signal.
+    
+           The psiginfo () function is like psignal (), except that it
+           displays information about the signal described by _pinfo_ , which
+           should point to a valid _siginfo_t_ structure.  As well as the
+           signal description, psiginfo () displays information about the
+           origin of the signal, and other information relevant to the
+           signal (e.g., the relevant memory address for hardware-generated
+           signals, the child process ID for SIGCHLD , and the user ID and
+           process ID of the sender, for signals set using kill(2) or
+           sigqueue(3)).
+    
+## RETURN VALUE         top
+    
+    
+           The psignal () and psiginfo () functions return no value.
+    
+## VERSIONS         top
+    
+    
+           The psiginfo () function was added to glibc in version 2.10.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌───────────────────────────────┬───────────────┬────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├───────────────────────────────┼───────────────┼────────────────┤
+           │ psignal (), psiginfo ()          │ Thread safety │ MT-Safe locale │
+           └───────────────────────────────┴───────────────┴────────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2008, 4.3BSD.
+    
+## BUGS         top
+    
+    
+           In glibc versions up to 2.12, psiginfo () had the following bugs:
+    
+             In some circumstances, a trailing newline is not printed.
+    
+             Additional details are not displayed for real-time signals.
+    
+## SEE ALSO         top
+    
+    
+           sigaction(2), perror(3), strsignal(3), signal(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                     PSIGNAL(3)
+    

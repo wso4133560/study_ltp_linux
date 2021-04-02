@@ -1,0 +1,97 @@
+  
+# initgroups(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | FILES | ATTRIBUTES |
+CONFORMING TO | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    INITGROUPS(3)           Linux Programmer's Manual          INITGROUPS(3)
+    
+## NAME         top
+    
+    
+           initgroups - initialize the supplementary group access list
+    
+## SYNOPSIS         top
+    
+    
+           #include <sys/types.h>
+           #include <grp.h>
+    
+           int initgroups(const char  _user_ , gid_t _group_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           initgroups ():
+               Since glibc 2.19:
+                   _DEFAULT_SOURCE
+               Glibc 2.19 and earlier:
+                   _BSD_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           The initgroups () function initializes the group access list by
+           reading the group database _/etc/group_ and using all groups of
+           which _user_ is a member.  The additional group _group_ is also added
+           to the list.
+    
+           The _user_ argument must be non-NULL.
+    
+## RETURN VALUE         top
+    
+    
+           The initgroups () function returns 0 on success.  On error, -1 is
+           returned, and _errno_ is set to indicate the error.
+    
+## ERRORS         top
+    
+    
+           ENOMEM Insufficient memory to allocate group information
+                  structure.
+    
+           EPERM The calling process has insufficient privilege.  See the
+                  underlying system call setgroups(2).
+    
+## FILES         top
+    
+    
+           _/etc/group_
+                  group database file
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌───────────────────────────────┬───────────────┬────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├───────────────────────────────┼───────────────┼────────────────┤
+           │ initgroups ()                   │ Thread safety │ MT-Safe locale │
+           └───────────────────────────────┴───────────────┴────────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           SVr4, 4.3BSD.
+    
+## SEE ALSO         top
+    
+    
+           getgroups(2), setgroups(2), credentials(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                  INITGROUPS(3)
+    

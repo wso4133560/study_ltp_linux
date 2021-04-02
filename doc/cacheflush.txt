@@ -1,0 +1,131 @@
+  
+# cacheflush(2) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | CONFORMING TO | NOTES
+| BUGS | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    CACHEFLUSH(2)           Linux Programmer's Manual          CACHEFLUSH(2)
+    
+## NAME         top
+    
+    
+           cacheflush - flush contents of instruction and/or data cache
+    
+## SYNOPSIS         top
+    
+    
+           #include <sys/cachectl.h>
+    
+           int cacheflush(void  _addr_ , int _nbytes_ , int _cache_ );
+    
+           _Note_ : On some architectures, there is no glibc wrapper for this
+           system call; see NOTES.
+    
+## DESCRIPTION         top
+    
+    
+           cacheflush () flushes the contents of the indicated cache(s) for
+           the user addresses in the range _addr_ to _(addr+nbytes-1)_.  _cache_
+           may be one of:
+    
+           ICACHE Flush the instruction cache.
+    
+           DCACHE Write back to memory and invalidate the affected valid
+                  cache lines.
+    
+           BCACHE Same as (ICACHE|DCACHE).
+    
+## RETURN VALUE         top
+    
+    
+           cacheflush () returns 0 on success.  On error, it returns -1 and
+           sets _errno_ to indicate the error.
+    
+## ERRORS         top
+    
+    
+           EFAULT Some or all of the address range _addr_ to _(addr+nbytes-1)_
+                  is not accessible.
+    
+           EINVAL _cache_ is not one of ICACHE , DCACHE , or BCACHE (but see
+                  BUGS).
+    
+## CONFORMING TO         top
+    
+    
+           Historically, this system call was available on all MIPS UNIX
+           variants including RISC/os, IRIX, Ultrix, NetBSD, OpenBSD, and
+           FreeBSD (and also on some non-UNIX MIPS operating systems), so
+           that the existence of this call in MIPS operating systems is a
+           de-facto standard.
+    
+       Caveat
+           cacheflush () should not be used in programs intended to be
+           portable.  On Linux, this call first appeared on the MIPS
+           architecture, but nowadays, Linux provides a cacheflush () system
+           call on some other architectures, but with different arguments.
+    
+## NOTES         top
+    
+    
+       Architecture-specific variants
+           Glibc provides a wrapper for this system call, with the prototype
+           shown in SYNOPSIS, for the following architectures: ARC, CSKY,
+           MIPS, and NIOS2.
+    
+           On some other architectures, Linux provides this system call,
+           with different arguments:
+    
+           M68K:
+                  int cacheflush(unsigned long _addr_ , int _scope_ , int _cache_ ,
+                                 unsigned long _len_ );
+    
+           SH:
+                  int cacheflush(unsigned long _addr_ , unsigned long _len_ , int _op_ );
+    
+           NDS32:
+                  int cacheflush(unsigned int _start_ , unsigned int _end_ , int _cache_ );
+    
+           On the above architectures, glibc does not provide a wrapper for
+           this system call; call it using syscall(2).
+    
+       GCC alternative
+           Unless you need the finer grained control that this system call
+           provides, you probably want to use the GCC built-in function
+           __builtin___clear_cache (), which provides a portable interface
+           across platforms supported by GCC and compatible compilers:
+    
+               void __builtin___clear_cache(void  _begin_ , void  _end_ );
+    
+           On platforms that don't require instruction cache flushes,
+           __builtin___clear_cache () has no effect.
+    
+           _Note_ : On some GCC-compatible compilers, the prototype for this
+           built-in function uses _char _ instead of _void _ for the
+           parameters.
+    
+## BUGS         top
+    
+    
+           Linux kernels older than version 2.6.11 ignore the _addr_ and
+           _nbytes_ arguments, making this function fairly expensive.
+           Therefore, the whole cache is always flushed.
+    
+           This function always behaves as if BCACHE has been passed for the
+           _cache_ argument and does not do any error checking on the _cache_
+           argument.
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                  CACHEFLUSH(2)
+    

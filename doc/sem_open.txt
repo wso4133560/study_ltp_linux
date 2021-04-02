@@ -1,0 +1,128 @@
+  
+# sem_open(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    SEM_OPEN(3)             Linux Programmer's Manual            SEM_OPEN(3)
+    
+## NAME         top
+    
+    
+           sem_open - initialize and open a named semaphore
+    
+## SYNOPSIS         top
+    
+    
+           #include <fcntl.h>           / For O_ constants /
+           #include <sys/stat.h>        / For mode constants /
+           #include <semaphore.h>
+    
+           sem_t sem_open(const char  _name_ , int _oflag_ );
+           sem_t sem_open(const char  _name_ , int _oflag_ ,
+                           mode_t _mode_ , unsigned int _value_ );
+    
+           Link with _-pthread_.
+    
+## DESCRIPTION         top
+    
+    
+           sem_open () creates a new POSIX semaphore or opens an existing
+           semaphore.  The semaphore is identified by _name_.  For details of
+           the construction of _name_ , see sem_overview(7).
+    
+           The _oflag_ argument specifies flags that control the operation of
+           the call.  (Definitions of the flags values can be obtained by
+           including _< fcntl.h>_.)  If O_CREAT is specified in _oflag_ , then the
+           semaphore is created if it does not already exist.  The owner
+           (user ID) of the semaphore is set to the effective user ID of the
+           calling process.  The group ownership (group ID) is set to the
+           effective group ID of the calling process.  If both O_CREAT and
+           O_EXCL are specified in _oflag_ , then an error is returned if a
+           semaphore with the given _name_ already exists.
+    
+           If O_CREAT is specified in _oflag_ , then two additional arguments
+           must be supplied.  The _mode_ argument specifies the permissions to
+           be placed on the new semaphore, as for open(2).  (Symbolic
+           definitions for the permissions bits can be obtained by including
+           _< sys/stat.h>_.)  The permissions settings are masked against the
+           process umask.  Both read and write permission should be granted
+           to each class of user that will access the semaphore.  The _value_
+           argument specifies the initial value for the new semaphore.  If
+           O_CREAT is specified, and a semaphore with the given _name_ already
+           exists, then _mode_ and _value_ are ignored.
+    
+## RETURN VALUE         top
+    
+    
+           On success, sem_open () returns the address of the new semaphore;
+           this address is used when calling other semaphore-related
+           functions.  On error, sem_open () returns SEM_FAILED , with _errno_
+           set to indicate the error.
+    
+## ERRORS         top
+    
+    
+           EACCES The semaphore exists, but the caller does not have
+                  permission to open it.
+    
+           EEXIST Both O_CREAT and O_EXCL were specified in _oflag_ , but a
+                  semaphore with this _name_ already exists.
+    
+           EINVAL _value_ was greater than SEM_VALUE_MAX.
+    
+           EINVAL _name_ consists of just "/", followed by no other
+                  characters.
+    
+           EMFILE The per-process limit on the number of open file
+                  descriptors has been reached.
+    
+           ENAMETOOLONG
+                  _name_ was too long.
+    
+           ENFILE The system-wide limit on the total number of open files
+                  has been reached.
+    
+           ENOENT The O_CREAT flag was not specified in _oflag_ and no
+                  semaphore with this _name_ exists; or, O_CREAT was
+                  specified, but _name_ wasn't well formed.
+    
+           ENOMEM Insufficient memory.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ sem_open ()                            │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008.
+    
+## SEE ALSO         top
+    
+    
+           sem_close(3), sem_getvalue(3), sem_post(3), sem_unlink(3),
+           sem_wait(3), sem_overview(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                    SEM_OPEN(3)
+    

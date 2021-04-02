@@ -1,0 +1,88 @@
+  
+# setlogmask(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    SETLOGMASK(3)           Linux Programmer's Manual          SETLOGMASK(3)
+    
+## NAME         top
+    
+    
+           setlogmask - set log priority mask
+    
+## SYNOPSIS         top
+    
+    
+           #include <syslog.h>
+    
+           int setlogmask(int _mask_ );
+    
+## DESCRIPTION         top
+    
+    
+           A process has a log priority mask that determines which calls to
+           syslog(3) may be logged.  All other calls will be ignored.
+           Logging is enabled for the priorities that have the corresponding
+           bit set in _mask_.  The initial mask is such that logging is
+           enabled for all priorities.
+    
+           The setlogmask () function sets this logmask for the calling
+           process, and returns the previous mask.  If the mask argument is
+           0, the current logmask is not modified.
+    
+           The eight priorities are LOG_EMERG , LOG_ALERT , LOG_CRIT , LOG_ERR ,
+           LOG_WARNING , LOG_NOTICE , LOG_INFO , and LOG_DEBUG.  The bit
+           corresponding to a priority _p_ is _LOG_MASK(p)_.  Some systems also
+           provide a macro _LOG_UPTO(p)_ for the mask of all priorities in the
+           above list up to and including _p_.
+    
+## RETURN VALUE         top
+    
+    
+           This function returns the previous log priority mask.
+    
+## ERRORS         top
+    
+    
+           None.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌───────────────────────┬───────────────┬────────────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├───────────────────────┼───────────────┼────────────────────────┤
+           │ setlogmask ()           │ Thread safety │ MT-Unsafe race:LogMask │
+           └───────────────────────┴───────────────┴────────────────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008.
+    
+           LOG_UPTO () will be included in the next release of the POSIX
+           specification (Issue 8).
+    
+## SEE ALSO         top
+    
+    
+           closelog(3), openlog(3), syslog(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                  SETLOGMASK(3)
+    

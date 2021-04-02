@@ -1,0 +1,117 @@
+  
+# fseek(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    FSEEK(3)                Linux Programmer's Manual               FSEEK(3)
+    
+## NAME         top
+    
+    
+           fgetpos, fseek, fsetpos, ftell, rewind - reposition a stream
+    
+## SYNOPSIS         top
+    
+    
+           #include <stdio.h>
+    
+           int fseek(FILE  _stream_ , long _offset_ , int _whence_ );
+           long ftell(FILE  _stream_ );
+    
+           void rewind(FILE  _stream_ );
+    
+           int fgetpos(FILE restrict _stream_ , fpos_t restrict _pos_ );
+           int fsetpos(FILE  _stream_ , const fpos_t  _pos_ );
+    
+## DESCRIPTION         top
+    
+    
+           The fseek () function sets the file position indicator for the
+           stream pointed to by _stream_.  The new position, measured in
+           bytes, is obtained by adding _offset_ bytes to the position
+           specified by _whence_.  If _whence_ is set to SEEK_SET , SEEK_CUR , or
+           SEEK_END , the offset is relative to the start of the file, the
+           current position indicator, or end-of-file, respectively.  A
+           successful call to the fseek () function clears the end-of-file
+           indicator for the stream and undoes any effects of the ungetc(3)
+           function on the same stream.
+    
+           The ftell () function obtains the current value of the file
+           position indicator for the stream pointed to by _stream_.
+    
+           The rewind () function sets the file position indicator for the
+           stream pointed to by _stream_ to the beginning of the file.  It is
+           equivalent to:
+    
+                  (void) fseek(stream, 0L, SEEK_SET)
+    
+           except that the error indicator for the stream is also cleared
+           (see clearerr(3)).
+    
+           The fgetpos () and fsetpos () functions are alternate interfaces
+           equivalent to ftell () and fseek () (with _whence_ set to SEEK_SET ),
+           setting and storing the current value of the file offset into or
+           from the object referenced by _pos_.  On some non-UNIX systems, an
+           _fpos_t_ object may be a complex object and these routines may be
+           the only way to portably reposition a text stream.
+    
+## RETURN VALUE         top
+    
+    
+           The rewind () function returns no value.  Upon successful
+           completion, fgetpos (), fseek (), fsetpos () return 0, and ftell ()
+           returns the current offset.  Otherwise, -1 is returned and _errno_
+           is set to indicate the error.
+    
+## ERRORS         top
+    
+    
+           EINVAL The _whence_ argument to fseek () was not SEEK_SET , SEEK_END ,
+                  or SEEK_CUR.  Or: the resulting file offset would be
+                  negative.
+    
+           ESPIPE The file descriptor underlying _stream_ is not seekable
+                  (e.g., it refers to a pipe, FIFO, or socket).
+    
+           The functions fgetpos (), fseek (), fsetpos (), and ftell () may also
+           fail and set _errno_ for any of the errors specified for the
+           routines fflush(3), fstat(2), lseek(2), and malloc(3).
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ fseek (), ftell (), rewind (),           │ Thread safety │ MT-Safe │
+           │ fgetpos (), fsetpos ()                  │               │         │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C89, C99.
+    
+## SEE ALSO         top
+    
+    
+           lseek(2), fseeko(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                       FSEEK(3)
+    

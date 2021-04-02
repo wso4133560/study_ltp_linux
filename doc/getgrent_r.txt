@@ -1,0 +1,177 @@
+  
+# getgrent_r(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | NOTES | EXAMPLES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    GETGRENT_R(3)           Linux Programmer's Manual          GETGRENT_R(3)
+    
+## NAME         top
+    
+    
+           getgrent_r, fgetgrent_r - get group file entry reentrantly
+    
+## SYNOPSIS         top
+    
+    
+           #include <grp.h>
+    
+           int getgrent_r(struct group restrict _gbuf_ ,
+                          char restrict _buf_ , size_t _buflen_ ,
+                          struct group restrict _gbufp_ );
+           int fgetgrent_r(FILE restrict _stream_ , struct group restrict _gbuf_ ,
+                          char restrict _buf_ , size_t _buflen_ ,
+                          struct group restrict _gbufp_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           getgrent_r ():
+               _GNU_SOURCE
+    
+           fgetgrent_r ():
+               Since glibc 2.19:
+                   _DEFAULT_SOURCE
+               Glibc 2.19 and earlier:
+                   _SVID_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           The functions getgrent_r () and fgetgrent_r () are the reentrant
+           versions of getgrent(3) and fgetgrent(3).  The former reads the
+           next group entry from the stream initialized by setgrent(3).  The
+           latter reads the next group entry from _stream_.
+    
+           The _group_ structure is defined in _< grp.h>_ as follows:
+    
+               struct group {
+                   char   gr_name;        / group name /
+                   char   gr_passwd;      / group password /
+                   gid_t   gr_gid;         / group ID /
+                   char  gr_mem;         / NULL-terminated array of pointers
+                                              to names of group members /
+               };
+    
+           For more information about the fields of this structure, see
+           group(5).
+    
+           The nonreentrant functions return a pointer to static storage,
+           where this static storage contains further pointers to group
+           name, password, and members.  The reentrant functions described
+           here return all of that in caller-provided buffers.  First of all
+           there is the buffer _gbuf_ that can hold a _struct group_.  And next
+           the buffer _buf_ of size _buflen_ that can hold additional strings.
+           The result of these functions, the _struct group_ read from the
+           stream, is stored in the provided buffer _gbuf_ , and a pointer to
+           this _struct group_ is returned in _gbufp_.
+    
+## RETURN VALUE         top
+    
+    
+           On success, these functions return 0 and _gbufp_ is a pointer to
+           the _struct group_.  On error, these functions return an error
+           value and _gbufp_ is NULL.
+    
+## ERRORS         top
+    
+    
+           ENOENT No more entries.
+    
+           ERANGE Insufficient buffer space supplied.  Try again with larger
+                  buffer.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────┬───────────────┬─────────────────────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────┼───────────────┼─────────────────────────────────┤
+           │ getgrent_r ()  │ Thread safety │ MT-Unsafe race:grent locale     │
+           ├──────────────┼───────────────┼─────────────────────────────────┤
+           │ fgetgrent_r () │ Thread safety │ MT-Safe                         │
+           └──────────────┴───────────────┴─────────────────────────────────┘
+           In the above table, _grent_ in _race:grent_ signifies that if any of
+           the functions setgrent(3), getgrent(3), endgrent(3), or
+           getgrent_r () are used in parallel in different threads of a
+           program, then data races could occur.
+    
+## CONFORMING TO         top
+    
+    
+           These functions are GNU extensions, done in a style resembling
+           the POSIX version of functions like getpwnam_r(3).  Other systems
+           use the prototype
+    
+               struct group getgrent_r(struct group grp, char buf,
+                                        int buflen);
+    
+           or, better,
+    
+               int getgrent_r(struct group grp, char buf, int buflen,
+                              FILE gr_fp);
+    
+## NOTES         top
+    
+    
+           The function getgrent_r () is not really reentrant since it shares
+           the reading position in the stream with all other threads.
+    
+## EXAMPLES         top
+    
+    
+           #define _GNU_SOURCE
+           #include <grp.h>
+           #include <stdio.h>
+           #include <stdint.h>
+           #include <stdlib.h>
+           #define BUFLEN 4096
+    
+           int
+           main(void)
+           {
+               struct group grp;
+               struct group grpp;
+               char buf[BUFLEN];
+               int i;
+    
+               setgrent();
+               while (1) {
+                   i = getgrent_r(&grp, buf, sizeof(buf), &grpp);
+                   if (i)
+                       break;
+                   printf("%s (%jd):", grpp->gr_name, (intmax_t) grpp->gr_gid);
+                   for (int j = 0; ; j++) {
+                       if (grpp->gr_mem[j] == NULL)
+                           break;
+                       printf(" %s", grpp->gr_mem[j]);
+                   }
+                   printf("\n");
+               }
+               endgrent();
+               exit(EXIT_SUCCESS);
+           }
+    
+## SEE ALSO         top
+    
+    
+           fgetgrent(3), getgrent(3), getgrgid(3), getgrnam(3), putgrent(3),
+           group(5)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                  GETGRENT_R(3)
+    

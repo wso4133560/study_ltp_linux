@@ -1,0 +1,61 @@
+  
+# ccosh(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | VERSIONS | CONFORMING TO | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    CCOSH(3)                Linux Programmer's Manual               CCOSH(3)
+    
+## NAME         top
+    
+    
+           ccosh, ccoshf, ccoshl - complex hyperbolic cosine
+    
+## SYNOPSIS         top
+    
+    
+           #include <complex.h>
+    
+           double complex ccosh(double complex _z_ );
+           float complex ccoshf(float complex _z_ );
+           long double complex ccoshl(long double complex _z_ );
+    
+           Link with _-lm_.
+    
+## DESCRIPTION         top
+    
+    
+           These functions calculate the complex hyperbolic cosine of _z_.
+    
+           The complex hyperbolic cosine function is defined as:
+    
+               ccosh(z) = (exp(z)+exp(-z))/2
+    
+## VERSIONS         top
+    
+    
+           These functions first appeared in glibc in version 2.1.
+    
+## CONFORMING TO         top
+    
+    
+           C99, POSIX.1-2001, POSIX.1-2008.
+    
+## SEE ALSO         top
+    
+    
+           cabs(3), cacosh(3), csinh(3), ctanh(3), complex(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                       CCOSH(3)
+    

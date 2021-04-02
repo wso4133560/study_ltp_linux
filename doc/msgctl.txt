@@ -1,0 +1,283 @@
+  
+# msgctl(2) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | CONFORMING TO | NOTES
+| SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    MSGCTL(2)               Linux Programmer's Manual              MSGCTL(2)
+    
+## NAME         top
+    
+    
+           msgctl - System V message control operations
+    
+## SYNOPSIS         top
+    
+    
+           #include <sys/ipc.h>
+           #include <sys/msg.h>
+    
+           int msgctl(int _msqid_ , int _cmd_ , struct msqid_ds  _buf_ );
+    
+## DESCRIPTION         top
+    
+    
+           msgctl () performs the control operation specified by _cmd_ on the
+           System V message queue with identifier _msqid_.
+    
+           The _msqid_ds_ data structure is defined in _< sys/msg.h>_ as follows:
+    
+               struct msqid_ds {
+                   struct ipc_perm msg_perm;   / Ownership and permissions /
+                   time_t          msg_stime;  / Time of last msgsnd(2) /
+                   time_t          msg_rtime;  / Time of last msgrcv(2) /
+                   time_t          msg_ctime;  / Time of creation or last
+                                                  modification by msgctl() /
+                   unsigned long   msg_cbytes; / # of bytes in queue /
+                   msgqnum_t       msg_qnum;   / # number of messages in queue /
+                   msglen_t        msg_qbytes; / Maximum # of bytes in queue /
+                   pid_t           msg_lspid;  / PID of last msgsnd(2) /
+                   pid_t           msg_lrpid;  / PID of last msgrcv(2) /
+               };
+    
+           The fields of the _msgid_ds_ structure are as follows:
+    
+           _msg_perm_
+                  This is an _ipc_perm_ structure (see below) that specifies
+                  the access permissions on the message queue.
+    
+           _msg_stime_
+                  Time of the last msgsnd(2) system call.
+    
+           _msg_rtime_
+                  Time of the last msgrcv(2) system call.
+    
+           _msg_ctime_
+                  Time of creation of queue or time of last msgctl () IPC_SET
+                  operation.
+    
+           _msg_cbytes_
+                  Number of bytes in all messages currently on the message
+                  queue.  This is a nonstandard Linux extension that is not
+                  specified in POSIX.
+    
+           _msg_qnum_
+                  Number of messages currently on the message queue.
+    
+           _msg_qbytes_
+                  Maximum number of bytes of message text allowed on the
+                  message queue.
+    
+           _msg_lspid_
+                  ID of the process that performed the last msgsnd(2) system
+                  call.
+    
+           _msg_lrpid_
+                  ID of the process that performed the last msgrcv(2) system
+                  call.
+    
+           The _ipc_perm_ structure is defined as follows (the highlighted
+           fields are settable using IPC_SET ):
+    
+               struct ipc_perm {
+                   key_t          __key;       / Key supplied to msgget(2) /
+                   uid_t          uid ;         / Effective UID of owner /
+                   gid_t          gid ;         / Effective GID of owner /
+                   uid_t          cuid;        / Effective UID of creator /
+                   gid_t          cgid;        / Effective GID of creator /
+                   unsigned short mode ;        / Permissions /
+                   unsigned short __seq;       / Sequence number /
+               };
+    
+           The least significant 9 bits of the _mode_ field of the _ipc_perm_
+           structure define the access permissions for the message queue.
+           The permission bits are as follows:
+    
+           0400   Read by user
+           0200   Write by user
+           0040   Read by group
+           0020   Write by group
+           0004   Read by others
+           0002   Write by others
+    
+           Bits 0100, 0010, and 0001 (the execute bits) are unused by the
+           system.
+    
+           Valid values for _cmd_ are:
+    
+           IPC_STAT
+                  Copy information from the kernel data structure associated
+                  with _msqid_ into the _msqid_ds_ structure pointed to by _buf_.
+                  The caller must have read permission on the message queue.
+    
+           IPC_SET
+                  Write the values of some members of the _msqid_ds_ structure
+                  pointed to by _buf_ to the kernel data structure associated
+                  with this message queue, updating also its _msg_ctime_
+                  member.
+    
+                  The following members of the structure are updated:
+                  _msg_qbytes_ , _msg_perm.uid_ , _msg_perm.gid_ , and (the least
+                  significant 9 bits of) _msg_perm.mode_.
+    
+                  The effective UID of the calling process must match the
+                  owner ( _msg_perm.uid_ ) or creator ( _msg_perm.cuid_ ) of the
+                  message queue, or the caller must be privileged.
+                  Appropriate privilege (Linux: the CAP_SYS_RESOURCE
+                  capability) is required to raise the _msg_qbytes_ value
+                  beyond the system parameter MSGMNB.
+    
+           IPC_RMID
+                  Immediately remove the message queue, awakening all
+                  waiting reader and writer processes (with an error return
+                  and _errno_ set to EIDRM ).  The calling process must have
+                  appropriate privileges or its effective user ID must be
+                  either that of the creator or owner of the message queue.
+                  The third argument to msgctl () is ignored in this case.
+    
+           IPC_INFO (Linux-specific)
+                  Return information about system-wide message queue limits
+                  and parameters in the structure pointed to by _buf_.  This
+                  structure is of type _msginfo_ (thus, a cast is required),
+                  defined in _< sys/msg.h>_ if the _GNU_SOURCE feature test
+                  macro is defined:
+    
+                      struct msginfo {
+                          int msgpool; / Size in kibibytes of buffer pool
+                                          used to hold message data;
+                                          unused within kernel /
+                          int msgmap;  / Maximum number of entries in message
+                                          map; unused within kernel /
+                          int msgmax;  / Maximum number of bytes that can be
+                                          written in a single message /
+                          int msgmnb;  / Maximum number of bytes that can be
+                                          written to queue; used to initialize
+                                          msg_qbytes during queue creation
+                                          (msgget(2)) /
+                          int msgmni;  / Maximum number of message queues /
+                          int msgssz;  / Message segment size;
+                                          unused within kernel /
+                          int msgtql;  / Maximum number of messages on all queues
+                                          in system; unused within kernel /
+                          unsigned short msgseg;
+                                       / Maximum number of segments;
+                                          unused within kernel /
+                      };
+    
+                  The _msgmni_ , _msgmax_ , and _msgmnb_ settings can be changed via
+                  _/proc_ files of the same name; see proc(5) for details.
+    
+           MSG_INFO (Linux-specific)
+                  Return a _msginfo_ structure containing the same information
+                  as for IPC_INFO , except that the following fields are
+                  returned with information about system resources consumed
+                  by message queues: the _msgpool_ field returns the number of
+                  message queues that currently exist on the system; the
+                  _msgmap_ field returns the total number of messages in all
+                  queues on the system; and the _msgtql_ field returns the
+                  total number of bytes in all messages in all queues on the
+                  system.
+    
+           MSG_STAT (Linux-specific)
+                  Return a _msqid_ds_ structure as for IPC_STAT.  However, the
+                  _msqid_ argument is not a queue identifier, but instead an
+                  index into the kernel's internal array that maintains
+                  information about all message queues on the system.
+    
+           MSG_STAT_ANY (Linux-specific, since Linux 4.17)
+                  Return a _msqid_ds_ structure as for MSG_STAT.  However,
+                  _msg_perm.mode_ is not checked for read access for _msqid_
+                  meaning that any user can employ this operation (just as
+                  any user may read _/proc/sysvipc/msg_ to obtain the same
+                  information).
+    
+## RETURN VALUE         top
+    
+    
+           On success, IPC_STAT , IPC_SET , and IPC_RMID return 0.  A
+           successful IPC_INFO or MSG_INFO operation returns the index of
+           the highest used entry in the kernel's internal array recording
+           information about all message queues.  (This information can be
+           used with repeated MSG_STAT or MSG_STAT_ANY operations to obtain
+           information about all queues on the system.)  A successful
+           MSG_STAT or MSG_STAT_ANY operation returns the identifier of the
+           queue whose index was given in _msqid_.
+    
+           On failure, -1 is returned and _errno_ is set to indicate the
+           error.
+    
+## ERRORS         top
+    
+    
+           EACCES The argument _cmd_ is equal to IPC_STAT or MSG_STAT , but the
+                  calling process does not have read permission on the
+                  message queue _msqid_ , and does not have the CAP_IPC_OWNER
+                  capability in the user namespace that governs its IPC
+                  namespace.
+    
+           EFAULT The argument _cmd_ has the value IPC_SET or IPC_STAT , but
+                  the address pointed to by _buf_ isn't accessible.
+    
+           EIDRM The message queue was removed.
+    
+           EINVAL Invalid value for _cmd_ or _msqid_.  Or: for a MSG_STAT
+                  operation, the index value specified in _msqid_ referred to
+                  an array slot that is currently unused.
+    
+           EPERM The argument _cmd_ has the value IPC_SET or IPC_RMID , but
+                  the effective user ID of the calling process is not the
+                  creator (as found in _msg_perm.cuid_ ) or the owner (as found
+                  in _msg_perm.uid_ ) of the message queue, and the caller is
+                  not privileged (Linux: does not have the CAP_SYS_ADMIN
+                  capability).
+    
+           EPERM An attempt ( IPC_SET ) was made to increase _msg_qbytes_
+                  beyond the system parameter MSGMNB , but the caller is not
+                  privileged (Linux: does not have the CAP_SYS_RESOURCE
+                  capability).
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, SVr4.
+    
+## NOTES         top
+    
+    
+           The inclusion of _< sys/ipc.h>_ isn't required on Linux or by any
+           version of POSIX.  However, some old implementations required the
+           inclusion of this header file, and the SVID also documented its
+           inclusion.  Applications intended to be portable to such old
+           systems may need to include this header file.
+    
+           The IPC_INFO , MSG_STAT , and MSG_INFO operations are used by the
+           ipcs(1) program to provide information on allocated resources.
+           In the future these may modified or moved to a _/proc_ filesystem
+           interface.
+    
+           Various fields in the _struct msqid_ds_ were typed as _short_ under
+           Linux 2.2 and have become _long_ under Linux 2.4.  To take
+           advantage of this, a recompilation under glibc-2.1.91 or later
+           should suffice.  (The kernel distinguishes old and new calls by
+           an IPC_64 flag in _cmd_.)
+    
+## SEE ALSO         top
+    
+    
+           msgget(2), msgrcv(2), msgsnd(2), capabilities(7), mq_overview(7),
+           sysvipc(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                      MSGCTL(2)
+    

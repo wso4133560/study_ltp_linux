@@ -1,0 +1,98 @@
+  
+# fseeko(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | VERSIONS | ATTRIBUTES
+| CONFORMING TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    FSEEKO(3)               Linux Programmer's Manual              FSEEKO(3)
+    
+## NAME         top
+    
+    
+           fseeko, ftello - seek to or report file position
+    
+## SYNOPSIS         top
+    
+    
+           #include <stdio.h>
+    
+           int fseeko(FILE  _stream_ , off_t _offset_ , int _whence_ );
+           off_t ftello(FILE  _stream_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           fseeko (), ftello ():
+               _FILE_OFFSET_BITS == 64 || _POSIX_C_SOURCE >= 200112L
+    
+## DESCRIPTION         top
+    
+    
+           The fseeko () and ftello () functions are identical to fseek(3) and
+           ftell(3) (see fseek(3)), respectively, except that the _offset_
+           argument of fseeko () and the return value of ftello () is of type
+           _off_t_ instead of _long_.
+    
+           On some architectures, both _off_t_ and _long_ are 32-bit types, but
+           defining _FILE_OFFSET_BITS with the value 64 (before including
+           _any_ header files) will turn _off_t_ into a 64-bit type.
+    
+## RETURN VALUE         top
+    
+    
+           On successful completion, fseeko () returns 0, while ftello ()
+           returns the current offset.  Otherwise, -1 is returned and _errno_
+           is set to indicate the error.
+    
+## ERRORS         top
+    
+    
+           See the ERRORS in fseek(3).
+    
+## VERSIONS         top
+    
+    
+           These functions are available under glibc since version 2.1.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ fseeko (), ftello ()                    │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, SUSv2.
+    
+## NOTES         top
+    
+    
+           The declarations of these functions can also be obtained by
+           defining the obsolete _LARGEFILE_SOURCE feature test macro.
+    
+## SEE ALSO         top
+    
+    
+           fseek(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                      FSEEKO(3)
+    

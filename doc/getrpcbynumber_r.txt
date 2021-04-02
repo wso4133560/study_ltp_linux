@@ -1,0 +1,122 @@
+  
+# getrpcent_r(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    GETRPCENT_R(3)          Linux Programmer's Manual         GETRPCENT_R(3)
+    
+## NAME         top
+    
+    
+           getrpcent_r, getrpcbyname_r, getrpcbynumber_r - get RPC entry
+           (reentrant)
+    
+## SYNOPSIS         top
+    
+    
+           #include <netdb.h>
+    
+           int getrpcent_r(struct rpcent  _result_buf_ , char  _buf_ ,
+                           size_t _buflen_ , struct rpcent  _result_ );
+           int getrpcbyname_r(const char  _name_ ,
+                           struct rpcent  _result_buf_ , char  _buf_ ,
+                           size_t _buflen_ , struct rpcent  _result_ );
+           int getrpcbynumber_r(int _number_ ,
+                           struct rpcent  _result_buf_ , char  _buf_ ,
+                           size_t _buflen_ , struct rpcent  _result_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           getrpcent_r (), getrpcbyname_r (), getrpcbynumber_r ():
+               Since glibc 2.19:
+                   _DEFAULT_SOURCE
+               Glibc 2.19 and earlier:
+                   _BSD_SOURCE || _SVID_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           The getrpcent_r (), getrpcbyname_r (), and getrpcbynumber_r ()
+           functions are the reentrant equivalents of, respectively,
+           getrpcent(3), getrpcbyname(3), and getrpcbynumber(3).  They
+           differ in the way that the _rpcent_ structure is returned, and in
+           the function calling signature and return value.  This manual
+           page describes just the differences from the nonreentrant
+           functions.
+    
+           Instead of returning a pointer to a statically allocated _rpcent_
+           structure as the function result, these functions copy the
+           structure into the location pointed to by _result_buf_.
+    
+           The _buf_ array is used to store the string fields pointed to by
+           the returned _rpcent_ structure.  (The nonreentrant functions
+           allocate these strings in static storage.)  The size of this
+           array is specified in _buflen_.  If _buf_ is too small, the call
+           fails with the error ERANGE , and the caller must try again with a
+           larger buffer.  (A buffer of length 1024 bytes should be
+           sufficient for most applications.)
+    
+           If the function call successfully obtains an RPC record, then
+           _result_ is set pointing to _result_buf_ ; otherwise, _result_ is set
+           to NULL.
+    
+## RETURN VALUE         top
+    
+    
+           On success, these functions return 0.  On error, they return one
+           of the positive error numbers listed in ERRORS.
+    
+           On error, record not found ( getrpcbyname_r (),
+           getrpcbynumber_r ()), or end of input ( getrpcent_r ()) _result_ is
+           set to NULL.
+    
+## ERRORS         top
+    
+    
+           ENOENT ( getrpcent_r ()) No more records in database.
+    
+           ERANGE _buf_ is too small.  Try again with a larger buffer (and
+                  increased _buflen_ ).
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌───────────────────────────────┬───────────────┬────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├───────────────────────────────┼───────────────┼────────────────┤
+           │ getrpcent_r (),                 │ Thread safety │ MT-Safe locale │
+           │ getrpcbyname_r (),              │               │                │
+           │ getrpcbynumber_r ()             │               │                │
+           └───────────────────────────────┴───────────────┴────────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           These functions are GNU extensions.  Functions with similar names
+           exist on some other systems, though typically with different
+           calling signatures.
+    
+## SEE ALSO         top
+    
+    
+           getrpcent(3), rpc(5)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                 GETRPCENT_R(3)
+    

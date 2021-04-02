@@ -1,0 +1,84 @@
+  
+# sem_unlink(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    SEM_UNLINK(3)           Linux Programmer's Manual          SEM_UNLINK(3)
+    
+## NAME         top
+    
+    
+           sem_unlink - remove a named semaphore
+    
+## SYNOPSIS         top
+    
+    
+           #include <semaphore.h>
+    
+           int sem_unlink(const char  _name_ );
+    
+           Link with _-pthread_.
+    
+## DESCRIPTION         top
+    
+    
+           sem_unlink () removes the named semaphore referred to by _name_.
+           The semaphore name is removed immediately.  The semaphore is
+           destroyed once all other processes that have the semaphore open
+           close it.
+    
+## RETURN VALUE         top
+    
+    
+           On success sem_unlink () returns 0; on error, -1 is returned, with
+           _errno_ set to indicate the error.
+    
+## ERRORS         top
+    
+    
+           EACCES The caller does not have permission to unlink this
+                  semaphore.
+    
+           ENAMETOOLONG
+                  _name_ was too long.
+    
+           ENOENT There is no semaphore with the given _name_.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ sem_unlink ()                          │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008.
+    
+## SEE ALSO         top
+    
+    
+           sem_getvalue(3), sem_open(3), sem_post(3), sem_wait(3),
+           sem_overview(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                  SEM_UNLINK(3)
+    

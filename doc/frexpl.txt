@@ -1,0 +1,131 @@
+  
+# frexp(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | EXAMPLES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    FREXP(3)                Linux Programmer's Manual               FREXP(3)
+    
+## NAME         top
+    
+    
+           frexp, frexpf, frexpl - convert floating-point number to
+           fractional and integral components
+    
+## SYNOPSIS         top
+    
+    
+           #include <math.h>
+    
+           double frexp(double _x_ , int  _exp_ );
+           float frexpf(float _x_ , int  _exp_ );
+           long double frexpl(long double _x_ , int  _exp_ );
+    
+           Link with _-lm_.
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           frexpf (), frexpl ():
+               _ISOC99_SOURCE || _POSIX_C_SOURCE >= 200112L
+                   || / Since glibc 2.19: / _DEFAULT_SOURCE
+                   || / Glibc <= 2.19: / _BSD_SOURCE || _SVID_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           These functions are used to split the number _x_ into a normalized
+           fraction and an exponent which is stored in _exp_.
+    
+## RETURN VALUE         top
+    
+    
+           These functions return the normalized fraction.  If the argument
+           _x_ is not zero, the normalized fraction is _x_ times a power of two,
+           and its absolute value is always in the range 1/2 (inclusive) to
+           1 (exclusive), that is, [0.5,1).
+    
+           If _x_ is zero, then the normalized fraction is zero and zero is
+           stored in _exp_.
+    
+           If _x_ is a NaN, a NaN is returned, and the value of _exp_ is
+           unspecified.
+    
+           If _x_ is positive infinity (negative infinity), positive infinity
+           (negative infinity) is returned, and the value of _exp_ is
+           unspecified.
+    
+## ERRORS         top
+    
+    
+           No errors occur.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ frexp (), frexpf (), frexpl ()           │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           C99, POSIX.1-2001, POSIX.1-2008.
+    
+           The variant returning _double_ also conforms to SVr4, 4.3BSD, C89.
+    
+## EXAMPLES         top
+    
+    
+           The program below produces results such as the following:
+    
+               $ ./a.out 2560
+               frexp(2560, &e) = 0.625: 0.625  2^12 = 2560
+               $ ./a.out -4
+               frexp(-4, &e) = -0.5: -0.5  2^3 = -4
+    
+       Program source
+    
+           #include <math.h>
+           #include <float.h>
+           #include <stdio.h>
+           #include <stdlib.h>
+    
+           int
+           main(int argc, char argv[])
+           {
+               double x, r;
+               int exp;
+    
+               x = strtod(argv[1], NULL);
+               r = frexp(x, &exp);
+    
+               printf("frexp(%g, &e) = %g: %g  %d^%d = %g\n",
+                      x, r, r, FLT_RADIX, exp, x);
+               exit(EXIT_SUCCESS);
+           }
+    
+## SEE ALSO         top
+    
+    
+           ldexp(3), modf(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                       FREXP(3)
+    

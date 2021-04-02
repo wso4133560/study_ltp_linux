@@ -1,0 +1,77 @@
+  
+# strxfrm(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    STRXFRM(3)              Linux Programmer's Manual             STRXFRM(3)
+    
+## NAME         top
+    
+    
+           strxfrm - string transformation
+    
+## SYNOPSIS         top
+    
+    
+           #include <string.h>
+    
+           size_t strxfrm(char restrict _dest_ , const char restrict _src_ ,
+                          size_t _n_ );
+    
+## DESCRIPTION         top
+    
+    
+           The strxfrm () function transforms the _src_ string into a form such
+           that the result of strcmp(3) on two strings that have been
+           transformed with strxfrm () is the same as the result of
+           strcoll(3) on the two strings before their transformation.  The
+           first _n_ bytes of the transformed string are placed in _dest_.  The
+           transformation is based on the program's current locale for
+           category LC_COLLATE.  (See setlocale(3)).
+    
+## RETURN VALUE         top
+    
+    
+           The strxfrm () function returns the number of bytes required to
+           store the transformed string in _dest_ excluding the terminating
+           null byte ('\0').  If the value returned is _n_ or more, the
+           contents of _dest_ are indeterminate.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌───────────────────────────────┬───────────────┬────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├───────────────────────────────┼───────────────┼────────────────┤
+           │ strxfrm ()                      │ Thread safety │ MT-Safe locale │
+           └───────────────────────────────┴───────────────┴────────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C89, C99, SVr4, 4.3BSD.
+    
+## SEE ALSO         top
+    
+    
+           bcmp(3), memcmp(3), setlocale(3), strcasecmp(3), strcmp(3),
+           strcoll(3), string(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                     STRXFRM(3)
+    

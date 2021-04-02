@@ -1,0 +1,92 @@
+  
+# iopl(2) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | CONFORMING TO | NOTES
+| SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    IOPL(2)                 Linux Programmer's Manual                IOPL(2)
+    
+## NAME         top
+    
+    
+           iopl - change I/O privilege level
+    
+## SYNOPSIS         top
+    
+    
+           #include <sys/io.h>
+    
+           int iopl(int _level_ );
+    
+## DESCRIPTION         top
+    
+    
+           iopl () changes the I/O privilege level of the calling thread, as
+           specified by the two least significant bits in _level_.
+    
+           The I/O privilege level for a normal thread is 0.  Permissions
+           are inherited from parents to children.
+    
+           This call is deprecated, is significantly slower than ioperm(2),
+           and is only provided for older X servers which require access to
+           all 65536 I/O ports.  It is mostly for the i386 architecture.  On
+           many other architectures it does not exist or will always return
+           an error.
+    
+## RETURN VALUE         top
+    
+    
+           On success, zero is returned.  On error, -1 is returned, and
+           _errno_ is set to indicate the error.
+    
+## ERRORS         top
+    
+    
+           EINVAL _level_ is greater than 3.
+    
+           ENOSYS This call is unimplemented.
+    
+           EPERM The calling thread has insufficient privilege to call
+                  iopl (); the CAP_SYS_RAWIO capability is required to raise
+                  the I/O privilege level above its current value.
+    
+## CONFORMING TO         top
+    
+    
+           iopl () is Linux-specific and should not be used in programs that
+           are intended to be portable.
+    
+## NOTES         top
+    
+    
+           Glibc2 has a prototype both in _< sys/io.h>_ and in _< sys/perm.h>_.
+           Avoid the latter, it is available on i386 only.
+    
+           Prior to Linux 5.5 iopl () allowed the thread to disable
+           interrupts while running at a higher I/O privilege level.  This
+           will probably crash the system, and is not recommended.
+    
+           Prior to Linux 3.7, on some architectures (such as i386),
+           permissions _were_ inherited by the child produced by fork(2) and
+           were preserved across execve(2).  This behavior was inadvertently
+           changed in Linux 3.7, and won't be reinstated.
+    
+## SEE ALSO         top
+    
+    
+           ioperm(2), outb(2), capabilities(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                        IOPL(2)
+    

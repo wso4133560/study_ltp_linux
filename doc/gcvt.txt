@@ -1,0 +1,85 @@
+  
+# gcvt(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    GCVT(3)                 Linux Programmer's Manual                GCVT(3)
+    
+## NAME         top
+    
+    
+           gcvt - convert a floating-point number to a string
+    
+## SYNOPSIS         top
+    
+    
+           #include <stdlib.h>
+    
+           char gcvt(double _number_ , int _ndigit_ , char  _buf_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           gcvt ():
+               Since glibc 2.17
+                   (_XOPEN_SOURCE >= 500 && ! (_POSIX_C_SOURCE >= 200809L))
+                       || / Glibc >= 2.20 / _DEFAULT_SOURCE
+                       || / Glibc <= 2.19 / _SVID_SOURCE
+               Glibc versions 2.12 to 2.16:
+                   (_XOPEN_SOURCE >= 500 && ! (_POSIX_C_SOURCE >= 200112L))
+                       || _SVID_SOURCE
+               Before glibc 2.12:
+                   _SVID_SOURCE || _XOPEN_SOURCE >= 500
+    
+## DESCRIPTION         top
+    
+    
+           The gcvt () function converts _number_ to a minimal length null-
+           terminated ASCII string and stores the result in _buf_.  It
+           produces _ndigit_ significant digits in either printf(3) F format
+           or E format.
+    
+## RETURN VALUE         top
+    
+    
+           The gcvt () function returns _buf_.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ gcvt ()                                │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           Marked as LEGACY in POSIX.1-2001.  POSIX.1-2008 removes the
+           specification of gcvt (), recommending the use of sprintf(3)
+           instead (though snprintf(3) may be preferable).
+    
+## SEE ALSO         top
+    
+    
+           ecvt(3), fcvt(3), sprintf(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                        GCVT(3)
+    

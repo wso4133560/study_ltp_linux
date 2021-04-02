@@ -1,0 +1,96 @@
+  
+# exp10(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | VERSIONS | ATTRIBUTES
+| CONFORMING TO | BUGS | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    EXP10(3)                Linux Programmer's Manual               EXP10(3)
+    
+## NAME         top
+    
+    
+           exp10, exp10f, exp10l - base-10 exponential function
+    
+## SYNOPSIS         top
+    
+    
+           #define _GNU_SOURCE / See feature_test_macros(7) /
+           #include <math.h>
+    
+           double exp10(double _x_ );
+           float exp10f(float _x_ );
+           long double exp10l(long double _x_ );
+    
+           Link with _-lm_.
+    
+## DESCRIPTION         top
+    
+    
+           These functions return the value of 10 raised to the power of _x_.
+    
+## RETURN VALUE         top
+    
+    
+           On success, these functions return the base-10 exponential value
+           of _x_.
+    
+           For various special cases, including the handling of infinity and
+           NaN, as well as overflows and underflows, see exp(3).
+    
+## ERRORS         top
+    
+    
+           See math_error(7) for information on how to determine whether an
+           error has occurred when calling these functions.
+    
+           For a discussion of the errors that can occur for these
+           functions, see exp(3).
+    
+## VERSIONS         top
+    
+    
+           These functions first appeared in glibc in version 2.1.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ exp10 (), exp10f (), exp10l ()           │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           These functions are GNU extensions.
+    
+## BUGS         top
+    
+    
+           Prior to version 2.19, the glibc implementation of these
+           functions did not set _errno_ to ERANGE when an underflow error
+           occurred.
+    
+## SEE ALSO         top
+    
+    
+           cbrt(3), exp(3), exp2(3), log10(3), sqrt(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                       EXP10(3)
+    

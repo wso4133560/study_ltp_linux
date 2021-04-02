@@ -1,0 +1,119 @@
+  
+# err(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | ATTRIBUTES | CONFORMING TO | EXAMPLES | SEE
+ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    ERR(3)                  Linux Programmer's Manual                 ERR(3)
+    
+## NAME         top
+    
+    
+           err, verr, errx, verrx, warn, vwarn, warnx, vwarnx - formatted
+           error messages
+    
+## SYNOPSIS         top
+    
+    
+           #include <err.h>
+    
+           noreturn void err(int _eval_ , const char  _fmt_ , ...);
+           noreturn void errx(int _eval_ , const char  _fmt_ , ...);
+    
+           void warn(const char  _fmt_ , ...);
+           void warnx(const char  _fmt_ , ...);
+    
+           #include <stdarg.h>
+    
+           noreturn void verr(int _eval_ , const char  _fmt_ , va_list _args_ );
+           noreturn void verrx(int _eval_ , const char  _fmt_ , va_list _args_ );
+    
+           void vwarn(const char  _fmt_ , va_list _args_ );
+           void vwarnx(const char  _fmt_ , va_list _args_ );
+    
+## DESCRIPTION         top
+    
+    
+           The err () and warn () family of functions display a formatted
+           error message on the standard error output.  In all cases, the
+           last component of the program name, a colon character, and a
+           space are output.  If the _fmt_ argument is not NULL, the
+           printf(3)-like formatted error message is output.  The output is
+           terminated by a newline character.
+    
+           The err (), verr (), warn (), and vwarn () functions append an error
+           message obtained from strerror(3) based on the global variable
+           _errno_ , preceded by another colon and space unless the _fmt_
+           argument is NULL.
+    
+           The errx () and warnx () functions do not append an error message.
+    
+           The err (), verr (), errx (), and verrx () functions do not return,
+           but exit with the value of the argument _eval_.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌───────────────────────────────┬───────────────┬────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├───────────────────────────────┼───────────────┼────────────────┤
+           │ err (), errx (), warn (),         │ Thread safety │ MT-Safe locale │
+           │ warnx (), verr (), verrx (),      │               │                │
+           │ vwarn (), vwarnx ()              │               │                │
+           └───────────────────────────────┴───────────────┴────────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           These functions are nonstandard BSD extensions.
+    
+## EXAMPLES         top
+    
+    
+           Display the current _errno_ information string and exit:
+    
+               p = malloc(size);
+               if (p == NULL)
+                   err(EXIT_FAILURE, NULL);
+               fd = open(file_name, O_RDONLY, 0);
+               if (fd == -1)
+                   err(EXIT_FAILURE, "%s", file_name);
+    
+           Display an error message and exit:
+    
+               if (tm.tm_hour < START_TIME)
+                   errx(EXIT_FAILURE, "too early, wait until %s",
+                           start_time_string);
+    
+           Warn of an error:
+    
+               fd = open(raw_device, O_RDONLY, 0);
+               if (fd == -1)
+                   warnx("%s: %s: trying the block device",
+                           raw_device, strerror(errno));
+               fd = open(block_device, O_RDONLY, 0);
+               if (fd == -1)
+                   err(EXIT_FAILURE, "%s", block_device);
+    
+## SEE ALSO         top
+    
+    
+           error(3), exit(3), perror(3), printf(3), strerror(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                         ERR(3)
+    

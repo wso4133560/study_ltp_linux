@@ -1,0 +1,75 @@
+  
+# swab(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    SWAB(3)                 Linux Programmer's Manual                SWAB(3)
+    
+## NAME         top
+    
+    
+           swab - swap adjacent bytes
+    
+## SYNOPSIS         top
+    
+    
+           #define _XOPEN_SOURCE / See feature_test_macros(7) /
+           #include <unistd.h>
+    
+           void swab(const void restrict _from_ , void restrict _to_ , ssize_t _n_ );
+    
+## DESCRIPTION         top
+    
+    
+           The swab () function copies _n_ bytes from the array pointed to by
+           _from_ to the array pointed to by _to_ , exchanging adjacent even and
+           odd bytes.  This function is used to exchange data between
+           machines that have different low/high byte ordering.
+    
+           This function does nothing when _n_ is negative.  When _n_ is
+           positive and odd, it handles _n-1_ bytes as above, and does
+           something unspecified with the last byte.  (In other words, _n_
+           should be even.)
+    
+## RETURN VALUE         top
+    
+    
+           The swab () function returns no value.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ swab ()                                │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, SVr4, 4.3BSD.
+    
+## SEE ALSO         top
+    
+    
+           bstring(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                        SWAB(3)
+    

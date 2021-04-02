@@ -1,0 +1,83 @@
+  
+# fputws(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    FPUTWS(3)               Linux Programmer's Manual              FPUTWS(3)
+    
+## NAME         top
+    
+    
+           fputws - write a wide-character string to a FILE stream
+    
+## SYNOPSIS         top
+    
+    
+           #include <wchar.h>
+    
+           int fputws(const wchar_t restrict _ws_ , FILE restrict _stream_ );
+    
+## DESCRIPTION         top
+    
+    
+           The fputws () function is the wide-character equivalent of the
+           fputs(3) function.  It writes the wide-character string starting
+           at _ws_ , up to but not including the terminating null wide
+           character (L'\0'), to _stream_.
+    
+           For a nonlocking counterpart, see unlocked_stdio(3).
+    
+## RETURN VALUE         top
+    
+    
+           The fputws () function returns a nonnegative integer if the
+           operation was successful, or -1 to indicate an error.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ fputws ()                              │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C99.
+    
+## NOTES         top
+    
+    
+           The behavior of fputws () depends on the LC_CTYPE category of the
+           current locale.
+    
+           In the absence of additional information passed to the fopen(3)
+           call, it is reasonable to expect that fputws () will actually
+           write the multibyte string corresponding to the wide-character
+           string _ws_.
+    
+## SEE ALSO         top
+    
+    
+           fputwc(3), unlocked_stdio(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                      FPUTWS(3)
+    

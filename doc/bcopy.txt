@@ -1,0 +1,71 @@
+  
+# bcopy(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    BCOPY(3)                Linux Programmer's Manual               BCOPY(3)
+    
+## NAME         top
+    
+    
+           bcopy - copy byte sequence
+    
+## SYNOPSIS         top
+    
+    
+           #include <strings.h>
+    
+           void bcopy(const void  _src_ , void  _dest_ , size_t _n_ );
+    
+## DESCRIPTION         top
+    
+    
+           The bcopy () function copies _n_ bytes from _src_ to _dest_.  The result
+           is correct, even when both areas overlap.
+    
+## RETURN VALUE         top
+    
+    
+           None.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ bcopy ()                               │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           4.3BSD.  This function is deprecated (marked as LEGACY in
+           POSIX.1-2001): use memcpy(3) or memmove(3) in new programs.  Note
+           that the first two arguments are interchanged for memcpy(3) and
+           memmove(3).  POSIX.1-2008 removes the specification of bcopy ().
+    
+## SEE ALSO         top
+    
+    
+           bstring(3), memccpy(3), memcpy(3), memmove(3), strcpy(3),
+           strncpy(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                       BCOPY(3)
+    

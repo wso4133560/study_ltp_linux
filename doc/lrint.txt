@@ -1,0 +1,111 @@
+  
+# lrint(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | VERSIONS | ATTRIBUTES
+| CONFORMING TO | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    LRINT(3)                Linux Programmer's Manual               LRINT(3)
+    
+## NAME         top
+    
+    
+           lrint, lrintf, lrintl, llrint, llrintf, llrintl - round to
+           nearest integer
+    
+## SYNOPSIS         top
+    
+    
+           #include <math.h>
+    
+           long lrint(double _x_ );
+           long lrintf(float _x_ );
+           long lrintl(long double _x_ );
+    
+           long long llrint(double _x_ );
+           long long llrintf(float _x_ );
+           long long llrintl(long double _x_ );
+    
+           Link with _-lm_.
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           All functions shown above:
+               _ISOC99_SOURCE || _POSIX_C_SOURCE >= 200112L
+    
+## DESCRIPTION         top
+    
+    
+           These functions round their argument to the nearest integer
+           value, using the current rounding direction (see fesetround(3)).
+    
+           Note that unlike the rint(3) family of functions, the return type
+           of these functions differs from that of their arguments.
+    
+## RETURN VALUE         top
+    
+    
+           These functions return the rounded integer value.
+    
+           If _x_ is a NaN or an infinity, or the rounded value is too large
+           to be stored in a _long_ ( _long long_ in the case of the ll
+           functions), then a domain error occurs, and the return value is
+           unspecified.
+    
+## ERRORS         top
+    
+    
+           See math_error(7) for information on how to determine whether an
+           error has occurred when calling these functions.
+    
+           The following errors can occur:
+    
+           Domain error: _x_ is a NaN or infinite, or the rounded value is too
+           large
+                  An invalid floating-point exception ( FE_INVALID ) is
+                  raised.
+    
+           These functions do not set _errno_.
+    
+## VERSIONS         top
+    
+    
+           These functions first appeared in glibc in version 2.1.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ lrint (), lrintf (), lrintl (),          │ Thread safety │ MT-Safe │
+           │ llrint (), llrintf (), llrintl ()        │               │         │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           C99, POSIX.1-2001, POSIX.1-2008.
+    
+## SEE ALSO         top
+    
+    
+           ceil(3), floor(3), lround(3), nearbyint(3), rint(3), round(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                       LRINT(3)
+    

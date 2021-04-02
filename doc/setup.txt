@@ -1,0 +1,73 @@
+  
+# setup(2) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | VERSIONS | CONFORMING
+TO | NOTES | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    SETUP(2)                Linux Programmer's Manual               SETUP(2)
+    
+## NAME         top
+    
+    
+           setup - setup devices and filesystems, mount root filesystem
+    
+## SYNOPSIS         top
+    
+    
+           #include <unistd.h>
+    
+           int setup(void);
+    
+## DESCRIPTION         top
+    
+    
+           setup () is called once from within _linux/init/main.c_.  It calls
+           initialization functions for devices and filesystems configured
+           into the kernel and then mounts the root filesystem.
+    
+           No user process may call setup ().  Any user process, even a
+           process with superuser permission, will receive EPERM.
+    
+## RETURN VALUE         top
+    
+    
+           setup () always returns -1 for a user process.
+    
+## ERRORS         top
+    
+    
+           EPERM Always, for a user process.
+    
+## VERSIONS         top
+    
+    
+           Since Linux 2.1.121, no such function exists anymore.
+    
+## CONFORMING TO         top
+    
+    
+           This function is Linux-specific, and should not be used in
+           programs intended to be portable, or indeed in any programs at
+           all.
+    
+## NOTES         top
+    
+    
+           The calling sequence varied: at some times setup () has had a
+           single argument _void BIOS_ and at other times a single argument
+           _int magic_.
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                       SETUP(2)
+    

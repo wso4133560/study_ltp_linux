@@ -1,0 +1,98 @@
+  
+# div(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+EXAMPLES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    DIV(3)                  Linux Programmer's Manual                 DIV(3)
+    
+## NAME         top
+    
+    
+           div, ldiv, lldiv, imaxdiv - compute quotient and remainder of an
+           integer division
+    
+## SYNOPSIS         top
+    
+    
+           #include <stdlib.h>
+    
+           div_t div(int _numerator_ , int _denominator_ );
+           ldiv_t ldiv(long _numerator_ , long _denominator_ );
+           lldiv_t lldiv(long long _numerator_ , long long _denominator_ );
+    
+           #include <inttypes.h>
+    
+           imaxdiv_t imaxdiv(intmax_t _numerator_ , intmax_t _denominator_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           lldiv ():
+               _ISOC99_SOURCE || _POSIX_C_SOURCE >= 200112L
+    
+## DESCRIPTION         top
+    
+    
+           The div () function computes the value _numerator_ / _denominator_ and
+           returns the quotient and remainder in a structure named _div_t_
+           that contains two integer members (in unspecified order) named
+           _quot_ and _rem_.  The quotient is rounded toward zero.  The result
+           satisfies _quot_  _denominator_ + _rem_ = _numerator_.
+    
+           The ldiv (), lldiv (), and imaxdiv () functions do the same,
+           dividing numbers of the indicated type and returning the result
+           in a structure of the indicated name, in all cases with fields
+           _quot_ and _rem_ of the same type as the function arguments.
+    
+## RETURN VALUE         top
+    
+    
+           The _div_t_ (etc.) structure.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ div (), ldiv (), lldiv (), imaxdiv ()     │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C89, C99, SVr4, 4.3BSD.  The
+           functions lldiv () and imaxdiv () were added in C99.
+    
+## EXAMPLES         top
+    
+    
+           After
+    
+               div_t q = div(-5, 3);
+    
+           the values _q.quot_ and _q.rem_ are -1 and -2, respectively.
+    
+## SEE ALSO         top
+    
+    
+           abs(3), remainder(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                         DIV(3)
+    

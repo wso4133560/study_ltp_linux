@@ -1,0 +1,80 @@
+  
+# strcoll(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    STRCOLL(3)              Linux Programmer's Manual             STRCOLL(3)
+    
+## NAME         top
+    
+    
+           strcoll - compare two strings using the current locale
+    
+## SYNOPSIS         top
+    
+    
+           #include <string.h>
+    
+           int strcoll(const char  _s1_ , const char  _s2_ );
+    
+## DESCRIPTION         top
+    
+    
+           The strcoll () function compares the two strings _s1_ and _s2_.  It
+           returns an integer less than, equal to, or greater than zero if
+           _s1_ is found, respectively, to be less than, to match, or be
+           greater than _s2_.  The comparison is based on strings interpreted
+           as appropriate for the program's current locale for category
+           LC_COLLATE.  (See setlocale(3).)
+    
+## RETURN VALUE         top
+    
+    
+           The strcoll () function returns an integer less than, equal to, or
+           greater than zero if _s1_ is found, respectively, to be less than,
+           to match, or be greater than _s2_ , when both are interpreted as
+           appropriate for the current locale.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌───────────────────────────────┬───────────────┬────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├───────────────────────────────┼───────────────┼────────────────┤
+           │ strcoll ()                      │ Thread safety │ MT-Safe locale │
+           └───────────────────────────────┴───────────────┴────────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C89, C99, SVr4, 4.3BSD.
+    
+## NOTES         top
+    
+    
+           In the _POSIX_ or _C_ locales strcoll () is equivalent to strcmp(3).
+    
+## SEE ALSO         top
+    
+    
+           bcmp(3), memcmp(3), setlocale(3), strcasecmp(3), strcmp(3),
+           string(3), strxfrm(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                     STRCOLL(3)
+    

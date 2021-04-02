@@ -1,0 +1,93 @@
+  
+# ioctl_fslabel(2) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | VERSIONS | CONFORMING
+TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    IOCTL_FSLABEL(2)        Linux Programmer's Manual       IOCTL_FSLABEL(2)
+    
+## NAME         top
+    
+    
+           ioctl_fslabel - get or set a filesystem label
+    
+## SYNOPSIS         top
+    
+    
+           #include <sys/ioctl.h>
+           #include <linux/fs.h>
+    
+           int ioctl(int _fd_ , FS_IOC_GETFSLABEL, char _label_ [FSLABEL_MAX]);
+           int ioctl(int _fd_ , FS_IOC_SETFSLABEL, char _label_ [FSLABEL_MAX]);
+    
+## DESCRIPTION         top
+    
+    
+           If a filesystem supports online label manipulation, these
+           ioctl(2) operations can be used to get or set the filesystem
+           label for the filesystem on which fd resides.  The
+           FS_IOC_SETFSLABEL operation requires privilege ( CAP_SYS_ADMIN ).
+    
+## RETURN VALUE         top
+    
+    
+           On success zero is returned.  On error, -1 is returned, and _errno_
+           is set to indicate the error.
+    
+## ERRORS         top
+    
+    
+           Possible errors include (but are not limited to) the following:
+    
+           EFAULT _label_ references an inaccessible memory area.
+    
+           EINVAL The specified label exceeds the maximum label length for
+                  the filesystem.
+    
+           ENOTTY This can appear if the filesystem does not support online
+                  label manipulation.
+    
+           EPERM The calling process does not have sufficient permissions
+                  to set the label.
+    
+## VERSIONS         top
+    
+    
+           These ioctl(2) operations first appeared in Linux 4.18.  They
+           were previously known as BTRFS_IOC_GET_FSLABEL and
+           BTRFS_IOC_SET_FSLABEL and were private to Btrfs.
+    
+## CONFORMING TO         top
+    
+    
+           This API is Linux-specific.
+    
+## NOTES         top
+    
+    
+           The maximum string length for this interface is FSLABEL_MAX ,
+           including the terminating null byte ('\0').  Filesystems have
+           differing maximum label lengths, which may or may not include the
+           terminating null.  The string provided to FS_IOC_SETFSLABEL must
+           always be null-terminated, and the string returned by
+           FS_IOC_GETFSLABEL will always be null-terminated.
+    
+## SEE ALSO         top
+    
+    
+           ioctl(2), blkid(8)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22               IOCTL_FSLABEL(2)
+    

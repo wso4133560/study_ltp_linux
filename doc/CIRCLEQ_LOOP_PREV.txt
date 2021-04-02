@@ -1,0 +1,251 @@
+  
+# circleq(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | CONFORMING TO | BUGS | EXAMPLES
+| SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    CIRCLEQ(3)              Linux Programmer's Manual             CIRCLEQ(3)
+    
+## NAME         top
+    
+    
+           CIRCLEQ_EMPTY, CIRCLEQ_ENTRY, CIRCLEQ_FIRST, CIRCLEQ_FOREACH,
+           CIRCLEQ_FOREACH_REVERSE, CIRCLEQ_HEAD, CIRCLEQ_HEAD_INITIALIZER,
+           CIRCLEQ_INIT, CIRCLEQ_INSERT_AFTER, CIRCLEQ_INSERT_BEFORE,
+           CIRCLEQ_INSERT_HEAD, CIRCLEQ_INSERT_TAIL, CIRCLEQ_LAST,
+           CIRCLEQ_LOOP_NEXT, CIRCLEQ_LOOP_PREV, CIRCLEQ_NEXT, CIRCLEQ_PREV,
+           CIRCLEQ_REMOVE - implementation of a doubly linked circular queue
+    
+## SYNOPSIS         top
+    
+    
+           #include <sys/queue.h>
+    
+           CIRCLEQ_ENTRY(TYPE);
+    
+           CIRCLEQ_HEAD(HEADNAME, TYPE);
+           CIRCLEQ_HEAD CIRCLEQ_HEAD_INITIALIZER(CIRCLEQ_HEAD _head_ );
+           void CIRCLEQ_INIT(CIRCLEQ_HEAD  _head_ );
+    
+           int CIRCLEQ_EMPTY(CIRCLEQ_HEAD  _head_ );
+    
+           void CIRCLEQ_INSERT_HEAD(CIRCLEQ_HEAD  _head_ ,
+                                      struct TYPE  _elm_ , CIRCLEQ_ENTRY _NAME_ );
+           void CIRCLEQ_INSERT_TAIL(CIRCLEQ_HEAD  _head_ ,
+                                      struct TYPE  _elm_ , CIRCLEQ_ENTRY _NAME_ );
+           void CIRCLEQ_INSERT_BEFORE(CIRCLEQ_HEAD  _head_ , struct TYPE  _listelm_ ,
+                                      struct TYPE  _elm_ , CIRCLEQ_ENTRY _NAME_ );
+           void CIRCLEQ_INSERT_AFTER(CIRCLEQ_HEAD  _head_ , struct TYPE  _listelm_ ,
+                                      struct TYPE  _elm_ , CIRCLEQ_ENTRY _NAME_ );
+    
+           struct TYPE CIRCLEQ_FIRST(CIRCLEQ_HEAD  _head_ );
+           struct TYPE CIRCLEQ_LAST(CIRCLEQ_HEAD  _head_ );
+           struct TYPE CIRCLEQ_PREV(struct TYPE  _elm_ , CIRCLEQ_ENTRY _NAME_ );
+           struct TYPE CIRCLEQ_NEXT(struct TYPE  _elm_ , CIRCLEQ_ENTRY _NAME_ );
+           struct TYPE CIRCLEQ_LOOP_PREV(CIRCLEQ_HEAD  _head_ ,
+                                      struct TYPE  _elm_ , CIRCLEQ_ENTRY _NAME_ );
+           struct TYPE CIRCLEQ_LOOP_NEXT(CIRCLEQ_HEAD  _head_ ,
+                                      struct TYPE  _elm_ , CIRCLEQ_ENTRY _NAME_ );
+    
+           CIRCLEQ_FOREACH(struct TYPE  _var_ , CIRCLEQ_HEAD  _head_ ,
+                                      CIRCLEQ_ENTRY _NAME_ );
+           CIRCLEQ_FOREACH_REVERSE(struct TYPE  _var_ , CIRCLEQ_HEAD  _head_ ,
+                                      CIRCLEQ_ENTRY _NAME_ );
+    
+           void CIRCLEQ_REMOVE(CIRCLEQ_HEAD  _head_ , struct TYPE  _elm_ ,
+                                      CIRCLEQ_ENTRY _NAME_ );
+    
+## DESCRIPTION         top
+    
+    
+           These macros define and operate on doubly linked circular queues.
+    
+           In the macro definitions, _TYPE_ is the name of a user-defined
+           structure, that must contain a field of type _CIRCLEQ_ENTRY_ , named
+           _NAME_.  The argument _HEADNAME_ is the name of a user-defined
+           structure that must be declared using the macro CIRCLEQ_HEAD ().
+    
+       Creation
+           A circular queue is headed by a structure defined by the
+           CIRCLEQ_HEAD () macro.  This structure contains a pair of
+           pointers, one to the first element in the queue and the other to
+           the last element in the queue.  The elements are doubly linked so
+           that an arbitrary element can be removed without traversing the
+           queue.  New elements can be added to the queue after an existing
+           element, before an existing element, at the head of the queue, or
+           at the end of the queue.  A _CIRCLEQ_HEAD_ structure is declared as
+           follows:
+    
+               CIRCLEQ_HEAD(HEADNAME, TYPE) head;
+    
+           where _struct HEADNAME_ is the structure to be defined, and _struct_
+           _TYPE_ is the type of the elements to be linked into the queue.  A
+           pointer to the head of the queue can later be declared as:
+    
+               struct HEADNAME headp;
+    
+           (The names _head_ and _headp_ are user selectable.)
+    
+           CIRCLEQ_ENTRY () declares a structure that connects the elements
+           in the queue.
+    
+           CIRCLEQ_HEAD_INITIALIZER () evaluates to an initializer for the
+           queue _head_.
+    
+           CIRCLEQ_INIT () initializes the queue referenced by _head_.
+    
+           CIRCLEQ_EMPTY () evaluates to true if there are no items on the
+           queue.
+    
+       Insertion
+           CIRCLEQ_INSERT_HEAD () inserts the new element _elm_ at the head of
+           the queue.
+    
+           CIRCLEQ_INSERT_TAIL () inserts the new element _elm_ at the end of
+           the queue.
+    
+           CIRCLEQ_INSERT_BEFORE () inserts the new element _elm_ before the
+           element _listelm_.
+    
+           CIRCLEQ_INSERT_AFTER () inserts the new element _elm_ after the
+           element _listelm_.
+    
+       Traversal
+           CIRCLEQ_FIRST () returns the first item on the queue.
+    
+           CIRCLEQ_LAST () returns the last item on the queue.
+    
+           CIRCLEQ_PREV () returns the previous item on the queue, or _& head_
+           if this item is the first one.
+    
+           CIRCLEQ_NEXT () returns the next item on the queue, or _& head_ if
+           this item is the last one.
+    
+           CIRCLEQ_LOOP_PREV () returns the previous item on the queue.  If
+           _elm_ is the first element on the queue, the last element is
+           returned.
+    
+           CIRCLEQ_LOOP_NEXT () returns the next item on the queue.  If _elm_
+           is the last element on the queue, the first element is returned.
+    
+           CIRCLEQ_FOREACH () traverses the queue referenced by _head_ in the
+           forward direction, assigning each element in turn to _var_.  _var_ is
+           set to _& head_ if the loop completes normally, or if there were no
+           elements.
+    
+           CIRCLEQ_FOREACH_REVERSE () traverses the queue referenced by _head_
+           in the reverse direction, assigning each element in turn to _var_.
+    
+       Removal
+           CIRCLEQ_REMOVE () removes the element _elm_ from the queue.
+    
+## RETURN VALUE         top
+    
+    
+           CIRCLEQ_EMPTY () returns nonzero if the queue is empty, and zero
+           if the queue contains at least one entry.
+    
+           CIRCLEQ_FIRST (), CIRCLEQ_LAST (), CIRCLEQ_LOOP_PREV (), and
+           CIRCLEQ_LOOP_NEXT () return a pointer to the first, last,
+           previous, or next _TYPE_ structure, respectively.
+    
+           CIRCLEQ_PREV (), and CIRCLEQ_NEXT () are similar to their
+           CIRCLEQ_LOOP_ () counterparts, except that if the argument is the
+           first or last element, respectively, they return _& head_.
+    
+           CIRCLEQ_HEAD_INITIALIZER () returns an initializer that can be
+           assigned to the queue _head_.
+    
+## CONFORMING TO         top
+    
+    
+           Not in POSIX.1, POSIX.1-2001, or POSIX.1-2008.  Present on the
+           BSDs (CIRCLEQ macros first appeared in 4.4BSD).
+    
+## BUGS         top
+    
+    
+           CIRCLEQ_FOREACH () and CIRCLEQ_FOREACH_REVERSE () don't allow _var_
+           to be removed or freed within the loop, as it would interfere
+           with the traversal.  CIRCLEQ_FOREACH_SAFE () and
+           CIRCLEQ_FOREACH_REVERSE_SAFE (), which are present on the BSDs but
+           are not present in glibc, fix this limitation by allowing _var_ to
+           safely be removed from the list and freed from within the loop
+           without interfering with the traversal.
+    
+## EXAMPLES         top
+    
+    
+           #include <stddef.h>
+           #include <stdio.h>
+           #include <stdlib.h>
+           #include <sys/queue.h>
+    
+           struct entry {
+               int data;
+               CIRCLEQ_ENTRY(entry) entries;           / Queue /
+           };
+    
+           CIRCLEQ_HEAD(circlehead, entry);
+    
+           int
+           main(void)
+           {
+               struct entry n1, n2, n3, np;
+               struct circlehead head;                 / Queue head /
+               int i;
+    
+               CIRCLEQ_INIT(&head);                    / Initialize the queue /
+    
+               n1 = malloc(sizeof(struct entry));      / Insert at the head /
+               CIRCLEQ_INSERT_HEAD(&head, n1, entries);
+    
+               n1 = malloc(sizeof(struct entry));      / Insert at the tail /
+               CIRCLEQ_INSERT_TAIL(&head, n1, entries);
+    
+               n2 = malloc(sizeof(struct entry));      / Insert after /
+               CIRCLEQ_INSERT_AFTER(&head, n1, n2, entries);
+    
+               n3 = malloc(sizeof(struct entry));      / Insert before /
+               CIRCLEQ_INSERT_BEFORE(&head, n2, n3, entries);
+    
+               CIRCLEQ_REMOVE(&head, n2, entries);     / Deletion /
+               free(n2);
+                                                       / Forward traversal /
+               i = 0;
+               CIRCLEQ_FOREACH(np, &head, entries)
+                   np->data = i++;
+                                                       / Reverse traversal /
+               CIRCLEQ_FOREACH_REVERSE(np, &head, entries)
+                   printf("%i\n", np->data);
+                                                       / Queue deletion /
+               n1 = CIRCLEQ_FIRST(&head);
+               while (n1 != (void )&head) {
+                   n2 = CIRCLEQ_NEXT(n1, entries);
+                   free(n1);
+                   n1 = n2;
+               }
+               CIRCLEQ_INIT(&head);
+    
+               exit(EXIT_SUCCESS);
+           }
+    
+## SEE ALSO         top
+    
+    
+           insque(3), queue(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                     CIRCLEQ(3)
+    

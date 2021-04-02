@@ -1,0 +1,49 @@
+  
+# ttyS(4) -- Linux manual page
+NAME | DESCRIPTION | FILES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    TTYS(4)                 Linux Programmer's Manual                TTYS(4)
+    
+## NAME         top
+    
+    
+           ttyS - serial terminal lines
+    
+## DESCRIPTION         top
+    
+    
+           ttyS[0-3] are character devices for the serial terminal lines.
+    
+           They are typically created by:
+    
+               mknod -m 660 /dev/ttyS0 c 4 64 # base address 0x3f8
+               mknod -m 660 /dev/ttyS1 c 4 65 # base address 0x2f8
+               mknod -m 660 /dev/ttyS2 c 4 66 # base address 0x3e8
+               mknod -m 660 /dev/ttyS3 c 4 67 # base address 0x2e8
+               chown root:tty /dev/ttyS[0-3]
+    
+## FILES         top
+    
+    
+           _/dev/ttyS[0-3]_
+    
+## SEE ALSO         top
+    
+    
+           chown(1), mknod(1), tty(4), agetty(8), mingetty (8), setserial (8)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          1992-12-19                        TTYS(4)
+    

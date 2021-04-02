@@ -1,0 +1,83 @@
+  
+# wctob(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    WCTOB(3)                Linux Programmer's Manual               WCTOB(3)
+    
+## NAME         top
+    
+    
+           wctob - try to represent a wide character as a single byte
+    
+## SYNOPSIS         top
+    
+    
+           #include <wchar.h>
+    
+           int wctob(wint_t _c_ );
+    
+## DESCRIPTION         top
+    
+    
+           The wctob () function tests whether the multibyte representation
+           of the wide character _c_ , starting in the initial state, consists
+           of a single byte.  If so, it is returned as an _unsigned char_.
+    
+           Never use this function.  It cannot help you in writing
+           internationalized programs.  Internationalized programs must
+           never distinguish single-byte and multibyte characters.
+    
+## RETURN VALUE         top
+    
+    
+           The wctob () function returns the single-byte representation of _c_ ,
+           if it exists, or EOF otherwise.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ wctob ()                               │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C99.
+    
+## NOTES         top
+    
+    
+           The behavior of wctob () depends on the LC_CTYPE category of the
+           current locale.
+    
+           This function should never be used.  Internationalized programs
+           must never distinguish single-byte and multibyte characters.  Use
+           either wctomb(3) or the thread-safe wcrtomb(3) instead.
+    
+## SEE ALSO         top
+    
+    
+           btowc(3), wcrtomb(3), wctomb(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                       WCTOB(3)
+    

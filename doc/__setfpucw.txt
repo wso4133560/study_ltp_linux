@@ -1,0 +1,79 @@
+  
+# __setfpucw(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | CONFORMING TO | NOTES | EXAMPLES | SEE ALSO |
+COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    __SETFPUCW(3)           Linux Programmer's Manual          __SETFPUCW(3)
+    
+## NAME         top
+    
+    
+           __setfpucw - set FPU control word on i386 architecture (obsolete)
+    
+## SYNOPSIS         top
+    
+    
+           #include <i386/fpu_control.h>
+    
+           void __setfpucw(unsigned short _control_word_ );
+    
+## DESCRIPTION         top
+    
+    
+           __setfpucw () transfers _control_word_ to the registers of the FPU
+           (floating-point unit) on the i386 architecture.  This was used to
+           control floating-point precision, rounding and floating-point
+           exceptions.
+    
+## CONFORMING TO         top
+    
+    
+           This function was a nonstandard GNU extension.
+    
+## NOTES         top
+    
+    
+           As of glibc 2.1 this function does not exist anymore.  There are
+           new functions from C99, with prototypes in _< fenv.h>_, to control
+           FPU rounding modes, like fegetround(3), fesetround(3), and the
+           floating-point environment, like fegetenv(3), feholdexcept(3),
+           fesetenv(3), feupdateenv(3), and FPU exception handling, like
+           feclearexcept(3), fegetexceptflag(3), feraiseexcept(3),
+           fesetexceptflag(3), and fetestexcept(3).
+    
+           If direct access to the FPU control word is still needed, the
+           _FPU_GETCW and _FPU_SETCW macros from _< fpu_control.h>_ can be
+           used.
+    
+## EXAMPLES         top
+    
+    
+           __setfpucw(0x1372)
+    
+           Set FPU control word on the i386 architecture to
+                - extended precision
+                - rounding to nearest
+                - exceptions on overflow, zero divide and NaN
+    
+## SEE ALSO         top
+    
+    
+           feclearexcept(3)
+    
+           _< fpu_control.h>_
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                  __SETFPUCW(3)
+    

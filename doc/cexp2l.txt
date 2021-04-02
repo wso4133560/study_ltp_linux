@@ -1,0 +1,54 @@
+  
+# cexp2(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | CONFORMING TO | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    CEXP2(3)                Linux Programmer's Manual               CEXP2(3)
+    
+## NAME         top
+    
+    
+           cexp2, cexp2f, cexp2l - base-2 exponent of a complex number
+    
+## SYNOPSIS         top
+    
+    
+           #include <complex.h>
+    
+           double complex cexp2(double complex _z_ );
+           float complex cexp2f(float complex _z_ );
+           long double complex cexp2l(long double complex _z_ );
+    
+           Link with _-lm_.
+    
+## DESCRIPTION         top
+    
+    
+           The function returns 2 raised to the power of _z_.
+    
+## CONFORMING TO         top
+    
+    
+           These function names are reserved for future use in C99.
+    
+           As at version 2.31, these functions are not provided in glibc.
+    
+## SEE ALSO         top
+    
+    
+           cabs(3), cexp(3), clog10(3), complex(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                       CEXP2(3)
+    

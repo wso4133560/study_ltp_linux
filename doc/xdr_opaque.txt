@@ -1,0 +1,389 @@
+  
+# xdr(3) -- Linux manual page
+NAME | SYNOPSIS AND DESCRIPTION | ATTRIBUTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    XDR(3)                  Linux Programmer's Manual                 XDR(3)
+    
+## NAME         top
+    
+    
+           xdr - library routines for external data representation
+    
+## SYNOPSIS AND DESCRIPTION         top
+    
+    
+           These routines allow C programmers to describe arbitrary data
+           structures in a machine-independent fashion.  Data for remote
+           procedure calls are transmitted using these routines.
+    
+           The prototypes below are declared in _< rpc/xdr.h>_ and make use of
+           the following types:
+    
+               typedef int _bool_t_ ;
+    
+               typedef bool_t ( _xdrproc_t_ )(XDR , void ,...);
+    
+           For the declaration of the _XDR_ type, see _< rpc/xdr.h>_.
+    
+           bool_t xdr_array(XDR  _xdrs_ , char  _arrp_ , unsigned int  _sizep_ ,
+                            unsigned int _maxsize_ , unsigned int _elsize_ ,
+                            xdrproc_t _elproc_ );
+    
+                  A filter primitive that translates between variable-length
+                  arrays and their corresponding external representations.
+                  The argument _arrp_ is the address of the pointer to the
+                  array, while _sizep_ is the address of the element count of
+                  the array; this element count cannot exceed _maxsize_.  The
+                  argument _elsize_ is the _sizeof_ each of the array's
+                  elements, and _elproc_ is an XDR filter that translates
+                  between the array elements' C form, and their external
+                  representation.  This routine returns one if it succeeds,
+                  zero otherwise.
+    
+           bool_t xdr_bool(XDR  _xdrs_ , bool_t  _bp_ );
+    
+                  A filter primitive that translates between booleans (C
+                  integers) and their external representations.  When
+                  encoding data, this filter produces values of either one
+                  or zero.  This routine returns one if it succeeds, zero
+                  otherwise.
+    
+           bool_t xdr_bytes(XDR  _xdrs_ , char  _sp_ , unsigned int  _sizep_ ,
+                            unsigned int _maxsize_ );
+    
+                  A filter primitive that translates between counted byte
+                  strings and their external representations.  The argument
+                  _sp_ is the address of the string pointer.  The length of
+                  the string is located at address _sizep_ ; strings cannot be
+                  longer than _maxsize_.  This routine returns one if it
+                  succeeds, zero otherwise.
+    
+           bool_t xdr_char(XDR  _xdrs_ , char  _cp_ );
+    
+                  A filter primitive that translates between C characters
+                  and their external representations.  This routine returns
+                  one if it succeeds, zero otherwise.  Note: encoded
+                  characters are not packed, and occupy 4 bytes each.  For
+                  arrays of characters, it is worthwhile to consider
+                  xdr_bytes (), xdr_opaque (), or xdr_string ().
+    
+           void xdr_destroy(XDR  _xdrs_ );
+    
+                  A macro that invokes the destroy routine associated with
+                  the XDR stream, _xdrs_.  Destruction usually involves
+                  freeing private data structures associated with the
+                  stream.  Using _xdrs_ after invoking xdr_destroy () is
+                  undefined.
+    
+           bool_t xdr_double(XDR  _xdrs_ , double  _dp_ );
+    
+                  A filter primitive that translates between C _double_
+                  precision numbers and their external representations.
+                  This routine returns one if it succeeds, zero otherwise.
+    
+           bool_t xdr_enum(XDR  _xdrs_ , enum_t  _ep_ );
+    
+                  A filter primitive that translates between C _enum_ s
+                  (actually integers) and their external representations.
+                  This routine returns one if it succeeds, zero otherwise.
+    
+           bool_t xdr_float(XDR  _xdrs_ , float  _fp_ );
+    
+                  A filter primitive that translates between C _float_ s and
+                  their external representations.  This routine returns one
+                  if it succeeds, zero otherwise.
+    
+           void xdr_free(xdrproc_t _proc_ , char  _objp_ );
+    
+                  Generic freeing routine.  The first argument is the XDR
+                  routine for the object being freed.  The second argument
+                  is a pointer to the object itself.  Note: the pointer
+                  passed to this routine is _not_ freed, but what it points to
+                  _is_ freed (recursively).
+    
+           unsigned int xdr_getpos(XDR  _xdrs_ );
+    
+                  A macro that invokes the get-position routine associated
+                  with the XDR stream, _xdrs_.  The routine returns an
+                  unsigned integer, which indicates the position of the XDR
+                  byte stream.  A desirable feature of XDR streams is that
+                  simple arithmetic works with this number, although the XDR
+                  stream instances need not guarantee this.
+    
+           long xdr_inline(XDR  _xdrs_ , int _len_ );
+    
+                  A macro that invokes the inline routine associated with
+                  the XDR stream, _xdrs_.  The routine returns a pointer to a
+                  contiguous piece of the stream's buffer; _len_ is the byte
+                  length of the desired buffer.  Note: pointer is cast to
+                  _long _.
+    
+                  Warning: xdr_inline () may return NULL (0) if it cannot
+                  allocate a contiguous piece of a buffer.  Therefore the
+                  behavior may vary among stream instances; it exists for
+                  the sake of efficiency.
+    
+           bool_t xdr_int(XDR  _xdrs_ , int  _ip_ );
+    
+                  A filter primitive that translates between C integers and
+                  their external representations.  This routine returns one
+                  if it succeeds, zero otherwise.
+    
+           bool_t xdr_long(XDR  _xdrs_ , long  _lp_ );
+    
+                  A filter primitive that translates between C _long_ integers
+                  and their external representations.  This routine returns
+                  one if it succeeds, zero otherwise.
+    
+           void xdrmem_create(XDR  _xdrs_ , char  _addr_ , unsigned int _size_ ,
+                              enum xdr_op _op_ );
+    
+                  This routine initializes the XDR stream object pointed to
+                  by _xdrs_.  The stream's data is written to, or read from, a
+                  chunk of memory at location _addr_ whose length is no more
+                  than _size_ bytes long.  The _op_ determines the direction of
+                  the XDR stream (either XDR_ENCODE , XDR_DECODE , or
+                  XDR_FREE ).
+    
+           bool_t xdr_opaque(XDR  _xdrs_ , char  _cp_ , unsigned int _cnt_ );
+    
+                  A filter primitive that translates between fixed size
+                  opaque data and its external representation.  The argument
+                  _cp_ is the address of the opaque object, and _cnt_ is its
+                  size in bytes.  This routine returns one if it succeeds,
+                  zero otherwise.
+    
+           bool_t xdr_pointer(XDR  _xdrs_ , char  _objpp_ ,
+                              unsigned int _objsize_ , xdrproc_t _xdrobj_ );
+    
+                  Like xdr_reference () except that it serializes null
+                  pointers, whereas xdr_reference () does not.  Thus,
+                  xdr_pointer () can represent recursive data structures,
+                  such as binary trees or linked lists.
+    
+           void xdrrec_create(XDR  _xdrs_ , unsigned int _sendsize_ ,
+                              unsigned int _recvsize_ , char  _handle_ ,
+                              int ( _readit_ )(char , char , int),
+                              int ( _writeit_ )(char , char , int));
+    
+                  This routine initializes the XDR stream object pointed to
+                  by _xdrs_.  The stream's data is written to a buffer of size
+                  _sendsize_ ; a value of zero indicates the system should use
+                  a suitable default.  The stream's data is read from a
+                  buffer of size _recvsize_ ; it too can be set to a suitable
+                  default by passing a zero value.  When a stream's output
+                  buffer is full, _writeit_ is called.  Similarly, when a
+                  stream's input buffer is empty, _readit_ is called.  The
+                  behavior of these two routines is similar to the system
+                  calls read(2) and write(2), except that _handle_ is passed
+                  to the former routines as the first argument.  Note: the
+                  XDR stream's _op_ field must be set by the caller.
+    
+                  Warning: to read from an XDR stream created by this API,
+                  you'll need to call xdrrec_skiprecord () first before
+                  calling any other XDR APIs.  This inserts additional bytes
+                  in the stream to provide record boundary information.
+                  Also, XDR streams created with different xdr_create APIs
+                  are not compatible for the same reason.
+    
+           bool_t xdrrec_endofrecord(XDR  _xdrs_ , int _sendnow_ );
+    
+                  This routine can be invoked only on streams created by
+                  xdrrec_create ().  The data in the output buffer is marked
+                  as a completed record, and the output buffer is optionally
+                  written out if _sendnow_ is nonzero.  This routine returns
+                  one if it succeeds, zero otherwise.
+    
+           bool_t xdrrec_eof(XDR  _xdrs_ );
+    
+                  This routine can be invoked only on streams created by
+                  xdrrec_create ().  After consuming the rest of the current
+                  record in the stream, this routine returns one if the
+                  stream has no more input, zero otherwise.
+    
+           bool_t xdrrec_skiprecord(XDR  _xdrs_ );
+    
+                  This routine can be invoked only on streams created by
+                  xdrrec_create ().  It tells the XDR implementation that the
+                  rest of the current record in the stream's input buffer
+                  should be discarded.  This routine returns one if it
+                  succeeds, zero otherwise.
+    
+           bool_t xdr_reference(XDR  _xdrs_ , char  _pp_ , unsigned int _size_ ,
+                                xdrproc_t _proc_ );
+    
+                  A primitive that provides pointer chasing within
+                  structures.  The argument _pp_ is the address of the
+                  pointer; _size_ is the _sizeof_ the structure that _pp_ points
+                  to; and _proc_ is an XDR procedure that filters the
+                  structure between its C form and its external
+                  representation.  This routine returns one if it succeeds,
+                  zero otherwise.
+    
+                  Warning: this routine does not understand null pointers.
+                  Use xdr_pointer () instead.
+    
+           xdr_setpos(XDR  _xdrs_ , unsigned int _pos_ );
+    
+                  A macro that invokes the set position routine associated
+                  with the XDR stream _xdrs_.  The argument _pos_ is a position
+                  value obtained from xdr_getpos ().  This routine returns
+                  one if the XDR stream could be repositioned, and zero
+                  otherwise.
+    
+                  Warning: it is difficult to reposition some types of XDR
+                  streams, so this routine may fail with one type of stream
+                  and succeed with another.
+    
+           bool_t xdr_short(XDR  _xdrs_ , short  _sp_ );
+    
+                  A filter primitive that translates between C _short_
+                  integers and their external representations.  This routine
+                  returns one if it succeeds, zero otherwise.
+    
+           void xdrstdio_create(XDR  _xdrs_ , FILE  _file_ , enum xdr_op _op_ );
+    
+                  This routine initializes the XDR stream object pointed to
+                  by _xdrs_.  The XDR stream data is written to, or read from,
+                  the _stdio_ stream _file_.  The argument _op_ determines the
+                  direction of the XDR stream (either XDR_ENCODE ,
+                  XDR_DECODE , or XDR_FREE ).
+    
+                  Warning: the destroy routine associated with such XDR
+                  streams calls fflush(3) on the _file_ stream, but never
+                  fclose(3).
+    
+           bool_t xdr_string(XDR  _xdrs_ , char  _sp_ , unsigned int _maxsize_ );
+    
+                  A filter primitive that translates between C strings and
+                  their corresponding external representations.  Strings
+                  cannot be longer than _maxsize_.  Note: _sp_ is the address of
+                  the string's pointer.  This routine returns one if it
+                  succeeds, zero otherwise.
+    
+           bool_t xdr_u_char(XDR  _xdrs_ , unsigned char  _ucp_ );
+    
+                  A filter primitive that translates between _unsigned_ C
+                  characters and their external representations.  This
+                  routine returns one if it succeeds, zero otherwise.
+    
+           bool_t xdr_u_int(XDR  _xdrs_ , unsigned int  _up_ );
+    
+                  A filter primitive that translates between C _unsigned_
+                  integers and their external representations.  This routine
+                  returns one if it succeeds, zero otherwise.
+    
+           bool_t xdr_u_long(XDR  _xdrs_ , unsigned long  _ulp_ );
+    
+                  A filter primitive that translates between C _unsigned long_
+                  integers and their external representations.  This routine
+                  returns one if it succeeds, zero otherwise.
+    
+           bool_t xdr_u_short(XDR  _xdrs_ , unsigned short  _usp_ );
+    
+                  A filter primitive that translates between C _unsigned_
+                  _short_ integers and their external representations.  This
+                  routine returns one if it succeeds, zero otherwise.
+    
+           bool_t xdr_union(XDR  _xdrs_ , int  _dscmp_ , char  _unp_ ,
+                            struct xdr_discrim  _choices_ ,
+                            xdrproc_t _defaultarm_ );     / may equal NULL /
+    
+                  A filter primitive that translates between a discriminated
+                  C _union_ and its corresponding external representation.  It
+                  first translates the discriminant of the union located at
+                  _dscmp_.  This discriminant is always an _enum_t_.  Next the
+                  union located at _unp_ is translated.  The argument _choices_
+                  is a pointer to an array of xdr_discrim () structures.
+                  Each structure contains an ordered pair of [ _value_ , _proc_ ].
+                  If the union's discriminant is equal to the associated
+                  _value_ , then the _proc_ is called to translate the union.
+                  The end of the xdr_discrim () structure array is denoted by
+                  a routine of value NULL.  If the discriminant is not found
+                  in the _choices_ array, then the _defaultarm_ procedure is
+                  called (if it is not NULL).  Returns one if it succeeds,
+                  zero otherwise.
+    
+           bool_t xdr_vector(XDR  _xdrs_ , char  _arrp_ , unsigned int _size_ ,
+                             unsigned int _elsize_ , xdrproc_t _elproc_ );
+    
+                  A filter primitive that translates between fixed-length
+                  arrays and their corresponding external representations.
+                  The argument _arrp_ is the address of the pointer to the
+                  array, while _size_ is the element count of the array.  The
+                  argument _elsize_ is the _sizeof_ each of the array's
+                  elements, and _elproc_ is an XDR filter that translates
+                  between the array elements' C form, and their external
+                  representation.  This routine returns one if it succeeds,
+                  zero otherwise.
+    
+           bool_t xdr_void(void);
+    
+                  This routine always returns one.  It may be passed to RPC
+                  routines that require a function argument, where nothing
+                  is to be done.
+    
+           bool_t xdr_wrapstring(XDR  _xdrs_ , char  _sp_ );
+    
+                  A primitive that calls xdr_string(xdrs, sp,MAXUN.UNSIGNED
+                  ); where MAXUN.UNSIGNED is the maximum value of an
+                  unsigned integer.  xdr_wrapstring () is handy because the
+                  RPC package passes a maximum of two XDR routines as
+                  arguments, and xdr_string (), one of the most frequently
+                  used primitives, requires three.  Returns one if it
+                  succeeds, zero otherwise.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ xdr_array (), xdr_bool (), xdr_bytes (), │ Thread safety │ MT-Safe │
+           │ xdr_char (), xdr_destroy (),            │               │         │
+           │ xdr_double (), xdr_enum (),             │               │         │
+           │ xdr_float (), xdr_free (),              │               │         │
+           │ xdr_getpos (), xdr_inline (),           │               │         │
+           │ xdr_int (), xdr_long (),                │               │         │
+           │ xdrmem_create (), xdr_opaque (),        │               │         │
+           │ xdr_pointer (), xdrrec_create (),       │               │         │
+           │ xdrrec_eof (), xdrrec_endofrecord (),   │               │         │
+           │ xdrrec_skiprecord (), xdr_reference (), │               │         │
+           │ xdr_setpos (), xdr_short (),            │               │         │
+           │ xdrstdio_create (), xdr_string (),      │               │         │
+           │ xdr_u_char (), xdr_u_int (),            │               │         │
+           │ xdr_u_long (), xdr_u_short (),          │               │         │
+           │ xdr_union (), xdr_vector (),            │               │         │
+           │ xdr_void (), xdr_wrapstring ()          │               │         │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## SEE ALSO         top
+    
+    
+           rpc(3)
+    
+           The following manuals:
+                  eXternal Data Representation Standard: Protocol
+                  Specification
+                  eXternal Data Representation: Sun Technical Notes
+                  _XDR: External Data Representation Standard_ , RFC 1014, Sun
+                  Microsystems, Inc., USC-ISI.
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                         XDR(3)
+    

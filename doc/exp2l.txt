@@ -1,0 +1,96 @@
+  
+# exp2(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | VERSIONS | ATTRIBUTES
+| CONFORMING TO | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    EXP2(3)                 Linux Programmer's Manual                EXP2(3)
+    
+## NAME         top
+    
+    
+           exp2, exp2f, exp2l - base-2 exponential function
+    
+## SYNOPSIS         top
+    
+    
+           #include <math.h>
+    
+           double exp2(double _x_ );
+           float exp2f(float _x_ );
+           long double exp2l(long double _x_ );
+    
+           Link with _-lm_.
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           exp2 (), exp2f (), exp2l ():
+               _ISOC99_SOURCE || _POSIX_C_SOURCE >= 200112L
+    
+## DESCRIPTION         top
+    
+    
+           These functions return the value of 2 raised to the power of _x_.
+    
+## RETURN VALUE         top
+    
+    
+           On success, these functions return the base-2 exponential value
+           of _x_.
+    
+           For various special cases, including the handling of infinity and
+           NaN, as well as overflows and underflows, see exp(3).
+    
+## ERRORS         top
+    
+    
+           See math_error(7) for information on how to determine whether an
+           error has occurred when calling these functions.
+    
+           For a discussion of the errors that can occur for these
+           functions, see exp(3).
+    
+## VERSIONS         top
+    
+    
+           These functions first appeared in glibc in version 2.1.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ exp2 (), exp2f (), exp2l ()              │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           C99, POSIX.1-2001, POSIX.1-2008.
+    
+           The variant returning _double_ also conforms to SVr4, 4.3BSD.
+    
+## SEE ALSO         top
+    
+    
+           cbrt(3), cexp2(3), exp(3), exp10(3), sqrt(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                        EXP2(3)
+    

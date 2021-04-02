@@ -1,0 +1,94 @@
+  
+# cbrt(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    CBRT(3)                 Linux Programmer's Manual                CBRT(3)
+    
+## NAME         top
+    
+    
+           cbrt, cbrtf, cbrtl - cube root function
+    
+## SYNOPSIS         top
+    
+    
+           #include <math.h>
+    
+           double cbrt(double _x_ );
+           float cbrtf(float _x_ );
+           long double cbrtl(long double _x_ );
+    
+           Link with _-lm_.
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           cbrt ():
+               _ISOC99_SOURCE || _POSIX_C_SOURCE >= 200112L
+                   || _XOPEN_SOURCE >= 500
+                   || / Since glibc 2.19: / _DEFAULT_SOURCE
+                   || / Glibc <= 2.19: / _BSD_SOURCE || _SVID_SOURCE
+    
+           cbrtf (), cbrtl ():
+               _ISOC99_SOURCE || _POSIX_C_SOURCE >= 200112L
+                   || / Since glibc 2.19: / _DEFAULT_SOURCE
+                   || / Glibc <= 2.19: / _BSD_SOURCE || _SVID_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           These functions return the (real) cube root of _x_.  This function
+           cannot fail; every representable real value has a representable
+           real cube root.
+    
+## RETURN VALUE         top
+    
+    
+           These functions return the cube root of _x_.
+    
+           If _x_ is +0, -0, positive infinity, negative infinity, or NaN, _x_
+           is returned.
+    
+## ERRORS         top
+    
+    
+           No errors occur.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ cbrt (), cbrtf (), cbrtl ()              │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           C99, POSIX.1-2001, POSIX.1-2008.
+    
+## SEE ALSO         top
+    
+    
+           pow(3), sqrt(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                        CBRT(3)
+    

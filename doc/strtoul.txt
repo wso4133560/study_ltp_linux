@@ -1,0 +1,151 @@
+  
+# strtoul(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | NOTES | EXAMPLES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    STRTOUL(3)              Linux Programmer's Manual             STRTOUL(3)
+    
+## NAME         top
+    
+    
+           strtoul, strtoull, strtouq - convert a string to an unsigned long
+           integer
+    
+## SYNOPSIS         top
+    
+    
+           #include <stdlib.h>
+    
+           unsigned long strtoul(const char restrict _nptr_ ,
+                                 char restrict _endptr_ , int _base_ );
+           unsigned long long strtoull(const char restrict _nptr_ ,
+                                 char restrict _endptr_ , int _base_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           strtoull ():
+               _ISOC99_SOURCE
+                   || / Glibc <= 2.19: / _SVID_SOURCE || _BSD_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           The strtoul () function converts the initial part of the string in
+           _nptr_ to an _unsigned long_ value according to the given _base_ , which
+           must be between 2 and 36 inclusive, or be the special value 0.
+    
+           The string may begin with an arbitrary amount of white space (as
+           determined by isspace(3)) followed by a single optional '+' or
+           '-' sign.  If _base_ is zero or 16, the string may then include a
+           "0x" prefix, and the number will be read in base 16; otherwise, a
+           zero _base_ is taken as 10 (decimal) unless the next character is
+           '0', in which case it is taken as 8 (octal).
+    
+           The remainder of the string is converted to an _unsigned long_
+           value in the obvious manner, stopping at the first character
+           which is not a valid digit in the given base.  (In bases above
+           10, the letter 'A' in either uppercase or lowercase represents
+           10, 'B' represents 11, and so forth, with 'Z' representing 35.)
+    
+           If _endptr_ is not NULL, strtoul () stores the address of the first
+           invalid character in _endptr_.  If there were no digits at all,
+           strtoul () stores the original value of _nptr_ in _endptr_ (and
+           returns 0).  In particular, if _nptr_ is not '\0' but _endptr_ is
+           '\0' on return, the entire string is valid.
+    
+           The strtoull () function works just like the strtoul () function
+           but returns an _unsigned long long_ value.
+    
+## RETURN VALUE         top
+    
+    
+           The strtoul () function returns either the result of the
+           conversion or, if there was a leading minus sign, the negation of
+           the result of the conversion represented as an unsigned value,
+           unless the original (nonnegated) value would overflow; in the
+           latter case, strtoul () returns ULONG_MAX and sets _errno_ to
+           ERANGE.  Precisely the same holds for strtoull () (with ULLONG_MAX
+           instead of ULONG_MAX ).
+    
+## ERRORS         top
+    
+    
+           EINVAL (not in C99) The given _base_ contains an unsupported value.
+    
+           ERANGE The resulting value was out of range.
+    
+           The implementation may also set _errno_ to EINVAL in case no
+           conversion was performed (no digits seen, and 0 returned).
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌───────────────────────────────┬───────────────┬────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├───────────────────────────────┼───────────────┼────────────────┤
+           │ strtoul (), strtoull (),         │ Thread safety │ MT-Safe locale │
+           │ strtouq ()                      │               │                │
+           └───────────────────────────────┴───────────────┴────────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           strtoul (): POSIX.1-2001, POSIX.1-2008, C89, C99 SVr4.
+    
+           strtoull (): POSIX.1-2001, POSIX.1-2008, C99.
+    
+## NOTES         top
+    
+    
+           Since strtoul () can legitimately return 0 or ULONG_MAX
+           ( ULLONG_MAX for strtoull ()) on both success and failure, the
+           calling program should set _errno_ to 0 before the call, and then
+           determine if an error occurred by checking whether _errno_ has a
+           nonzero value after the call.
+    
+           In locales other than the "C" locale, other strings may be
+           accepted.  (For example, the thousands separator of the current
+           locale may be supported.)
+    
+           BSD also has
+    
+               u_quad_t strtouq(const char  _nptr_ , char  _endptr_ , int _base_ );
+    
+           with completely analogous definition.  Depending on the wordsize
+           of the current architecture, this may be equivalent to strtoull ()
+           or to strtoul ().
+    
+           Negative values are considered valid input and are silently
+           converted to the equivalent _unsigned long_ value.
+    
+## EXAMPLES         top
+    
+    
+           See the example on the strtol(3) manual page; the use of the
+           functions described in this manual page is similar.
+    
+## SEE ALSO         top
+    
+    
+           a64l(3), atof(3), atoi(3), atol(3), strtod(3), strtol(3),
+           strtoumax(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                     STRTOUL(3)
+    

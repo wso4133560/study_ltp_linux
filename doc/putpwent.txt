@@ -1,0 +1,97 @@
+  
+# putpwent(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    PUTPWENT(3)             Linux Programmer's Manual            PUTPWENT(3)
+    
+## NAME         top
+    
+    
+           putpwent - write a password file entry
+    
+## SYNOPSIS         top
+    
+    
+           #include <stdio.h>
+           #include <sys/types.h>
+           #include <pwd.h>
+    
+           int putpwent(const struct passwd restrict _p_ , FILE restrict _stream_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           putpwent ():
+               Since glibc 2.19:
+                   _DEFAULT_SOURCE
+               Glibc 2.19 and earlier:
+                   _SVID_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           The putpwent () function writes a password entry from the
+           structure _p_ in the file associated with _stream_.
+    
+           The _passwd_ structure is defined in _< pwd.h>_ as follows:
+    
+               struct passwd {
+                   char    pw_name;        / username /
+                   char    pw_passwd;      / user password /
+                   uid_t    pw_uid;         / user ID /
+                   gid_t    pw_gid;         / group ID /
+                   char    pw_gecos;       / real name /
+                   char    pw_dir;         / home directory /
+                   char    pw_shell;       / shell program /
+               };
+    
+## RETURN VALUE         top
+    
+    
+           The putpwent () function returns 0 on success.  On failure, it
+           returns -1, and _errno_ is set to indicate the error.
+    
+## ERRORS         top
+    
+    
+           EINVAL Invalid (NULL) argument given.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌───────────────────────────────┬───────────────┬────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├───────────────────────────────┼───────────────┼────────────────┤
+           │ putpwent ()                     │ Thread safety │ MT-Safe locale │
+           └───────────────────────────────┴───────────────┴────────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           SVr4.
+    
+## SEE ALSO         top
+    
+    
+           endpwent(3), fgetpwent(3), getpw(3), getpwent(3), getpwnam(3),
+           getpwuid(3), setpwent(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                    PUTPWENT(3)
+    

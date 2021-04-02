@@ -1,0 +1,100 @@
+  
+# atoi(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+NOTES | BUGS | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    ATOI(3)                 Linux Programmer's Manual                ATOI(3)
+    
+## NAME         top
+    
+    
+           atoi, atol, atoll - convert a string to an integer
+    
+## SYNOPSIS         top
+    
+    
+           #include <stdlib.h>
+    
+           int atoi(const char  _nptr_ );
+           long atol(const char  _nptr_ );
+           long long atoll(const char  _nptr_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           atoll ():
+               _ISOC99_SOURCE
+                   || / Glibc <= 2.19: / _BSD_SOURCE || _SVID_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           The atoi () function converts the initial portion of the string
+           pointed to by _nptr_ to _int_.  The behavior is the same as
+    
+               strtol(nptr, NULL, 10);
+    
+           except that atoi () does not detect errors.
+    
+           The atol () and atoll () functions behave the same as atoi (),
+           except that they convert the initial portion of the string to
+           their return type of _long_ or _long long_.
+    
+## RETURN VALUE         top
+    
+    
+           The converted value or 0 on error.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌───────────────────────────────┬───────────────┬────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├───────────────────────────────┼───────────────┼────────────────┤
+           │ atoi (), atol (), atoll ()        │ Thread safety │ MT-Safe locale │
+           └───────────────────────────────┴───────────────┴────────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C99, SVr4, 4.3BSD.  C89 and
+           POSIX.1-1996 include the functions atoi () and atol () only.
+    
+## NOTES         top
+    
+    
+           POSIX.1 leaves the return value of atoi () on error unspecified.
+           On glibc, musl libc, and uClibc, 0 is returned on error.
+    
+## BUGS         top
+    
+    
+           _errno_ is not set on error so there is no way to distinguish
+           between 0 as an error and as the converted value.  No checks for
+           overflow or underflow are done.  Only base-10 input can be
+           converted.  It is recommended to instead use the strtol () and
+           strtoul () family of functions in new programs.
+    
+## SEE ALSO         top
+    
+    
+           atof(3), strtod(3), strtol(3), strtoul(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                        ATOI(3)
+    

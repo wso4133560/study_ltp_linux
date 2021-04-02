@@ -1,0 +1,129 @@
+  
+# bsearch(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+EXAMPLES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    BSEARCH(3)              Linux Programmer's Manual             BSEARCH(3)
+    
+## NAME         top
+    
+    
+           bsearch - binary search of a sorted array
+    
+## SYNOPSIS         top
+    
+    
+           #include <stdlib.h>
+    
+           void bsearch(const void  _key_ , const void  _base_ ,
+                         size_t _nmemb_ , size_t _size_ ,
+                         int ( _compar_ )(const void , const void ));
+    
+## DESCRIPTION         top
+    
+    
+           The bsearch () function searches an array of _nmemb_ objects, the
+           initial member of which is pointed to by _base_ , for a member that
+           matches the object pointed to by _key_.  The size of each member of
+           the array is specified by _size_.
+    
+           The contents of the array should be in ascending sorted order
+           according to the comparison function referenced by _compar_.  The
+           _compar_ routine is expected to have two arguments which point to
+           the _key_ object and to an array member, in that order, and should
+           return an integer less than, equal to, or greater than zero if
+           the _key_ object is found, respectively, to be less than, to match,
+           or be greater than the array member.
+    
+## RETURN VALUE         top
+    
+    
+           The bsearch () function returns a pointer to a matching member of
+           the array, or NULL if no match is found.  If there are multiple
+           elements that match the key, the element returned is unspecified.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ bsearch ()                             │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C89, C99, SVr4, 4.3BSD.
+    
+## EXAMPLES         top
+    
+    
+           The example below first sorts an array of structures using
+           qsort(3), then retrieves desired elements using bsearch ().
+    
+           #include <stdio.h>
+           #include <stdlib.h>
+           #include <string.h>
+    
+           struct mi {
+               int nr;
+               char name;
+           } months[] = {
+               { 1, "jan" }, { 2, "feb" }, { 3, "mar" }, { 4, "apr" },
+               { 5, "may" }, { 6, "jun" }, { 7, "jul" }, { 8, "aug" },
+               { 9, "sep" }, {10, "oct" }, {11, "nov" }, {12, "dec" }
+           };
+    
+           #define nr_of_months (sizeof(months)/sizeof(months[0]))
+    
+           static int
+           compmi(const void m1, const void m2)
+           {
+               const struct mi mi1 = m1;
+               const struct mi mi2 = m2;
+               return strcmp(mi1->name, mi2->name);
+           }
+    
+           int
+           main(int argc, char argv)
+           {
+               qsort(months, nr_of_months, sizeof(months[0]), compmi);
+               for (int i = 1; i < argc; i++) {
+                   struct mi key;
+                   struct mi res;
+    
+                   key.name = argv[i];
+                   res = bsearch(&key, months, nr_of_months,
+                                 sizeof(months[0]), compmi);
+                   if (res == NULL)
+                       printf("'%s': unknown month\n", argv[i]);
+                   else
+                       printf("%s: month #%d\n", res->name, res->nr);
+               }
+               exit(EXIT_SUCCESS);
+           }
+    
+## SEE ALSO         top
+    
+    
+           hsearch(3), lsearch(3), qsort(3), tsearch(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                     BSEARCH(3)
+    

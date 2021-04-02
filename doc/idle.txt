@@ -1,0 +1,66 @@
+  
+# idle(2) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | VERSIONS | CONFORMING
+TO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    IDLE(2)                 Linux Programmer's Manual                IDLE(2)
+    
+## NAME         top
+    
+    
+           idle - make process 0 idle
+    
+## SYNOPSIS         top
+    
+    
+           #include <unistd.h>
+    
+           int idle(void);
+    
+## DESCRIPTION         top
+    
+    
+           idle () is an internal system call used during bootstrap.  It
+           marks the process's pages as swappable, lowers its priority, and
+           enters the main scheduling loop.  idle () never returns.
+    
+           Only process 0 may call idle ().  Any user process, even a process
+           with superuser permission, will receive EPERM.
+    
+## RETURN VALUE         top
+    
+    
+           idle () never returns for process 0, and always returns -1 for a
+           user process.
+    
+## ERRORS         top
+    
+    
+           EPERM Always, for a user process.
+    
+## VERSIONS         top
+    
+    
+           Since Linux 2.3.13, this system call does not exist anymore.
+    
+## CONFORMING TO         top
+    
+    
+           This function is Linux-specific, and should not be used in
+           programs intended to be portable.
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                        IDLE(2)
+    

@@ -1,0 +1,126 @@
+  
+# fma(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | VERSIONS | ATTRIBUTES
+| CONFORMING TO | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    FMA(3)                  Linux Programmer's Manual                 FMA(3)
+    
+## NAME         top
+    
+    
+           fma, fmaf, fmal - floating-point multiply and add
+    
+## SYNOPSIS         top
+    
+    
+           #include <math.h>
+    
+           double fma(double _x_ , double _y_ , double _z_ );
+           float fmaf(float _x_ , float _y_ , float _z_ );
+           long double fmal(long double _x_ , long double _y_ , long double _z_ );
+    
+           Link with _-lm_.
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           fma (), fmaf (), fmal ():
+               _ISOC99_SOURCE || _POSIX_C_SOURCE >= 200112L
+    
+## DESCRIPTION         top
+    
+    
+           These functions compute _x_  _y_ + _z_.  The result is rounded as one
+           ternary operation according to the current rounding mode (see
+           fenv(3)).
+    
+## RETURN VALUE         top
+    
+    
+           These functions return the value of _x_  _y_ + _z_ , rounded as one
+           ternary operation.
+    
+           If _x_ or _y_ is a NaN, a NaN is returned.
+    
+           If _x_ times _y_ is an exact infinity, and _z_ is an infinity with the
+           opposite sign, a domain error occurs, and a NaN is returned.
+    
+           If one of _x_ or _y_ is an infinity, the other is 0, and _z_ is not a
+           NaN, a domain error occurs, and a NaN is returned.
+    
+           If one of _x_ or _y_ is an infinity, and the other is 0, and _z_ is a
+           NaN, a domain error occurs, and a NaN is returned.
+    
+           If _x_ times _y_ is not an infinity times zero (or vice versa), and _z_
+           is a NaN, a NaN is returned.
+    
+           If the result overflows, a range error occurs, and an infinity
+           with the correct sign is returned.
+    
+           If the result underflows, a range error occurs, and a signed 0 is
+           returned.
+    
+## ERRORS         top
+    
+    
+           See math_error(7) for information on how to determine whether an
+           error has occurred when calling these functions.
+    
+           The following errors can occur:
+    
+           Domain error: _x_  _y_ + _z_ , or _x_  _y_ is invalid and _z_ is not a NaN
+                  An invalid floating-point exception ( FE_INVALID ) is
+                  raised.
+    
+           Range error: result overflow
+                  An overflow floating-point exception ( FE_OVERFLOW ) is
+                  raised.
+    
+           Range error: result underflow
+                  An underflow floating-point exception ( FE_UNDERFLOW ) is
+                  raised.
+    
+           These functions do not set _errno_.
+    
+## VERSIONS         top
+    
+    
+           These functions first appeared in glibc in version 2.1.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ fma (), fmaf (), fmal ()                 │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           C99, POSIX.1-2001, POSIX.1-2008.
+    
+## SEE ALSO         top
+    
+    
+           remainder(3), remquo(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                         FMA(3)
+    

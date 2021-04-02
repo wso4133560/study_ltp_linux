@@ -1,0 +1,123 @@
+  
+# posix_madvise(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | VERSIONS | CONFORMING
+TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    POSIX_MADVISE(3)        Linux Programmer's Manual       POSIX_MADVISE(3)
+    
+## NAME         top
+    
+    
+           posix_madvise - give advice about patterns of memory usage
+    
+## SYNOPSIS         top
+    
+    
+           #include <sys/mman.h>
+    
+           int posix_madvise(void  _addr_ , size_t _len_ , int _advice_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           posix_madvise ():
+               _POSIX_C_SOURCE >= 200112L
+    
+## DESCRIPTION         top
+    
+    
+           The posix_madvise () function allows an application to advise the
+           system about its expected patterns of usage of memory in the
+           address range starting at _addr_ and continuing for _len_ bytes.  The
+           system is free to use this advice in order to improve the
+           performance of memory accesses (or to ignore the advice
+           altogether), but calling posix_madvise () shall not affect the
+           semantics of access to memory in the specified range.
+    
+           The _advice_ argument is one of the following:
+    
+           POSIX_MADV_NORMAL
+                  The application has no special advice regarding its memory
+                  usage patterns for the specified address range.  This is
+                  the default behavior.
+    
+           POSIX_MADV_SEQUENTIAL
+                  The application expects to access the specified address
+                  range sequentially, running from lower addresses to higher
+                  addresses.  Hence, pages in this region can be
+                  aggressively read ahead, and may be freed soon after they
+                  are accessed.
+    
+           POSIX_MADV_RANDOM
+                  The application expects to access the specified address
+                  range randomly.  Thus, read ahead may be less useful than
+                  normally.
+    
+           POSIX_MADV_WILLNEED
+                  The application expects to access the specified address
+                  range in the near future.  Thus, read ahead may be
+                  beneficial.
+    
+           POSIX_MADV_DONTNEED
+                  The application expects that it will not access the
+                  specified address range in the near future.
+    
+## RETURN VALUE         top
+    
+    
+           On success, posix_madvise () returns 0.  On failure, it returns a
+           positive error number.
+    
+## ERRORS         top
+    
+    
+           EINVAL _addr_ is not a multiple of the system page size or _len_ is
+                  negative.
+    
+           EINVAL _advice_ is invalid.
+    
+           ENOMEM Addresses in the specified range are partially or
+                  completely outside the caller's address space.
+    
+## VERSIONS         top
+    
+    
+           Support for posix_madvise () first appeared in glibc version 2.2.
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001.
+    
+## NOTES         top
+    
+    
+           POSIX.1 permits an implementation to generate an error if _len_ is
+           0.  On Linux, specifying _len_ as 0 is permitted (as a successful
+           no-op).
+    
+           In glibc, this function is implemented using madvise(2).
+           However, since glibc 2.6, POSIX_MADV_DONTNEED is treated as a no-
+           op, because the corresponding madvise(2) value, MADV_DONTNEED ,
+           has destructive semantics.
+    
+## SEE ALSO         top
+    
+    
+           madvise(2), posix_fadvise(2)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22               POSIX_MADVISE(3)
+    

@@ -1,0 +1,146 @@
+  
+# scalb(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | BUGS | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    SCALB(3)                Linux Programmer's Manual               SCALB(3)
+    
+## NAME         top
+    
+    
+           scalb, scalbf, scalbl - multiply floating-point number by
+           integral power of radix (OBSOLETE)
+    
+## SYNOPSIS         top
+    
+    
+           #include <math.h>
+    
+           double scalb(double _x_ , double _exp_ );
+           float scalbf(float _x_ , float _exp_ );
+           long double scalbl(long double _x_ , long double _exp_ );
+    
+           Link with _-lm_.
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           scalb ():
+               _XOPEN_SOURCE >= 500
+                   || / Since glibc 2.19: / _DEFAULT_SOURCE
+                   || / Glibc <= 2.19: / _BSD_SOURCE || _SVID_SOURCE
+    
+           scalbf (), scalbl ():
+               _XOPEN_SOURCE >= 600
+                   || / Since glibc 2.19: / _DEFAULT_SOURCE
+                   || / Glibc <= 2.19: / _BSD_SOURCE || _SVID_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           These functions multiply their first argument _x_ by FLT_RADIX
+           (probably 2) to the power of _exp_ , that is:
+    
+               x  FLT_RADIX  exp
+    
+           The definition of FLT_RADIX can be obtained by including
+           _< float.h>_.
+    
+## RETURN VALUE         top
+    
+    
+           On success, these functions return _x_  FLT_RADIX  _exp_.
+    
+           If _x_ or _exp_ is a NaN, a NaN is returned.
+    
+           If _x_ is positive infinity (negative infinity), and _exp_ is not
+           negative infinity, positive infinity (negative infinity) is
+           returned.
+    
+           If _x_ is +0 (-0), and _exp_ is not positive infinity, +0 (-0) is
+           returned.
+    
+           If _x_ is zero, and _exp_ is positive infinity, a domain error
+           occurs, and a NaN is returned.
+    
+           If _x_ is an infinity, and _exp_ is negative infinity, a domain error
+           occurs, and a NaN is returned.
+    
+           If the result overflows, a range error occurs, and the functions
+           return HUGE_VAL , HUGE_VALF , or HUGE_VALL , respectively, with a
+           sign the same as _x_.
+    
+           If the result underflows, a range error occurs, and the functions
+           return zero, with a sign the same as _x_.
+    
+## ERRORS         top
+    
+    
+           See math_error(7) for information on how to determine whether an
+           error has occurred when calling these functions.
+    
+           The following errors can occur:
+    
+           Domain error: _x_ is 0, and _exp_ is positive infinity, or _x_ is
+           positive infinity and _exp_ is negative infinity and the other
+           argument is not a NaN
+                  _errno_ is set to EDOM.  An invalid floating-point exception
+                  ( FE_INVALID ) is raised.
+    
+           Range error, overflow
+                  _errno_ is set to ERANGE.  An overflow floating-point
+                  exception ( FE_OVERFLOW ) is raised.
+    
+           Range error, underflow
+                  _errno_ is set to ERANGE.  An underflow floating-point
+                  exception ( FE_UNDERFLOW ) is raised.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ scalb (), scalbf (), scalbl ()           │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           scalb () is specified in POSIX.1-2001, but marked obsolescent.
+           POSIX.1-2008 removes the specification of scalb (), recommending
+           the use of scalbln(3), scalblnf(3), or scalblnl(3) instead.  The
+           scalb () function is from 4.3BSD.
+    
+           scalbf () and scalbl () are unstandardized; scalbf () is
+           nevertheless present on several other systems
+    
+## BUGS         top
+    
+    
+           Before glibc 2.20, these functions did not set _errno_ for domain
+           and range errors.
+    
+## SEE ALSO         top
+    
+    
+           ldexp(3), scalbln(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                       SCALB(3)
+    

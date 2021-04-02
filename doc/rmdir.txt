@@ -1,0 +1,112 @@
+  
+# rmdir(2) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | CONFORMING TO | BUGS |
+SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    RMDIR(2)                Linux Programmer's Manual               RMDIR(2)
+    
+## NAME         top
+    
+    
+           rmdir - delete a directory
+    
+## SYNOPSIS         top
+    
+    
+           #include <unistd.h>
+    
+           int rmdir(const char  _pathname_ );
+    
+## DESCRIPTION         top
+    
+    
+           rmdir () deletes a directory, which must be empty.
+    
+## RETURN VALUE         top
+    
+    
+           On success, zero is returned.  On error, -1 is returned, and
+           _errno_ is set to indicate the error.
+    
+## ERRORS         top
+    
+    
+           EACCES Write access to the directory containing _pathname_ was not
+                  allowed, or one of the directories in the path prefix of
+                  _pathname_ did not allow search permission.  (See also
+                  path_resolution(7).
+    
+           EBUSY _pathname_ is currently in use by the system or some process
+                  that prevents its removal.  On Linux, this means _pathname_
+                  is currently used as a mount point or is the root
+                  directory of the calling process.
+    
+           EFAULT _pathname_ points outside your accessible address space.
+    
+           EINVAL _pathname_ has _._  as last component.
+    
+           ELOOP Too many symbolic links were encountered in resolving
+                  _pathname_.
+    
+           ENAMETOOLONG
+                  _pathname_ was too long.
+    
+           ENOENT A directory component in _pathname_ does not exist or is a
+                  dangling symbolic link.
+    
+           ENOMEM Insufficient kernel memory was available.
+    
+           ENOTDIR
+                  _pathname_ , or a component used as a directory in _pathname_ ,
+                  is not, in fact, a directory.
+    
+           ENOTEMPTY
+                  _pathname_ contains entries other than _._ and _.._ ; or,
+                  _pathname_ has _.._  as its final component.  POSIX.1 also
+                  allows EEXIST for this condition.
+    
+           EPERM The directory containing _pathname_ has the sticky bit
+                  ( S_ISVTX ) set and the process's effective user ID is
+                  neither the user ID of the file to be deleted nor that of
+                  the directory containing it, and the process is not
+                  privileged (Linux: does not have the CAP_FOWNER
+                  capability).
+    
+           EPERM The filesystem containing _pathname_ does not support the
+                  removal of directories.
+    
+           EROFS _pathname_ refers to a directory on a read-only filesystem.
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, SVr4, 4.3BSD.
+    
+## BUGS         top
+    
+    
+           Infelicities in the protocol underlying NFS can cause the
+           unexpected disappearance of directories which are still being
+           used.
+    
+## SEE ALSO         top
+    
+    
+           rm(1), rmdir(1), chdir(2), chmod(2), mkdir(2), rename(2),
+           unlink(2), unlinkat(2)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                       RMDIR(2)
+    

@@ -1,0 +1,44 @@
+  
+# issue(5) -- Linux manual page
+NAME | DESCRIPTION | FILES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    ISSUE(5)                Linux Programmer's Manual               ISSUE(5)
+    
+## NAME         top
+    
+    
+           issue - prelogin message and identification file
+    
+## DESCRIPTION         top
+    
+    
+           _/etc/issue_ is a text file which contains a message or system
+           identification to be printed before the login prompt.  It may
+           contain various @ _char_ and \ _char_ sequences, if supported by the
+           getty -type program employed on the system.
+    
+## FILES         top
+    
+    
+           _/etc/issue_
+    
+## SEE ALSO         top
+    
+    
+           motd(5), agetty(8), mingetty (8)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          1993-07-24                       ISSUE(5)
+    

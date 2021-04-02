@@ -1,0 +1,83 @@
+  
+# sem_close(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    SEM_CLOSE(3)            Linux Programmer's Manual           SEM_CLOSE(3)
+    
+## NAME         top
+    
+    
+           sem_close - close a named semaphore
+    
+## SYNOPSIS         top
+    
+    
+           #include <semaphore.h>
+    
+           int sem_close(sem_t  _sem_ );
+    
+           Link with _-pthread_.
+    
+## DESCRIPTION         top
+    
+    
+           sem_close () closes the named semaphore referred to by _sem_ ,
+           allowing any resources that the system has allocated to the
+           calling process for this semaphore to be freed.
+    
+## RETURN VALUE         top
+    
+    
+           On success sem_close () returns 0; on error, -1 is returned, with
+           _errno_ set to indicate the error.
+    
+## ERRORS         top
+    
+    
+           EINVAL _sem_ is not a valid semaphore.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ sem_close ()                           │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008.
+    
+## NOTES         top
+    
+    
+           All open named semaphores are automatically closed on process
+           termination, or upon execve(2).
+    
+## SEE ALSO         top
+    
+    
+           sem_getvalue(3), sem_open(3), sem_post(3), sem_unlink(3),
+           sem_wait(3), sem_overview(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                   SEM_CLOSE(3)
+    

@@ -1,0 +1,106 @@
+  
+# mktemp(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | BUGS | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    MKTEMP(3)               Linux Programmer's Manual              MKTEMP(3)
+    
+## NAME         top
+    
+    
+           mktemp - make a unique temporary filename
+    
+## SYNOPSIS         top
+    
+    
+           #include <stdlib.h>
+    
+           char mktemp(char  _template_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           mktemp ():
+               Since glibc 2.12:
+                   (_XOPEN_SOURCE >= 500) && ! (_POSIX_C_SOURCE >= 200112L)
+                       || / Glibc since 2.19: / _DEFAULT_SOURCE
+                       || / Glibc <= 2.19: / _SVID_SOURCE || _BSD_SOURCE
+               Before glibc 2.12:
+                   _BSD_SOURCE || _SVID_SOURCE || _XOPEN_SOURCE >= 500
+    
+## DESCRIPTION         top
+    
+    
+           _Never use this function_ ; see BUGS.
+    
+           The mktemp () function generates a unique temporary filename from
+           _template_.  The last six characters of _template_ must be XXXXXX and
+           these are replaced with a string that makes the filename unique.
+           Since it will be modified, _template_ must not be a string
+           constant, but should be declared as a character array.
+    
+## RETURN VALUE         top
+    
+    
+           The mktemp () function always returns _template_.  If a unique name
+           was created, the last six bytes of _template_ will have been
+           modified in such a way that the resulting name is unique (i.e.,
+           does not exist already) If a unique name could not be created,
+           _template_ is made an empty string, and _errno_ is set to indicate
+           the error.
+    
+## ERRORS         top
+    
+    
+           EINVAL The last six characters of _template_ were not XXXXXX.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ mktemp ()                              │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           4.3BSD, POSIX.1-2001.  POSIX.1-2008 removes the specification of
+           mktemp ().
+    
+## BUGS         top
+    
+    
+           Never use mktemp ().  Some implementations follow 4.3BSD and
+           replace XXXXXX by the current process ID and a single letter, so
+           that at most 26 different names can be returned.  Since on the
+           one hand the names are easy to guess, and on the other hand there
+           is a race between testing whether the name exists and opening the
+           file, every use of mktemp () is a security risk.  The race is
+           avoided by mkstemp(3) and mkdtemp(3).
+    
+## SEE ALSO         top
+    
+    
+           mktemp(1), mkdtemp(3), mkstemp(3), tempnam(3), tmpfile(3),
+           tmpnam(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                      MKTEMP(3)
+    

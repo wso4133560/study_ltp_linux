@@ -1,0 +1,75 @@
+  
+# conj(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | VERSIONS | ATTRIBUTES | CONFORMING TO | SEE
+ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    CONJ(3)                 Linux Programmer's Manual                CONJ(3)
+    
+## NAME         top
+    
+    
+           conj, conjf, conjl - calculate the complex conjugate
+    
+## SYNOPSIS         top
+    
+    
+           #include <complex.h>
+    
+           double complex conj(double complex _z_ );
+           float complex conjf(float complex _z_ );
+           long double complex conjl(long double complex _z_ );
+    
+           Link with _-lm_.
+    
+## DESCRIPTION         top
+    
+    
+           These functions return the complex conjugate value of _z_.  That is
+           the value obtained by changing the sign of the imaginary part.
+    
+           One has:
+    
+               cabs(z) = csqrt(z  conj(z))
+    
+## VERSIONS         top
+    
+    
+           These functions first appeared in glibc in version 2.1.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ conj (), conjf (), conjl ()              │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           C99, POSIX.1-2001, POSIX.1-2008.
+    
+## SEE ALSO         top
+    
+    
+           cabs(3), csqrt(3), complex(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                        CONJ(3)
+    

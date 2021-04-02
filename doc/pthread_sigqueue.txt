@@ -1,0 +1,111 @@
+  
+# pthread_sigqueue(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | VERSIONS | ATTRIBUTES
+| CONFORMING TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    PTHREAD_SIGQUEUE(3)     Linux Programmer's Manual    PTHREAD_SIGQUEUE(3)
+    
+## NAME         top
+    
+    
+           pthread_sigqueue - queue a signal and data to a thread
+    
+## SYNOPSIS         top
+    
+    
+           #include <signal.h>
+           #include <pthread.h>
+    
+           int pthread_sigqueue(pthread_t _thread_ , int _sig_ ,
+                                const union sigval _value_ );
+    
+           Compile and link with _-pthread_.
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           pthread_sigqueue ():
+               _GNU_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           The pthread_sigqueue () function performs a similar task to
+           sigqueue(3), but, rather than sending a signal to a process, it
+           sends a signal to a thread in the same process as the calling
+           thread.
+    
+           The _thread_ argument is the ID of a thread in the same process as
+           the caller.  The _sig_ argument specifies the signal to be sent.
+           The _value_ argument specifies data to accompany the signal; see
+           sigqueue(3) for details.
+    
+## RETURN VALUE         top
+    
+    
+           On success, pthread_sigqueue () returns 0; on error, it returns an
+           error number.
+    
+## ERRORS         top
+    
+    
+           EAGAIN The limit of signals which may be queued has been reached.
+                  (See signal(7) for further information.)
+    
+           EINVAL _sig_ was invalid.
+    
+           ENOSYS pthread_sigqueue () is not supported on this system.
+    
+           ESRCH _thread_ is not valid.
+    
+## VERSIONS         top
+    
+    
+           The pthread_sigqueue () function first appeared in glibc 2.11.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ pthread_sigqueue ()                    │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           This function is a GNU extension.
+    
+## NOTES         top
+    
+    
+           The glibc implementation of pthread_sigqueue () gives an error
+           ( EINVAL ) on attempts to send either of the real-time signals used
+           internally by the NPTL threading implementation.  See nptl(7) for
+           details.
+    
+## SEE ALSO         top
+    
+    
+           rt_tgsigqueueinfo(2), sigaction(2), pthread_sigmask(3),
+           sigqueue(3), sigwait(3), pthreads(7), signal(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22            PTHREAD_SIGQUEUE(3)
+    

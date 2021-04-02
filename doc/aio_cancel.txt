@@ -1,0 +1,120 @@
+  
+# aio_cancel(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | VERSIONS | ATTRIBUTES
+| CONFORMING TO | EXAMPLES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    AIO_CANCEL(3)           Linux Programmer's Manual          AIO_CANCEL(3)
+    
+## NAME         top
+    
+    
+           aio_cancel - cancel an outstanding asynchronous I/O request
+    
+## SYNOPSIS         top
+    
+    
+           #include <aio.h>
+    
+           int aio_cancel(int _fd_ , struct aiocb  _aiocbp_ );
+    
+           Link with _-lrt_.
+    
+## DESCRIPTION         top
+    
+    
+           The aio_cancel () function attempts to cancel outstanding
+           asynchronous I/O requests for the file descriptor _fd_.  If _aiocbp_
+           is NULL, all such requests are canceled.  Otherwise, only the
+           request described by the control block pointed to by _aiocbp_ is
+           canceled.  (See aio(7) for a description of the _aiocb_ structure.)
+    
+           Normal asynchronous notification occurs for canceled requests
+           (see aio(7) and sigevent(7)).  The request return status
+           (aio_return(3)) is set to -1, and the request error status
+           (aio_error(3)) is set to ECANCELED.  The control block of
+           requests that cannot be canceled is not changed.
+    
+           If the request could not be canceled, then it will terminate in
+           the usual way after performing the I/O operation.  (In this case,
+           aio_error(3) will return the status EINPROGRESSS.)
+    
+           If _aiocbp_ is not NULL, and _fd_ differs from the file descriptor
+           with which the asynchronous operation was initiated, unspecified
+           results occur.
+    
+           Which operations are cancelable is implementation-defined.
+    
+## RETURN VALUE         top
+    
+    
+           The aio_cancel () function returns one of the following values:
+    
+           AIO_CANCELED
+                  All requests were successfully canceled.
+    
+           AIO_NOTCANCELED
+                  At least one of the requests specified was not canceled
+                  because it was in progress.  In this case, one may check
+                  the status of individual requests using aio_error(3).
+    
+           AIO_ALLDONE
+                  All requests had already been completed before the call.
+    
+           -1     An error occurred.  The cause of the error can be found by
+                  inspecting _errno_.
+    
+## ERRORS         top
+    
+    
+           EBADF _fd_ is not a valid file descriptor.
+    
+           ENOSYS aio_cancel () is not implemented.
+    
+## VERSIONS         top
+    
+    
+           The aio_cancel () function is available since glibc 2.1.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ aio_cancel ()                          │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008.
+    
+## EXAMPLES         top
+    
+    
+           See aio(7).
+    
+## SEE ALSO         top
+    
+    
+           aio_error(3), aio_fsync(3), aio_read(3), aio_return(3),
+           aio_suspend(3), aio_write(3), lio_listio(3), aio(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                  AIO_CANCEL(3)
+    

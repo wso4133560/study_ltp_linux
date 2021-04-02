@@ -1,0 +1,88 @@
+  
+# memcmp(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    MEMCMP(3)               Linux Programmer's Manual              MEMCMP(3)
+    
+## NAME         top
+    
+    
+           memcmp - compare memory areas
+    
+## SYNOPSIS         top
+    
+    
+           #include <string.h>
+    
+           int memcmp(const void  _s1_ , const void  _s2_ , size_t _n_ );
+    
+## DESCRIPTION         top
+    
+    
+           The memcmp () function compares the first _n_ bytes (each
+           interpreted as _unsigned char_ ) of the memory areas _s1_ and _s2_.
+    
+## RETURN VALUE         top
+    
+    
+           The memcmp () function returns an integer less than, equal to, or
+           greater than zero if the first _n_ bytes of _s1_ is found,
+           respectively, to be less than, to match, or be greater than the
+           first _n_ bytes of _s2_.
+    
+           For a nonzero return value, the sign is determined by the sign of
+           the difference between the first pair of bytes (interpreted as
+           _unsigned char_ ) that differ in _s1_ and _s2_.
+    
+           If _n_ is zero, the return value is zero.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ memcmp ()                              │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C89, C99, SVr4, 4.3BSD.
+    
+## NOTES         top
+    
+    
+           Do not use memcmp () to compare security critical data, such as
+           cryptographic secrets, because the required CPU time depends on
+           the number of equal bytes.  Instead, a function that performs
+           comparisons in constant time is required.  Some operating systems
+           provide such a function (e.g., NetBSD's consttime_memequal ()),
+           but no such function is specified in POSIX.  On Linux, it may be
+           necessary to implement such a function oneself.
+    
+## SEE ALSO         top
+    
+    
+           bcmp(3), bstring(3), strcasecmp(3), strcmp(3), strcoll(3),
+           strncasecmp(3), strncmp(3), wmemcmp(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                      MEMCMP(3)
+    

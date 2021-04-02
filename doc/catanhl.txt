@@ -1,0 +1,107 @@
+  
+# catanh(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | VERSIONS | ATTRIBUTES | CONFORMING TO |
+EXAMPLES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    CATANH(3)               Linux Programmer's Manual              CATANH(3)
+    
+## NAME         top
+    
+    
+           catanh, catanhf, catanhl - complex arc tangents hyperbolic
+    
+## SYNOPSIS         top
+    
+    
+           #include <complex.h>
+    
+           double complex catanh(double complex _z_ );
+           float complex catanhf(float complex _z_ );
+           long double complex catanhl(long double complex _z_ );
+    
+           Link with _-lm_.
+    
+## DESCRIPTION         top
+    
+    
+           These functions calculate the complex arc hyperbolic tangent of
+           _z_.  If _y = catanh(z)_ , then _z = ctanh(y)_.  The imaginary part of _y_
+           is chosen in the interval [-pi/2,pi/2].
+    
+           One has:
+    
+               catanh(z) = 0.5  (clog(1 + z) - clog(1 - z))
+    
+## VERSIONS         top
+    
+    
+           These functions first appeared in glibc in version 2.1.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ catanh (), catanhf (), catanhl ()        │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           C99, POSIX.1-2001, POSIX.1-2008.
+    
+## EXAMPLES         top
+    
+    
+           / Link with "-lm" /
+    
+           #include <complex.h>
+           #include <stdlib.h>
+           #include <unistd.h>
+           #include <stdio.h>
+    
+           int
+           main(int argc, char argv[])
+           {
+               double complex z, c, f;
+    
+               if (argc != 3) {
+                   fprintf(stderr, "Usage: %s <real> <imag>\n", argv[0]);
+                   exit(EXIT_FAILURE);
+               }
+    
+               z = atof(argv[1]) + atof(argv[2])  I;
+    
+               c = catanh(z);
+               printf("catanh() = %6.3f %6.3fi\n", creal(c), cimag(c));
+    
+               f = 0.5  (clog(1 + z) - clog(1 - z));
+               printf("formula  = %6.3f %6.3fi\n", creal(f2), cimag(f2));
+    
+               exit(EXIT_SUCCESS);
+           }
+    
+## SEE ALSO         top
+    
+    
+           atanh(3), cabs(3), cimag(3), ctanh(3), complex(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                      CATANH(3)
+    

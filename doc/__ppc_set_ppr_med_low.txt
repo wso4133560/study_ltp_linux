@@ -1,0 +1,119 @@
+  
+# __ppc_set_ppr_med(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | VERSIONS | ATTRIBUTES | CONFORMING TO | NOTES
+| SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    __PPC_SET_PPR_MED(3)    LinuxProgrammer's Manual    __PPC_SET_PPR_MED(3)
+    
+## NAME         top
+    
+    
+           __ppc_set_ppr_med, __ppc_set_ppr_very_low, __ppc_set_ppr_low,
+           __ppc_set_ppr_med_low, __ppc_set_ppr_med_high - Set the Program
+           Priority Register
+    
+## SYNOPSIS         top
+    
+    
+           #include <sys/platform/ppc.h>
+    
+           void __ppc_set_ppr_med(void);
+           void __ppc_set_ppr_very_low(void);
+           void __ppc_set_ppr_low(void);
+           void __ppc_set_ppr_med_low(void);
+           void __ppc_set_ppr_med_high(void);
+    
+## DESCRIPTION         top
+    
+    
+           These functions provide access to the _Program Priority Register_
+           (PPR) on the Power architecture.
+    
+           The PPR is a 64-bit register that controls the program's
+           priority.  By adjusting the PPR value the programmer may improve
+           system throughput by causing system resources to be used more
+           efficiently, especially in contention situations.  The available
+           unprivileged states are covered by the following functions:
+    
+             __ppc_set_ppr_med () sets the Program Priority Register value
+              to _medium_ (default).
+    
+             __ppc_set_ppr_very_low () sets the Program Priority Register
+              value to _very low_.
+    
+             __ppc_set_ppr_low () sets the Program Priority Register value
+              to _low_.
+    
+             __ppc_set_ppr_med_low () sets the Program Priority Register
+              value to _medium low_.
+    
+           The privileged state _medium high_ may also be set during certain
+           time intervals by problem-state (unprivileged) programs, with the
+           following function:
+    
+             __ppc_set_ppr_med_high () sets the Program Priority to _medium_
+              _high_.
+    
+           If the program priority is medium high when the time interval
+           expires or if an attempt is made to set the priority to medium
+           high when it is not allowed, the priority is set to medium.
+    
+## VERSIONS         top
+    
+    
+           The functions __ppc_set_ppr_med (), __ppc_set_ppr_low (), and
+           __ppc_set_ppr_med_low () are provided by glibc since version 2.18.
+           The functions __ppc_set_ppr_very_low () and
+           __ppc_set_ppr_med_high () first appeared in glibc in version 2.23.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ __ppc_set_ppr_med (),                  │ Thread safety │ MT-Safe │
+           │ __ppc_set_ppr_very_low (),             │               │         │
+           │ __ppc_set_ppr_low (),                  │               │         │
+           │ __ppc_set_ppr_med_low (),              │               │         │
+           │ __ppc_set_ppr_med_high ()              │               │         │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           These functions are nonstandard GNU extensions.
+    
+## NOTES         top
+    
+    
+           The functions __ppc_set_ppr_very_low () and
+           __ppc_set_ppr_med_high () will be defined by _< sys/platform/ppc.h>_
+           if _ARCH_PWR8 is defined.  Availability of these functions can be
+           tested using #ifdef _ARCH_PWR8.
+    
+## SEE ALSO         top
+    
+    
+           __ppc_yield(3)
+    
+           _Power ISA, Book II - Section 3.1 (Program Priority Registers)_
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU C Library                  2021-03-22           __PPC_SET_PPR_MED(3)
+    

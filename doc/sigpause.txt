@@ -1,0 +1,108 @@
+  
+# sigpause(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    SIGPAUSE(3)             Linux Programmer's Manual            SIGPAUSE(3)
+    
+## NAME         top
+    
+    
+           sigpause - atomically release blocked signals and wait for
+           interrupt
+    
+## SYNOPSIS         top
+    
+    
+           #include <signal.h>
+    
+           int sigpause(int _sigmask_ );  / BSD (but see NOTES) /
+    
+           int sigpause(int _sig_ );      / System V / UNIX 95 /
+    
+## DESCRIPTION         top
+    
+    
+           Don't use this function.  Use sigsuspend(2) instead.
+    
+           The function sigpause () is designed to wait for some signal.  It
+           changes the process's signal mask (set of blocked signals), and
+           then waits for a signal to arrive.  Upon arrival of a signal, the
+           original signal mask is restored.
+    
+## RETURN VALUE         top
+    
+    
+           If sigpause () returns, it was interrupted by a signal and the
+           return value is -1 with _errno_ set to EINTR.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ sigpause ()                            │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           The System V version of sigpause () is standardized in
+           POSIX.1-2001.  It is also specified in POSIX.1-2008, where it is
+           marked obsolete.
+    
+## NOTES         top
+    
+    
+       History
+           The classical BSD version of this function appeared in 4.2BSD.
+           It sets the process's signal mask to _sigmask_.  UNIX 95
+           standardized the incompatible System V version of this function,
+           which removes only the specified signal _sig_ from the process's
+           signal mask.  The unfortunate situation with two incompatible
+           functions with the same name was solved by the sigsuspend(2)
+           function, that takes a _sigset_t _ argument (instead of an _int_ ).
+    
+       Linux notes
+           On Linux, this routine is a system call only on the Sparc
+           (sparc64) architecture.
+    
+           Glibc uses the BSD version if the _BSD_SOURCE feature test macro
+           is defined and none of _POSIX_SOURCE , _POSIX_C_SOURCE ,
+           _XOPEN_SOURCE , _GNU_SOURCE , or _SVID_SOURCE is defined.
+           Otherwise, the System V version is used, and feature test macros
+           must be defined as follows to obtain the declaration:
+    
+             Since glibc 2.26: _XOPEN_SOURCE >= 500
+    
+             Glibc 2.25 and earlier: _XOPEN_SOURCE
+    
+           Since glibc 2.19, only the System V version is exposed by
+           _< signal.h>_; applications that formerly used the BSD sigpause ()
+           should be amended to use sigsuspend(2).
+    
+## SEE ALSO         top
+    
+    
+           kill(2), sigaction(2), sigprocmask(2), sigsuspend(2),
+           sigblock(3), sigvec(3), feature_test_macros(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                    SIGPAUSE(3)
+    

@@ -1,0 +1,104 @@
+  
+# getentropy(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | VERSIONS | CONFORMING
+TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    GETENTROPY(3)           Linux Programmer's Manual          GETENTROPY(3)
+    
+## NAME         top
+    
+    
+           getentropy - fill a buffer with random bytes
+    
+## SYNOPSIS         top
+    
+    
+           #include <unistd.h>
+    
+           int getentropy(void  _buffer_ , size_t _length_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           getentropy ():
+               _DEFAULT_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           The getentropy () function writes _length_ bytes of high-quality
+           random data to the buffer starting at the location pointed to by
+           _buffer_.  The maximum permitted value for the _length_ argument is
+           256.
+    
+           A successful call to getentropy () always provides the requested
+           number of bytes of entropy.
+    
+## RETURN VALUE         top
+    
+    
+           On success, this function returns zero.  On error, -1 is
+           returned, and _errno_ is set to indicate the error.
+    
+## ERRORS         top
+    
+    
+           EFAULT Part or all of the buffer specified by _buffer_ and _length_
+                  is not in valid addressable memory.
+    
+           EIO _length_ is greater than 256.
+    
+           EIO An unspecified error occurred while trying to overwrite
+                  _buffer_ with random data.
+    
+           ENOSYS This kernel version does not implement the getrandom(2)
+                  system call required to implement this function.
+    
+## VERSIONS         top
+    
+    
+           The getentropy () function first appeared in glibc 2.25.
+    
+## CONFORMING TO         top
+    
+    
+           This function is nonstandard.  It is also present on OpenBSD.
+    
+## NOTES         top
+    
+    
+           The getentropy () function is implemented using getrandom(2).
+    
+           Whereas the glibc wrapper makes getrandom(2) a cancellation
+           point, getentropy () is not a cancellation point.
+    
+           getentropy () is also declared in < sys/random.h>.  (No feature
+           test macro need be defined to obtain the declaration from that
+           header file.)
+    
+           A call to getentropy () may block if the system has just booted
+           and the kernel has not yet collected enough randomness to
+           initialize the entropy pool.  In this case, getentropy () will
+           keep blocking even if a signal is handled, and will return only
+           once the entropy pool has been initialized.
+    
+## SEE ALSO         top
+    
+    
+           getrandom(2), urandom(4), random(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                  GETENTROPY(3)
+    

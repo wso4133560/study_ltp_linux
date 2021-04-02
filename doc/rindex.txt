@@ -1,0 +1,78 @@
+  
+# index(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    INDEX(3)                Linux Programmer's Manual               INDEX(3)
+    
+## NAME         top
+    
+    
+           index, rindex - locate character in string
+    
+## SYNOPSIS         top
+    
+    
+           #include <strings.h>
+    
+           char index(const char  _s_ , int _c_ );
+           char rindex(const char  _s_ , int _c_ );
+    
+## DESCRIPTION         top
+    
+    
+           The index () function returns a pointer to the first occurrence of
+           the character _c_ in the string _s_.
+    
+           The rindex () function returns a pointer to the last occurrence of
+           the character _c_ in the string _s_.
+    
+           The terminating null byte ('\0') is considered to be a part of
+           the strings.
+    
+## RETURN VALUE         top
+    
+    
+           The index () and rindex () functions return a pointer to the
+           matched character or NULL if the character is not found.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ index (), rindex ()                     │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           4.3BSD; marked as LEGACY in POSIX.1-2001.  POSIX.1-2008 removes
+           the specifications of index () and rindex (), recommending
+           strchr(3) and strrchr(3) instead.
+    
+## SEE ALSO         top
+    
+    
+           memchr(3), strchr(3), string(3), strpbrk(3), strrchr(3),
+           strsep(3), strspn(3), strstr(3), strtok(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                       INDEX(3)
+    

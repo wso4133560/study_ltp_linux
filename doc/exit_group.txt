@@ -1,0 +1,67 @@
+  
+# exit_group(2) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | VERSIONS | CONFORMING TO |
+NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    EXIT_GROUP(2)           Linux Programmer's Manual          EXIT_GROUP(2)
+    
+## NAME         top
+    
+    
+           exit_group - exit all threads in a process
+    
+## SYNOPSIS         top
+    
+    
+           #include <linux/unistd.h>
+    
+           void exit_group(int _status_ );
+    
+## DESCRIPTION         top
+    
+    
+           This system call is equivalent to _exit(2) except that it
+           terminates not only the calling thread, but all threads in the
+           calling process's thread group.
+    
+## RETURN VALUE         top
+    
+    
+           This system call does not return.
+    
+## VERSIONS         top
+    
+    
+           This call is present since Linux 2.5.35.
+    
+## CONFORMING TO         top
+    
+    
+           This call is Linux-specific.
+    
+## NOTES         top
+    
+    
+           Since glibc 2.3, this is the system call invoked when the
+           _exit(2) wrapper function is called.
+    
+## SEE ALSO         top
+    
+    
+           exit(2)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2008-11-27                  EXIT_GROUP(2)
+    

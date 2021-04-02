@@ -1,0 +1,78 @@
+  
+# towctrans(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    TOWCTRANS(3)            Linux Programmer's Manual           TOWCTRANS(3)
+    
+## NAME         top
+    
+    
+           towctrans - wide-character transliteration
+    
+## SYNOPSIS         top
+    
+    
+           #include <wctype.h>
+    
+           wint_t towctrans(wint_t _wc_ , wctrans_t _desc_ );
+    
+## DESCRIPTION         top
+    
+    
+           If _wc_ is a wide character, the towctrans () function translates it
+           according to the transliteration descriptor _desc_.  If _wc_ is WEOF ,
+           WEOF is returned.
+    
+           _desc_ must be a transliteration descriptor returned by the
+           wctrans(3) function.
+    
+## RETURN VALUE         top
+    
+    
+           The towctrans () function returns the translated wide character,
+           or WEOF if _wc_ is WEOF.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ towctrans ()                           │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C99.
+    
+## NOTES         top
+    
+    
+           The behavior of towctrans () depends on the LC_CTYPE category of
+           the current locale.
+    
+## SEE ALSO         top
+    
+    
+           towlower(3), towupper(3), wctrans(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                   TOWCTRANS(3)
+    

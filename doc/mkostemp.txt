@@ -1,0 +1,161 @@
+  
+# mkstemp(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | VERSIONS | ATTRIBUTES
+| CONFORMING TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    MKSTEMP(3)              Linux Programmer's Manual             MKSTEMP(3)
+    
+## NAME         top
+    
+    
+           mkstemp, mkostemp, mkstemps, mkostemps - create a unique
+           temporary file
+    
+## SYNOPSIS         top
+    
+    
+           #include <stdlib.h>
+    
+           int mkstemp(char  _template_ );
+           int mkostemp(char  _template_ , int _flags_ );
+           int mkstemps(char  _template_ , int _suffixlen_ );
+           int mkostemps(char  _template_ , int _suffixlen_ , int _flags_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           mkstemp ():
+               _XOPEN_SOURCE >= 500
+                   || / Since glibc 2.12: / _POSIX_C_SOURCE >= 200809L
+                   || / Glibc <= 2.19: / _SVID_SOURCE || _BSD_SOURCE
+    
+           mkostemp ():
+               _GNU_SOURCE
+    
+           mkstemps ():
+               / Glibc since 2.19: / _DEFAULT_SOURCE
+                   || / Glibc <= 2.19: / _SVID_SOURCE || _BSD_SOURCE
+    
+           mkostemps ():
+               _GNU_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           The mkstemp () function generates a unique temporary filename from
+           _template_ , creates and opens the file, and returns an open file
+           descriptor for the file.
+    
+           The last six characters of _template_ must be "XXXXXX" and these
+           are replaced with a string that makes the filename unique.  Since
+           it will be modified, _template_ must not be a string constant, but
+           should be declared as a character array.
+    
+           The file is created with permissions 0600, that is, read plus
+           write for owner only.  The returned file descriptor provides both
+           read and write access to the file.  The file is opened with the
+           open(2) O_EXCL flag, guaranteeing that the caller is the process
+           that creates the file.
+    
+           The mkostemp () function is like mkstemp (), with the difference
+           that the following bits—with the same meaning as for open(2)—may
+           be specified in _flags_ : O_APPEND , O_CLOEXEC , and O_SYNC.  Note
+           that when creating the file, mkostemp () includes the values
+           O_RDWR , O_CREAT , and O_EXCL in the _flags_ argument given to
+           open(2); including these values in the _flags_ argument given to
+           mkostemp () is unnecessary, and produces errors on some systems.
+    
+           The mkstemps () function is like mkstemp (), except that the string
+           in _template_ contains a suffix of _suffixlen_ characters.  Thus,
+           _template_ is of the form _prefixXXXXXXsuffix_ , and the string XXXXXX
+           is modified as for mkstemp ().
+    
+           The mkostemps () function is to mkstemps () as mkostemp () is to
+           mkstemp ().
+    
+## RETURN VALUE         top
+    
+    
+           On success, these functions return the file descriptor of the
+           temporary file.  On error, -1 is returned, and _errno_ is set to
+           indicate the error.
+    
+## ERRORS         top
+    
+    
+           EEXIST Could not create a unique temporary filename.  Now the
+                  contents of _template_ are undefined.
+    
+           EINVAL For mkstemp () and mkostemp (): The last six characters of
+                  _template_ were not XXXXXX; now _template_ is unchanged.
+    
+                  For mkstemps () and mkostemps (): _template_ is less than _(6 +_
+                  _suffixlen)_ characters long, or the last 6 characters
+                  before the suffix in _template_ were not XXXXXX.
+    
+           These functions may also fail with any of the errors described
+           for open(2).
+    
+## VERSIONS         top
+    
+    
+           mkostemp () is available since glibc 2.7.  mkstemps () and
+           mkostemps () are available since glibc 2.11.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ mkstemp (), mkostemp (), mkstemps (),    │ Thread safety │ MT-Safe │
+           │ mkostemps ()                           │               │         │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           mkstemp (): 4.3BSD, POSIX.1-2001.
+    
+           mkstemps (): unstandardized, but appears on several other systems.
+    
+           mkostemp () and mkostemps (): are glibc extensions.
+    
+## NOTES         top
+    
+    
+           In glibc versions 2.06 and earlier, the file is created with
+           permissions 0666, that is, read and write for all users.  This
+           old behavior may be a security risk, especially since other UNIX
+           flavors use 0600, and somebody might overlook this detail when
+           porting programs.  POSIX.1-2008 adds a requirement that the file
+           be created with mode 0600.
+    
+           More generally, the POSIX specification of mkstemp () does not say
+           anything about file modes, so the application should make sure
+           its file mode creation mask (see umask(2)) is set appropriately
+           before calling mkstemp () (and mkostemp ()).
+    
+## SEE ALSO         top
+    
+    
+           mkdtemp(3), mktemp(3), tempnam(3), tmpfile(3), tmpnam(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                     MKSTEMP(3)
+    

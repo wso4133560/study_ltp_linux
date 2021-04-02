@@ -1,0 +1,144 @@
+  
+# mq_receive(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    MQ_RECEIVE(3)           Linux Programmer's Manual          MQ_RECEIVE(3)
+    
+## NAME         top
+    
+    
+           mq_receive, mq_timedreceive - receive a message from a message
+           queue
+    
+## SYNOPSIS         top
+    
+    
+           #include <mqueue.h>
+    
+           ssize_t mq_receive(mqd_t _mqdes_ , char  _msg_ptr_ ,
+                              size_t _msg_len_ , unsigned int  _msg_prio_ );
+    
+           #include <time.h>
+           #include <mqueue.h>
+    
+           ssize_t mq_timedreceive(mqd_t _mqdes_ , char restrict _msg_ptr_ ,
+                              size_t _msg_len_ , unsigned int restrict _msg_prio_ ,
+                              const struct timespec restrict _abs_timeout_ );
+    
+           Link with _-lrt_.
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           mq_timedreceive ():
+               _POSIX_C_SOURCE >= 200112L
+    
+## DESCRIPTION         top
+    
+    
+           mq_receive () removes the oldest message with the highest priority
+           from the message queue referred to by the message queue
+           descriptor _mqdes_ , and places it in the buffer pointed to by
+           _msg_ptr_.  The _msg_len_ argument specifies the size of the buffer
+           pointed to by _msg_ptr_ ; this must be greater than or equal to the
+           _mq_msgsize_ attribute of the queue (see mq_getattr(3)).  If
+           _msg_prio_ is not NULL, then the buffer to which it points is used
+           to return the priority associated with the received message.
+    
+           If the queue is empty, then, by default, mq_receive () blocks
+           until a message becomes available, or the call is interrupted by
+           a signal handler.  If the O_NONBLOCK flag is enabled for the
+           message queue description, then the call instead fails
+           immediately with the error EAGAIN.
+    
+           mq_timedreceive () behaves just like mq_receive (), except that if
+           the queue is empty and the O_NONBLOCK flag is not enabled for the
+           message queue description, then _abs_timeout_ points to a structure
+           which specifies how long the call will block.  This value is an
+           absolute timeout in seconds and nanoseconds since the Epoch,
+           1970-01-01 00:00:00 +0000 (UTC), specified in the following
+           structure:
+    
+               struct timespec {
+                   time_t tv_sec;        / seconds /
+                   long   tv_nsec;       / nanoseconds /
+               };
+    
+           If no message is available, and the timeout has already expired
+           by the time of the call, mq_timedreceive () returns immediately.
+    
+## RETURN VALUE         top
+    
+    
+           On success, mq_receive () and mq_timedreceive () return the number
+           of bytes in the received message; on error, -1 is returned, with
+           _errno_ set to indicate the error.
+    
+## ERRORS         top
+    
+    
+           EAGAIN The queue was empty, and the O_NONBLOCK flag was set for
+                  the message queue description referred to by _mqdes_.
+    
+           EBADF The descriptor specified in _mqdes_ was invalid or not
+                  opened for reading.
+    
+           EINTR The call was interrupted by a signal handler; see
+                  signal(7).
+    
+           EINVAL The call would have blocked, and _abs_timeout_ was invalid,
+                  either because _tv_sec_ was less than zero, or because
+                  _tv_nsec_ was less than zero or greater than 1000 million.
+    
+           EMSGSIZE
+                  _msg_len_ was less than the _mq_msgsize_ attribute of the
+                  message queue.
+    
+           ETIMEDOUT
+                  The call timed out before a message could be transferred.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ mq_receive (), mq_timedreceive ()       │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008.
+    
+## NOTES         top
+    
+    
+           On Linux, mq_timedreceive () is a system call, and mq_receive () is
+           a library function layered on top of that system call.
+    
+## SEE ALSO         top
+    
+    
+           mq_close(3), mq_getattr(3), mq_notify(3), mq_open(3), mq_send(3),
+           mq_unlink(3), mq_overview(7), time(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                  MQ_RECEIVE(3)
+    

@@ -1,0 +1,206 @@
+  
+# rcmd(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | VERSIONS | ATTRIBUTES |
+CONFORMING TO | BUGS | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    RCMD(3)                 Linux Programmer's Manual                RCMD(3)
+    
+## NAME         top
+    
+    
+           rcmd, rresvport, iruserok, ruserok, rcmd_af, rresvport_af,
+           iruserok_af, ruserok_af - routines for returning a stream to a
+           remote command
+    
+## SYNOPSIS         top
+    
+    
+           #include <netdb.h>    / Or <unistd.h> on some systems /
+    
+           int rcmd(char restrict _ahost_ , unsigned short _inport_ ,
+                       const char restrict _locuser_ ,
+                       const char restrict _remuser_ ,
+                       const char restrict _cmd_ , int restrict _fd2p_ );
+    
+           int rresvport(int  _port_ );
+    
+           int iruserok(uint32_t _raddr_ , int _superuser_ ,
+                       const char  _ruser_ , const char  _luser_ );
+           int ruserok(const char  _rhost_ , int _superuser_ ,
+                       const char  _ruser_ , const char  _luser_ );
+    
+           int rcmd_af(char restrict _ahost_ , unsigned short _inport_ ,
+                       const char restrict _locuser_ ,
+                       const char restrict _remuser_ ,
+                       const char restrict _cmd_ , int restrict _fd2p_ ,
+                       sa_family_t _af_ );
+    
+           int rresvport_af(int  _port_ , sa_family_t _af_ );
+    
+           int iruserok_af(const void restrict _raddr_ , int _superuser_ ,
+                       const char restrict _ruser_ , const char restrict _luser_ ,
+                       sa_family_t _af_ );
+           int ruserok_af(const char  _rhost_ , int _superuser_ ,
+                       const char  _ruser_ , const char  _luser_ ,
+                       sa_family_t _af_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           rcmd (), rcmd_af (), rresvport (), rresvport_af (), iruserok (),
+           iruserok_af (), ruserok (), ruserok_af ():
+               Since glibc 2.19:
+                   _DEFAULT_SOURCE
+               Glibc 2.19 and earlier:
+                   _BSD_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           The rcmd () function is used by the superuser to execute a command
+           on a remote machine using an authentication scheme based on
+           privileged port numbers.  The rresvport () function returns a file
+           descriptor to a socket with an address in the privileged port
+           space.  The iruserok () and ruserok () functions are used by
+           servers to authenticate clients requesting service with rcmd ().
+           All four functions are used by the rshd (8) server (among others).
+    
+       rcmd()
+           The rcmd () function looks up the host _ahost_ using
+           gethostbyname(3), returning -1 if the host does not exist.
+           Otherwise, _ahost_ is set to the standard name of the host and a
+           connection is established to a server residing at the well-known
+           Internet port _inport_.
+    
+           If the connection succeeds, a socket in the Internet domain of
+           type SOCK_STREAM is returned to the caller, and given to the
+           remote command as _stdin_ and _stdout_.  If _fd2p_ is nonzero, then an
+           auxiliary channel to a control process will be set up, and a file
+           descriptor for it will be placed in _fd2p_.  The control process
+           will return diagnostic output from the command (unit 2) on this
+           channel, and will also accept bytes on this channel as being UNIX
+           signal numbers, to be forwarded to the process group of the
+           command.  If _fd2p_ is 0, then the _stderr_ (unit 2 of the remote
+           command) will be made the same as the _stdout_ and no provision is
+           made for sending arbitrary signals to the remote process,
+           although you may be able to get its attention by using out-of-
+           band data.
+    
+           The protocol is described in detail in rshd (8).
+    
+       rresvport()
+           The rresvport () function is used to obtain a socket with a
+           privileged port bound to it.  This socket is suitable for use by
+           rcmd () and several other functions.  Privileged ports are those
+           in the range 0 to 1023.  Only a privileged process (on Linux, a
+           process that has the CAP_NET_BIND_SERVICE capability in the user
+           namespace governing its network namespace) is allowed to bind to
+           a privileged port.  In the glibc implementation, this function
+           restricts its search to the ports from 512 to 1023.  The _port_
+           argument is value-result: the value it supplies to the call is
+           used as the starting point for a circular search of the port
+           range; on (successful) return, it contains the port number that
+           was bound to.
+    
+       iruserok() and ruserok()
+           The iruserok () and ruserok () functions take a remote host's IP
+           address or name, respectively, two usernames and a flag
+           indicating whether the local user's name is that of the
+           superuser.  Then, if the user is _not_ the superuser, it checks the
+           _/etc/hosts.equiv_ file.  If that lookup is not done, or is
+           unsuccessful, the _.rhosts_ in the local user's home directory is
+           checked to see if the request for service is allowed.
+    
+           If this file does not exist, is not a regular file, is owned by
+           anyone other than the user or the superuser, is writable by
+           anyone other than the owner, or is hardlinked anywhere, the check
+           automatically fails.  Zero is returned if the machine name is
+           listed in the _hosts.equiv_ file, or the host and remote username
+           are found in the _.rhosts_ file; otherwise iruserok () and ruserok ()
+           return -1.  If the local domain (as obtained from gethostname(2))
+           is the same as the remote domain, only the machine name need be
+           specified.
+    
+           If the IP address of the remote host is known, iruserok () should
+           be used in preference to ruserok (), as it does not require
+           trusting the DNS server for the remote host's domain.
+    
+       _af() variants
+           All of the functions described above work with IPv4 ( AF_INET )
+           sockets.  The "_af" variants take an extra argument that allows
+           the socket address family to be specified.  For these functions,
+           the _af_ argument can be specified as AF_INET or AF_INET6.  In
+           addition, rcmd_af () supports the use of AF_UNSPEC.
+    
+## RETURN VALUE         top
+    
+    
+           The rcmd () function returns a valid socket descriptor on success.
+           It returns -1 on error and prints a diagnostic message on the
+           standard error.
+    
+           The rresvport () function returns a valid, bound socket descriptor
+           on success.  On failure, it returns -1 and sets _errno_ to indicate
+           the error.  The error code EAGAIN is overloaded to mean: "All
+           network ports in use".
+    
+           For information on the return from ruserok () and iruserok (), see
+           above.
+    
+## VERSIONS         top
+    
+    
+           The functions iruserok_af (), rcmd_af (), rresvport_af (), and
+           ruserok_af () functions are provide in glibc since version 2.2.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌───────────────────────────────┬───────────────┬────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├───────────────────────────────┼───────────────┼────────────────┤
+           │ rcmd (), rcmd_af ()              │ Thread safety │ MT-Unsafe      │
+           ├───────────────────────────────┼───────────────┼────────────────┤
+           │ rresvport (), rresvport_af ()    │ Thread safety │ MT-Safe        │
+           ├───────────────────────────────┼───────────────┼────────────────┤
+           │ iruserok (), ruserok (),         │ Thread safety │ MT-Safe locale │
+           │ iruserok_af (), ruserok_af ()    │               │                │
+           └───────────────────────────────┴───────────────┴────────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           Not in POSIX.1.  Present on the BSDs, Solaris, and many other
+           systems.  These functions appeared in 4.2BSD.  The "_af" variants
+           are more recent additions, and are not present on as wide a range
+           of systems.
+    
+## BUGS         top
+    
+    
+           iruserok () and iruserok_af () are declared in glibc headers only
+           since version 2.12.
+    
+## SEE ALSO         top
+    
+    
+           rlogin (1), rsh (1), rexec(3), rexecd (8), rlogind (8), rshd (8)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                        RCMD(3)
+    

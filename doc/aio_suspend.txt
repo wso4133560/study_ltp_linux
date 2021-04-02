@@ -1,0 +1,132 @@
+  
+# aio_suspend(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | VERSIONS | ATTRIBUTES
+| CONFORMING TO | NOTES | BUGS | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    AIO_SUSPEND(3)          Linux Programmer's Manual         AIO_SUSPEND(3)
+    
+## NAME         top
+    
+    
+           aio_suspend - wait for asynchronous I/O operation or timeout
+    
+## SYNOPSIS         top
+    
+    
+           #include <aio.h>
+    
+           int aio_suspend(const struct aiocb const _aiocb_list_ [], int _nitems_ ,
+                           const struct timespec restrict _timeout_ );
+    
+           Link with _-lrt_.
+    
+## DESCRIPTION         top
+    
+    
+           The aio_suspend () function suspends the calling thread until one
+           of the following occurs:
+    
+             One or more of the asynchronous I/O requests in the list
+              _aiocb_list_ has completed.
+    
+             A signal is delivered.
+    
+             _timeout_ is not NULL and the specified time interval has
+              passed.  (For details of the _timespec_ structure, see
+              nanosleep(2).)
+    
+           The _nitems_ argument specifies the number of items in _aiocb_list_.
+           Each item in the list pointed to by _aiocb_list_ must be either
+           NULL (and then is ignored), or a pointer to a control block on
+           which I/O was initiated using aio_read(3), aio_write(3), or
+           lio_listio(3).  (See aio(7) for a description of the _aiocb_
+           structure.)
+    
+           If CLOCK_MONOTONIC is supported, this clock is used to measure
+           the timeout interval (see clock_gettime(2)).
+    
+## RETURN VALUE         top
+    
+    
+           If this function returns after completion of one of the I/O
+           requests specified in _aiocb_list_ , 0 is returned.  Otherwise, -1
+           is returned, and _errno_ is set to indicate the error.
+    
+## ERRORS         top
+    
+    
+           EAGAIN The call timed out before any of the indicated operations
+                  had completed.
+    
+           EINTR The call was ended by signal (possibly the completion
+                  signal of one of the operations we were waiting for); see
+                  signal(7).
+    
+           ENOSYS aio_suspend () is not implemented.
+    
+## VERSIONS         top
+    
+    
+           The aio_suspend () function is available since glibc 2.1.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ aio_suspend ()                         │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008.
+    
+           POSIX doesn't specify the parameters to be _restrict_ ; that is
+           specific to glibc.
+    
+## NOTES         top
+    
+    
+           One can achieve polling by using a non-NULL _timeout_ that
+           specifies a zero time interval.
+    
+           If one or more of the asynchronous I/O operations specified in
+           _aiocb_list_ has already completed at the time of the call to
+           aio_suspend (), then the call returns immediately.
+    
+           To determine which I/O operations have completed after a
+           successful return from aio_suspend (), use aio_error(3) to scan
+           the list of _aiocb_ structures pointed to by _aiocb_list_.
+    
+## BUGS         top
+    
+    
+           The glibc implementation of aio_suspend () is not async-signal-
+           safe, in violation of the requirements of POSIX.1.
+    
+## SEE ALSO         top
+    
+    
+           aio_cancel(3), aio_error(3), aio_fsync(3), aio_read(3),
+           aio_return(3), aio_write(3), lio_listio(3), aio(7), time(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                 AIO_SUSPEND(3)
+    

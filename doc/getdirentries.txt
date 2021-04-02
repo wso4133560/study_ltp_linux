@@ -1,0 +1,87 @@
+  
+# getdirentries(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    GETDIRENTRIES(3)        Linux Programmer's Manual       GETDIRENTRIES(3)
+    
+## NAME         top
+    
+    
+           getdirentries - get directory entries in a filesystem-independent
+           format
+    
+## SYNOPSIS         top
+    
+    
+           #include <dirent.h>
+    
+           ssize_t getdirentries(int _fd_ , char restrict _buf_ , size_t _nbytes_ ,
+                                 off_t restrict _basep_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           getdirentries ():
+               Since glibc 2.19:
+                   _DEFAULT_SOURCE
+               Glibc 2.19 and earlier:
+                   _BSD_SOURCE || _SVID_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           Read directory entries from the directory specified by _fd_ into
+           _buf_.  At most _nbytes_ are read.  Reading starts at offset _basep_ ,
+           and _basep_ is updated with the new position after reading.
+    
+## RETURN VALUE         top
+    
+    
+           getdirentries () returns the number of bytes read or zero when at
+           the end of the directory.  If an error occurs, -1 is returned,
+           and _errno_ is set to indicate the error.
+    
+## ERRORS         top
+    
+    
+           See the Linux library source code for details.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ getdirentries ()                       │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           Not in POSIX.1.  Present on the BSDs, and a few other systems.
+           Use opendir(3) and readdir(3) instead.
+    
+## SEE ALSO         top
+    
+    
+           lseek(2), open(2)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22               GETDIRENTRIES(3)
+    

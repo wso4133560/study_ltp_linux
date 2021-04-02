@@ -1,0 +1,272 @@
+  
+# suffixes(7) -- Linux manual page
+NAME | DESCRIPTION | CONFORMING TO | BUGS | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    SUFFIXES(7)             Linux Programmer's Manual            SUFFIXES(7)
+    
+## NAME         top
+    
+    
+           suffixes - list of file suffixes
+    
+## DESCRIPTION         top
+    
+    
+           It is customary to indicate the contents of a file with the file
+           suffix, which (typically) consists of a period, followed by one
+           or more letters.  Many standard utilities, such as compilers, use
+           this to recognize the type of file they are dealing with.  The
+           make(1) utility is driven by rules based on file suffix.
+    
+           Following is a list of suffixes which are likely to be found on a
+           Linux system.
+                         │
+           Suffix        │ File type
+           ──────────────├─────────────────────────────────────────────────────
+            _,v_           │ files for RCS (Revision Control System)
+            _-_            │ backup file
+            _.C_           │ C++ source code, equivalent to _.cc_
+            _.F_           │ Fortran source with cpp(1) directives
+                         │ or file compressed using freeze
+            _.S_           │ assembler source with cpp(1) directives
+            _.Y_           │ file compressed using yabba
+            _.Z_           │ file compressed using compress (1)
+            _.[0-9]+gf_    │ TeX generic font files
+            _.[0-9]+pk_    │ TeX packed font files
+            _.[1-9]_       │ manual page for the corresponding section
+            _.[1-9][a-z]_  │ manual page for section plus subsection
+            _.a_           │ static object code library
+            _.ad_          │ X application default resource file
+            _.ada_         │ Ada source (may be body, spec, or combination)
+            _.adb_         │ Ada body source
+            _.ads_         │ Ada spec source
+            _.afm_         │ PostScript font metrics
+            _.al_          │ Perl autoload file
+            _.am_          │ automake (1) input file
+            _.arc_         │ arc (1) archive
+            _.arj_         │ arj (1) archive
+            _.asc_         │ PGP ASCII-armored data
+            _.asm_         │ (GNU) assembler source file
+            _.au_          │ Audio sound file
+            _.aux_         │ LaTeX auxiliary file
+            _.avi_         │ (msvideo) movie
+            _.awk_         │ AWK language program
+            _.b_           │ LILO boot loader image
+            _.bak_         │ backup file
+            _.bash_        │ bash(1) shell script
+            _.bb_          │ basic block list data produced by
+                         │ gcc -ftest-coverage
+            _.bbg_         │ basic block graph data produced by
+                         │ gcc -ftest-coverage
+            _.bbl_         │ BibTeX output
+            _.bdf_         │ X font file
+            _.bib_         │ TeX bibliographic database, BibTeX input
+            _.bm_          │ bitmap source
+            _.bmp_         │ bitmap
+            _.bz2_         │ file compressed using bzip2 (1)
+            _.c_           │ C source
+            _.cat_         │ message catalog files
+            _.cc_          │ C++ source
+            _.cf_          │ configuration file
+            _.cfg_         │ configuration file
+            _.cgi_         │ WWW content generating script or program
+            _.cls_         │ LaTeX Class definition
+            _.class_       │ Java compiled byte-code
+            _.conf_        │ configuration file
+            _.config_      │ configuration file
+            _.cpp_         │ equivalent to _.cc_
+            _.csh_         │ csh (1) shell script
+            _.cxx_         │ equivalent to _.cc_
+            _.dat_         │ data file
+            _.deb_         │ Debian software package
+            _.def_         │ Modula-2 source for definition modules
+            _.def_         │ other definition files
+            _.desc_        │ initial part of mail message unpacked with
+                         │ munpack (1)
+            _.diff_        │ file differences (diff(1) command output)
+            _.dir_         │ dbm data base directory file
+            _.doc_         │ documentation file
+            _.dsc_         │ Debian Source Control (source package)
+            _.dtx_         │ LaTeX package source file
+            _.dvi_         │ TeX's device independent output
+            _.el_          │ Emacs-Lisp source
+            _.elc_         │ compiled Emacs-Lisp source
+            _.eps_         │ encapsulated PostScript
+            _.exp_         │ Expect source code
+            _.f_           │ Fortran source
+            _.f77_         │ Fortran 77 source
+            _.f90_         │ Fortran 90 source
+            _.fas_         │ precompiled Common-Lisp
+            _.fi_          │ Fortran include files
+            _.fig_         │ FIG image file (used by xfig (1))
+            _.fmt_         │ TeX format file
+            _.gif_         │ Compuserve Graphics Image File format
+            _.gmo_         │ GNU format message catalog
+            _.gsf_         │ Ghostscript fonts
+            _.gz_          │ file compressed using gzip (1)
+            _.h_           │ C or C++ header files
+            _.help_        │ help file
+            _.hf_          │ equivalent to _.help_
+            _.hlp_         │ equivalent to _.help_
+            _.htm_         │ poor man's _.html_
+            _.html_        │ HTML document used with the World Wide Web
+            _.hqx_         │ 7-bit encoded Macintosh file
+            _.i_           │ C source after preprocessing
+            _.icon_        │ bitmap source
+            _.idx_         │ reference or datum-index file for hypertext
+                         │ or database system
+            _.image_       │ bitmap source
+            _.in_          │ configuration template, especially for GNU Autoconf
+            _.info_        │ files for the Emacs info browser
+            _.info-[0-9]+_ │ split info files
+            _.ins_         │ LaTeX package install file for docstrip
+            _.itcl_        │ itcl source code;
+                         │ itcl ([incr Tcl]) is an OO extension of tcl
+            _.java_        │ a Java source file
+            _.jpeg_        │ Joint Photographic Experts Group format
+            _.jpg_         │ poor man's _.jpeg_
+            _.kmap_        │ lyx (1) keymap
+            _.l_           │ equivalent to _.lex_ or _.lisp_
+            _.lex_         │ lex (1) or flex (1) files
+            _.lha_         │ lharc archive
+            _.lib_         │ Common-Lisp library
+            _.lisp_        │ Lisp source
+            _.ln_          │ files for use with lint (1)
+            _.log_         │ log file, in particular produced by TeX
+            _.lsm_         │ Linux Software Map entry
+            _.lsp_         │ Common-Lisp source
+            _.lzh_         │ lharc archive
+            _.m_           │ Objective-C source code
+            _.m4_          │ m4 (1) source
+            _.mac_         │ macro files for various programs
+            _.man_         │ manual page (usually source rather than formatted)
+            _.map_         │ map files for various programs
+            _.me_          │ Nroff source using the me macro package
+            _.mf_          │ Metafont (font generator for TeX) source
+            _.mgp_         │ MagicPoint file
+            _.mm_          │ sources for groff(1) in mm - format
+            _.mo_          │ Message catalog binary file
+            _.mod_         │ Modula-2 source for implementation modules
+            _.mov_         │ (quicktime) movie
+            _.mp_          │ Metapost source
+            _.mp2_         │ MPEG Layer 2 (audio) file
+            _.mp3_         │ MPEG Layer 3 (audio) file
+            _.mpeg_        │ movie file
+            _.o_           │ object file
+            _.old_         │ old or backup file
+            _.orig_        │ backup (original) version of a file, from patch(1)
+            _.out_         │ output file, often executable program (a.out)
+            _.p_           │ Pascal source
+            _.pag_         │ dbm data base data file
+            _.patch_       │ file differences for patch(1)
+            _.pbm_         │ portable bitmap format
+            _.pcf_         │ X11 font files
+            _.pdf_         │ Adobe Portable Data Format
+                         │ (use Acrobat/ acroread or xpdf )
+            _.perl_        │ Perl source (see .ph, .pl, and .pm)
+            _.pfa_         │ PostScript font definition files, ASCII format
+            _.pfb_         │ PostScript font definition files, binary format
+            _.pgm_         │ portable greymap format
+            _.pgp_         │ PGP binary data
+            _.ph_          │ Perl header file
+            _.php_         │ PHP program file
+            _.php3_        │ PHP3 program file
+            _.pid_         │ File to store daemon PID (e.g., crond.pid)
+            _.pl_          │ TeX property list file or Perl library file
+            _.pm_          │ Perl module
+            _.png_         │ Portable Network Graphics file
+            _.po_          │ Message catalog source
+            _.pod_         │ perldoc (1) file
+            _.ppm_         │ portable pixmap format
+            _.pr_          │ bitmap source
+            _.ps_          │ PostScript file
+            _.py_          │ Python source
+            _.pyc_         │ compiled python
+            _.qt_          │ quicktime movie
+            _.r_           │ RATFOR source (obsolete)
+            _.rej_         │ patches that patch(1) couldn't apply
+            _.rpm_         │ RPM software package
+            _.rtf_         │ Rich Text Format file
+            _.rules_       │ rules for something
+            _.s_           │ assembler source
+            _.sa_          │ stub libraries for a.out shared libraries
+            _.sc_          │ sc (1) spreadsheet commands
+            _.scm_         │ Scheme source code
+            _.sed_         │ sed source file
+            _.sgml_        │ SGML source file
+            _.sh_          │ sh (1) scripts
+            _.shar_        │ archive created by the shar (1) utility
+            _.so_          │ Shared library or dynamically loadable object
+            _.sql_         │ SQL source
+            _.sqml_        │ SQML schema or query program
+            _.sty_         │ LaTeX style files
+            _.sym_         │ Modula-2 compiled definition modules
+            _.tar_         │ archive created by the tar(1) utility
+            _.tar.Z_       │ tar(1) archive compressed with compress (1)
+            _.tar.bz2_     │ tar(1) archive compressed with bzip2 (1)
+            _.tar.gz_      │ tar(1) archive compressed with gzip (1)
+            _.taz_         │ tar(1) archive compressed with compress (1)
+            _.tcl_         │ tcl source code
+            _.tex_         │ TeX or LaTeX source
+            _.texi_        │ equivalent to _.texinfo_
+            _.texinfo_     │ Texinfo documentation source
+            _.text_        │ text file
+            _.tfm_         │ TeX font metric file
+            _.tgz_         │ tar archive compressed with gzip (1)
+            _.tif_         │ poor man's _.tiff_
+            _.tiff_        │ Tagged Image File Format
+            _.tk_          │ tcl/tk script
+            _.tmp_         │ temporary file
+            _.tmpl_        │ template files
+            _.txt_         │ equivalent to _.text_
+            _.uu_          │ equivalent to _.uue_
+            _.uue_         │ binary file encoded with uuencode (1)
+            _.vf_          │ TeX virtual font file
+            _.vpl_         │ TeX virtual property list file
+            _.w_           │ Silvio Levi's CWEB
+            _.wav_         │ wave sound file
+            _.web_         │ Donald Knuth's WEB
+            _.wml_         │ Source file for Web Meta Language
+            _.xbm_         │ X11 bitmap source
+            _.xcf_         │ GIMP graphic
+            _.xml_         │ eXtended Markup Language file
+            _.xpm_         │ X11 pixmap source
+            _.xs_          │ Perl xsub file produced by h2xs
+            _.xsl_         │ XSL stylesheet
+            _.y_           │ yacc (1) or bison (1) (parser generator) files
+            _.z_           │ File compressed using pack (1) (or an old gzip (1))
+            _.zip_         │ zip (1) archive
+            _.zoo_         │ zoo (1) archive
+            _~_            │ Emacs or patch(1) backup file
+            _rc_           │ startup (`run control') file, e.g., _.newsrc_
+    
+## CONFORMING TO         top
+    
+    
+           General UNIX conventions.
+    
+## BUGS         top
+    
+    
+           This list is not exhaustive.
+    
+## SEE ALSO         top
+    
+    
+           file(1), make(1)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2020-08-13                    SUFFIXES(7)
+    

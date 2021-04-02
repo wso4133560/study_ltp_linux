@@ -1,0 +1,109 @@
+  
+# timeradd(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | CONFORMING TO | SEE
+ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    TIMERADD(3)             Linux Programmer's Manual            TIMERADD(3)
+    
+## NAME         top
+    
+    
+           timeradd, timersub, timercmp, timerclear, timerisset - timeval
+           operations
+    
+## SYNOPSIS         top
+    
+    
+           #include <sys/time.h>
+    
+           void timeradd(struct timeval  _a_ , struct timeval  _b_ ,
+                         struct timeval  _res_ );
+           void timersub(struct timeval  _a_ , struct timeval  _b_ ,
+                         struct timeval  _res_ );
+    
+           void timerclear(struct timeval  _tvp_ );
+           int timerisset(struct timeval  _tvp_ );
+    
+           int timercmp(struct timeval  _a_ , struct timeval  _b_ , _CMP_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           All functions shown above:
+               Since glibc 2.19:
+                   _DEFAULT_SOURCE
+               Glibc 2.19 and earlier:
+                   _BSD_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           The macros are provided to operate on _timeval_ structures, defined
+           in _< sys/time.h>_ as:
+    
+               struct timeval {
+                   time_t      tv_sec;     / seconds /
+                   suseconds_t tv_usec;    / microseconds /
+               };
+    
+           timeradd () adds the time values in _a_ and _b_ , and places the sum in
+           the _timeval_ pointed to by _res_.  The result is normalized such
+           that _res- >tv_usec_ has a value in the range 0 to 999,999.
+    
+           timersub () subtracts the time value in _b_ from the time value in
+           _a_ , and places the result in the _timeval_ pointed to by _res_.  The
+           result is normalized such that _res- >tv_usec_ has a value in the
+           range 0 to 999,999.
+    
+           timerclear () zeros out the _timeval_ structure pointed to by _tvp_ ,
+           so that it represents the Epoch: 1970-01-01 00:00:00 +0000 (UTC).
+    
+           timerisset () returns true (nonzero) if either field of the
+           _timeval_ structure pointed to by _tvp_ contains a nonzero value.
+    
+           timercmp () compares the timer values in _a_ and _b_ using the
+           comparison operator _CMP_ , and returns true (nonzero) or false (0)
+           depending on the result of the comparison.  Some systems (but not
+           Linux/glibc), have a broken timercmp () implementation, in which
+           _CMP_ of _> =_, _< =_, and _==_ do not work; portable applications can
+           instead use
+    
+               !timercmp(..., <)
+               !timercmp(..., >)
+               !timercmp(..., !=)
+    
+## RETURN VALUE         top
+    
+    
+           timerisset () and timercmp () return true (nonzero) or false (0).
+    
+## ERRORS         top
+    
+    
+           No errors are defined.
+    
+## CONFORMING TO         top
+    
+    
+           Not in POSIX.1.  Present on most BSD derivatives.
+    
+## SEE ALSO         top
+    
+    
+           gettimeofday(2), time(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                    TIMERADD(3)
+    

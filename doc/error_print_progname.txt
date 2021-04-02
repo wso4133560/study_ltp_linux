@@ -1,0 +1,122 @@
+  
+# error(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | ATTRIBUTES | CONFORMING TO | SEE ALSO |
+COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    ERROR(3)                Linux Programmer's Manual               ERROR(3)
+    
+## NAME         top
+    
+    
+           error, error_at_line, error_message_count, error_one_per_line,
+           error_print_progname - glibc error reporting functions
+    
+## SYNOPSIS         top
+    
+    
+           #include <error.h>
+    
+           void error(int _status_ , int _errnum_ , const char  _format_ , ...);
+           void error_at_line(int _status_ , int _errnum_ , const char  _filename_ ,
+                              unsigned int _linenum_ , const char  _format_ , ...);
+    
+           extern unsigned int _error_message_count_ ;
+           extern int _error_one_per_line_ ;
+    
+           extern void ( _error_print_progname_ )(void);
+    
+## DESCRIPTION         top
+    
+    
+           error () is a general error-reporting function.  It flushes
+           _stdout_ , and then outputs to _stderr_ the program name, a colon and
+           a space, the message specified by the printf(3)-style format
+           string _format_ , and, if _errnum_ is nonzero, a second colon and a
+           space followed by the string given by _strerror(errnum)_.  Any
+           arguments required for _format_ should follow _format_ in the
+           argument list.  The output is terminated by a newline character.
+    
+           The program name printed by error () is the value of the global
+           variable program_invocation_name(3).  _program_invocation_name_
+           initially has the same value as _main_ ()'s _argv[0]_.  The value of
+           this variable can be modified to change the output of error ().
+    
+           If _status_ has a nonzero value, then error () calls exit(3) to
+           terminate the program using the given value as the exit status;
+           otherwise it returns after printing the error message.
+    
+           The error_at_line () function is exactly the same as error (),
+           except for the addition of the arguments _filename_ and _linenum_.
+           The output produced is as for error (), except that after the
+           program name are written: a colon, the value of _filename_ , a
+           colon, and the value of _linenum_.  The preprocessor values
+           __LINE__ and __FILE__ may be useful when calling error_at_line (),
+           but other values can also be used.  For example, these arguments
+           could refer to a location in an input file.
+    
+           If the global variable _error_one_per_line_ is set nonzero, a
+           sequence of error_at_line () calls with the same value of _filename_
+           and _linenum_ will result in only one message (the first) being
+           output.
+    
+           The global variable _error_message_count_ counts the number of
+           messages that have been output by error () and error_at_line ().
+    
+           If the global variable _error_print_progname_ is assigned the
+           address of a function (i.e., is not NULL), then that function is
+           called instead of prefixing the message with the program name and
+           colon.  The function should print a suitable string to _stderr_.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌────────────────┬───────────────┬───────────────────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├────────────────┼───────────────┼───────────────────────────────┤
+           │ error ()         │ Thread safety │ MT-Safe locale                │
+           ├────────────────┼───────────────┼───────────────────────────────┤
+           │ error_at_line () │ Thread safety │ MT-Unsafe race:               │
+           │                │               │ error_at_line/                │
+           │                │               │ error_one_per_line locale     │
+           └────────────────┴───────────────┴───────────────────────────────┘
+    
+           The internal _error_one_per_line_ variable is accessed (without any
+           form of synchronization, but since it's an _int_ used once, it
+           should be safe enough) and, if _error_one_per_line_ is set nonzero,
+           the internal static variables (not exposed to users) used to hold
+           the last printed filename and line number are accessed and
+           modified without synchronization; the update is not atomic and it
+           occurs before disabling cancellation, so it can be interrupted
+           only after one of the two variables is modified.  After that,
+           error_at_line () is very much like error ().
+    
+## CONFORMING TO         top
+    
+    
+           These functions and variables are GNU extensions, and should not
+           be used in programs intended to be portable.
+    
+## SEE ALSO         top
+    
+    
+           err(3), errno(3), exit(3), perror(3), program_invocation_name(3),
+           strerror(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                       ERROR(3)
+    

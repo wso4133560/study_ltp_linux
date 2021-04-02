@@ -1,0 +1,138 @@
+  
+# fread(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+EXAMPLES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    FREAD(3)                Linux Programmer's Manual               FREAD(3)
+    
+## NAME         top
+    
+    
+           fread, fwrite - binary stream input/output
+    
+## SYNOPSIS         top
+    
+    
+           #include <stdio.h>
+    
+           size_t fread(void restrict _ptr_ , size_t _size_ , size_t _nmemb_ ,
+                        FILE restrict _stream_ );
+           size_t fwrite(const void restrict _ptr_ , size_t _size_ , size_t _nmemb_ ,
+                        FILE restrict _stream_ );
+    
+## DESCRIPTION         top
+    
+    
+           The function fread () reads _nmemb_ items of data, each _size_ bytes
+           long, from the stream pointed to by _stream_ , storing them at the
+           location given by _ptr_.
+    
+           The function fwrite () writes _nmemb_ items of data, each _size_ bytes
+           long, to the stream pointed to by _stream_ , obtaining them from the
+           location given by _ptr_.
+    
+           For nonlocking counterparts, see unlocked_stdio(3).
+    
+## RETURN VALUE         top
+    
+    
+           On success, fread () and fwrite () return the number of items read
+           or written.  This number equals the number of bytes transferred
+           only when _size_ is 1.  If an error occurs, or the end of the file
+           is reached, the return value is a short item count (or zero).
+    
+           The file position indicator for the stream is advanced by the
+           number of bytes successfully read or written.
+    
+           fread () does not distinguish between end-of-file and error, and
+           callers must use feof(3) and ferror(3) to determine which
+           occurred.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ fread (), fwrite ()                     │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C89.
+    
+## EXAMPLES         top
+    
+    
+           The program below demonstrates the use of fread () by parsing
+           /bin/sh ELF executable in binary mode and printing its magic and
+           class:
+    
+               $ ./a.out
+               ELF magic: 0x7f454c46
+               Class: 0x02
+    
+       Program source
+    
+           #include <stdio.h>
+           #include <stdlib.h>
+    
+           #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
+    
+           int
+           main(void)
+           {
+               FILE fp = fopen("/bin/sh", "rb");
+               if (!fp) {
+                   perror("fopen");
+                   return EXIT_FAILURE;
+               }
+    
+               unsigned char buffer[4];
+    
+               size_t ret = fread(buffer, sizeof(buffer), ARRAY_SIZE(buffer), fp);
+               if (ret != ARRAY_SIZE(buffer)) {
+                   fprintf(stderr, "fread() failed: %zu\n", ret);
+                   exit(EXIT_FAILURE);
+               }
+    
+               printf("ELF magic: %#04x%02x%02x%02x\n", buffer[0], buffer[1],
+                      buffer[2], buffer[3]);
+    
+               ret = fread(buffer, 1, 1, fp);
+               if (ret != 1) {
+                   fprintf(stderr, "fread() failed: %zu\n", ret);
+                   exit(EXIT_FAILURE);
+               }
+    
+               printf("Class: %#04x\n", buffer[0]);
+    
+               fclose(fp);
+    
+               exit(EXIT_SUCCESS);
+           }
+    
+## SEE ALSO         top
+    
+    
+           read(2), write(2), feof(3), ferror(3), unlocked_stdio(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                       FREAD(3)
+    

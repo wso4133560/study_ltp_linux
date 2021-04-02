@@ -1,0 +1,88 @@
+  
+# fclose(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    FCLOSE(3)               Linux Programmer's Manual              FCLOSE(3)
+    
+## NAME         top
+    
+    
+           fclose - close a stream
+    
+## SYNOPSIS         top
+    
+    
+           #include <stdio.h>
+    
+           int fclose(FILE  _stream_ );
+    
+## DESCRIPTION         top
+    
+    
+           The fclose () function flushes the stream pointed to by _stream_
+           (writing any buffered output data using fflush(3)) and closes the
+           underlying file descriptor.
+    
+## RETURN VALUE         top
+    
+    
+           Upon successful completion, 0 is returned.  Otherwise, EOF is
+           returned and _errno_ is set to indicate the error.  In either case,
+           any further access (including another call to fclose ()) to the
+           stream results in undefined behavior.
+    
+## ERRORS         top
+    
+    
+           EBADF The file descriptor underlying _stream_ is not valid.
+    
+           The fclose () function may also fail and set _errno_ for any of the
+           errors specified for the routines close(2), write(2), or
+           fflush(3).
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ fclose ()                              │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C89, C99.
+    
+## NOTES         top
+    
+    
+           Note that fclose () flushes only the user-space buffers provided
+           by the C library.  To ensure that the data is physically stored
+           on disk the kernel buffers must be flushed too, for example, with
+           sync(2) or fsync(2).
+    
+## SEE ALSO         top
+    
+    
+           close(2), fcloseall(3), fflush(3), fileno(3), fopen(3), setbuf(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                      FCLOSE(3)
+    

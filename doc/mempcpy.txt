@@ -1,0 +1,100 @@
+  
+# mempcpy(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | VERSIONS | ATTRIBUTES |
+CONFORMING TO | EXAMPLES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    MEMPCPY(3)              Linux Programmer's Manual             MEMPCPY(3)
+    
+## NAME         top
+    
+    
+           mempcpy, wmempcpy  - copy memory area
+    
+## SYNOPSIS         top
+    
+    
+           #define _GNU_SOURCE / See feature_test_macros(7) /
+           #include <string.h>
+    
+           void mempcpy(void restrict _dest_ , const void restrict _src_ , size_t _n_ );
+    
+           #define _GNU_SOURCE / See feature_test_macros(7) /
+           #include <wchar.h>
+    
+           wchar_t wmempcpy(wchar_t restrict _dest_ , const wchar_t restrict _src_ ,
+                             size_t _n_ );
+    
+## DESCRIPTION         top
+    
+    
+           The mempcpy () function is nearly identical to the memcpy(3)
+           function.  It copies _n_ bytes from the object beginning at _src_
+           into the object pointed to by _dest_.  But instead of returning the
+           value of _dest_ it returns a pointer to the byte following the last
+           written byte.
+    
+           This function is useful in situations where a number of objects
+           shall be copied to consecutive memory positions.
+    
+           The wmempcpy () function is identical but takes _wchar_t_ type
+           arguments and copies _n_ wide characters.
+    
+## RETURN VALUE         top
+    
+    
+           _dest_ + _n_.
+    
+## VERSIONS         top
+    
+    
+           mempcpy () first appeared in glibc in version 2.1.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ mempcpy (), wmempcpy ()                 │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           This function is a GNU extension.
+    
+## EXAMPLES         top
+    
+    
+           void 
+           combine(void o1, size_t s1, void o2, size_t s2)
+           {
+               void result = malloc(s1 + s2);
+               if (result != NULL)
+                   mempcpy(mempcpy(result, o1, s1), o2, s2);
+               return result;
+           }
+    
+## SEE ALSO         top
+    
+    
+           memccpy(3), memcpy(3), memmove(3), wmemcpy(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                     MEMPCPY(3)
+    

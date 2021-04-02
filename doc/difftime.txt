@@ -1,0 +1,76 @@
+  
+# difftime(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | ATTRIBUTES | CONFORMING TO | NOTES | SEE ALSO
+| COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    DIFFTIME(3)             Linux Programmer's Manual            DIFFTIME(3)
+    
+## NAME         top
+    
+    
+           difftime - calculate time difference
+    
+## SYNOPSIS         top
+    
+    
+           #include <time.h>
+    
+           double difftime(time_t _time1_ , time_t _time0_ );
+    
+## DESCRIPTION         top
+    
+    
+           The difftime () function returns the number of seconds elapsed
+           between time _time1_ and time _time0_ , represented as a _double_.  Each
+           of the times is specified in calendar time, which means its value
+           is a measurement (in seconds) relative to the Epoch, 1970-01-01
+           00:00:00 +0000 (UTC).
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ difftime ()                            │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C89, C99, SVr4, 4.3BSD.
+    
+## NOTES         top
+    
+    
+           On a POSIX system, _time_t_ is an arithmetic type, and one could
+           just define
+    
+               #define difftime(t1,t0) (double)(t1 - t0)
+    
+           when the possible overflow in the subtraction is not a concern.
+    
+## SEE ALSO         top
+    
+    
+           date(1), gettimeofday(2), time(2), ctime(3), gmtime(3),
+           localtime(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                    DIFFTIME(3)
+    

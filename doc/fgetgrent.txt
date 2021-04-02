@@ -1,0 +1,99 @@
+  
+# fgetgrent(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    FGETGRENT(3)            Linux Programmer's Manual           FGETGRENT(3)
+    
+## NAME         top
+    
+    
+           fgetgrent - get group file entry
+    
+## SYNOPSIS         top
+    
+    
+           #include <stdio.h>
+           #include <sys/types.h>
+           #include <grp.h>
+    
+           struct group fgetgrent(FILE  _stream_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           fgetgrent ():
+               Since glibc 2.19:
+                   _DEFAULT_SOURCE
+               Glibc 2.19 and earlier:
+                   _SVID_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           The fgetgrent () function returns a pointer to a structure
+           containing the group information from the file referred to by
+           _stream_.  The first time it is called it returns the first entry;
+           thereafter, it returns successive entries.  The file referred to
+           by _stream_ must have the same format as _/etc/group_ (see group(5)).
+    
+           The _group_ structure is defined in _< grp.h>_ as follows:
+    
+               struct group {
+                   char   gr_name;        / group name /
+                   char   gr_passwd;      / group password /
+                   gid_t   gr_gid;         / group ID /
+                   char  gr_mem;         / NULL-terminated array of pointers
+                                              to names of group members /
+               };
+    
+## RETURN VALUE         top
+    
+    
+           The fgetgrent () function returns a pointer to a _group_ structure,
+           or NULL if there are no more entries or an error occurs.  In the
+           event of an error, _errno_ is set to indicate the error.
+    
+## ERRORS         top
+    
+    
+           ENOMEM Insufficient memory to allocate _group_ structure.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌─────────────────────┬───────────────┬──────────────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├─────────────────────┼───────────────┼──────────────────────────┤
+           │ fgetgrent ()          │ Thread safety │ MT-Unsafe race:fgetgrent │
+           └─────────────────────┴───────────────┴──────────────────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           SVr4.
+    
+## SEE ALSO         top
+    
+    
+           endgrent(3), fgetgrent_r(3), fopen(3), getgrent(3), getgrgid(3),
+           getgrnam(3), putgrent(3), setgrent(3), group(5)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                   FGETGRENT(3)
+    

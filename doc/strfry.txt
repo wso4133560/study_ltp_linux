@@ -1,0 +1,70 @@
+  
+# strfry(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    STRFRY(3)               Linux Programmer's Manual              STRFRY(3)
+    
+## NAME         top
+    
+    
+           strfry - randomize a string
+    
+## SYNOPSIS         top
+    
+    
+           #define _GNU_SOURCE / See feature_test_macros(7) /
+           #include <string.h>
+    
+           char strfry(char  _string_ );
+    
+## DESCRIPTION         top
+    
+    
+           The strfry () function randomizes the contents of _string_ by
+           randomly swapping characters in the string.  The result is an
+           anagram of _string_.
+    
+## RETURN VALUE         top
+    
+    
+           The strfry () functions returns a pointer to the randomized
+           string.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ strfry ()                              │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           The strfry () function is unique to the GNU C Library.
+    
+## SEE ALSO         top
+    
+    
+           memfrob(3), string(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                      STRFRY(3)
+    

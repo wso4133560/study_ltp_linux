@@ -1,0 +1,132 @@
+  
+# isgreater(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    ISGREATER(3)            Linux Programmer's Manual           ISGREATER(3)
+    
+## NAME         top
+    
+    
+           isgreater, isgreaterequal, isless, islessequal, islessgreater,
+           isunordered - floating-point relational tests without exception
+           for NaN
+    
+## SYNOPSIS         top
+    
+    
+           #include <math.h>
+    
+           int isgreater( _x_ , _y_ );
+           int isgreaterequal( _x_ , _y_ );
+           int isless( _x_ , _y_ );
+           int islessequal( _x_ , _y_ );
+           int islessgreater( _x_ , _y_ );
+           int isunordered( _x_ , _y_ );
+    
+           Link with _-lm_.
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+               All functions described here:
+                   _ISOC99_SOURCE || _POSIX_C_SOURCE >= 200112L
+    
+## DESCRIPTION         top
+    
+    
+           The normal relational operations (like < , "less than") fail if
+           one of the operands is NaN.  This will cause an exception.  To
+           avoid this, C99 defines the macros listed below.
+    
+           These macros are guaranteed to evaluate their arguments only
+           once.  The arguments must be of real floating-point type (note:
+           do not pass integer values as arguments to these macros, since
+           the arguments will _not_ be promoted to real-floating types).
+    
+           isgreater ()
+                  determines _(x) > (y)_ without an exception if _x_ or _y_ is
+                  NaN.
+    
+           isgreaterequal ()
+                  determines _(x) >= (y)_ without an exception if _x_ or _y_ is
+                  NaN.
+    
+           isless ()
+                  determines _(x) < (y)_ without an exception if _x_ or _y_ is
+                  NaN.
+    
+           islessequal ()
+                  determines _(x) <= (y)_ without an exception if _x_ or _y_ is
+                  NaN.
+    
+           islessgreater ()
+                  determines _(x) < (y) || (x) > (y)_ without an exception if
+                  _x_ or _y_ is NaN.  This macro is not equivalent to _x != y_
+                  because that expression is true if _x_ or _y_ is NaN.
+    
+           isunordered ()
+                  determines whether its arguments are unordered, that is,
+                  whether at least one of the arguments is a NaN.
+    
+## RETURN VALUE         top
+    
+    
+           The macros other than isunordered () return the result of the
+           relational comparison; these macros return 0 if either argument
+           is a NaN.
+    
+           isunordered () returns 1 if _x_ or _y_ is NaN and 0 otherwise.
+    
+## ERRORS         top
+    
+    
+           No errors occur.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ isgreater (), isgreaterequal (),        │ Thread safety │ MT-Safe │
+           │ isless (), islessequal (),              │               │         │
+           │ islessgreater (), isunordered ()        │               │         │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C99.
+    
+## NOTES         top
+    
+    
+           Not all hardware supports these functions, and where hardware
+           support isn't provided, they will be emulated by macros.  This
+           will result in a performance penalty.  Don't use these functions
+           if NaN is of no concern for you.
+    
+## SEE ALSO         top
+    
+    
+           fpclassify(3), isnan(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                   ISGREATER(3)
+    

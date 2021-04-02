@@ -1,0 +1,110 @@
+  
+# towupper(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | VERSIONS | ATTRIBUTES |
+CONFORMING TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    TOWUPPER(3)             Linux Programmer's Manual            TOWUPPER(3)
+    
+## NAME         top
+    
+    
+           towupper, towupper_l - convert a wide character to uppercase
+    
+## SYNOPSIS         top
+    
+    
+           #include <wctype.h>
+    
+           wint_t towupper(wint_t _wc_ );
+           wint_t towupper_l(wint_t _wc_ , locale_t _locale_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           towupper_l ():
+               Since glibc 2.10:
+                   _XOPEN_SOURCE >= 700
+               Before glibc 2.10:
+                   _GNU_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           The towupper () function is the wide-character equivalent of the
+           toupper(3) function.  If _wc_ is a lowercase wide character, and
+           there exists an uppercase equivalent in the current locale, it
+           returns the uppercase equivalent of _wc_.  In all other cases, _wc_
+           is returned unchanged.
+    
+           The towupper_l () function performs the same task, but performs
+           the conversion based on the character type information in the
+           locale specified by _locale_.  The behavior of towupper_l () is
+           undefined if _locale_ is the special locale object LC_GLOBAL_LOCALE
+           (see duplocale(3)) or is not a valid locale object handle.
+    
+           The argument _wc_ must be representable as a _wchar_t_ and be a valid
+           character in the locale or be the value WEOF.
+    
+## RETURN VALUE         top
+    
+    
+           If _wc_ was convertible to uppercase, towupper () returns its
+           uppercase equivalent; otherwise it returns _wc_.
+    
+## VERSIONS         top
+    
+    
+           The towupper_l () function first appeared in glibc 2.3.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌───────────────────────────────┬───────────────┬────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├───────────────────────────────┼───────────────┼────────────────┤
+           │ towupper ()                     │ Thread safety │ MT-Safe locale │
+           ├───────────────────────────────┼───────────────┼────────────────┤
+           │ towupper_l ()                   │ Thread safety │ MT-Safe        │
+           └───────────────────────────────┴───────────────┴────────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           towupper (): C99, POSIX.1-2001 (XSI); present as an XSI extension
+           in POSIX.1-2008, but marked obsolete.
+    
+           towupper_l (): POSIX.1-2008.
+    
+## NOTES         top
+    
+    
+           The behavior of these functions depends on the LC_CTYPE category
+           of the locale.
+    
+           These functions are not very appropriate for dealing with Unicode
+           characters, because Unicode knows about three cases: upper,
+           lower, and title case.
+    
+## SEE ALSO         top
+    
+    
+           iswupper(3), towctrans(3), towlower(3), locale(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                    TOWUPPER(3)
+    

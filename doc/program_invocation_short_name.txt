@@ -1,0 +1,69 @@
+  
+# program_invocation_name(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | CONFORMING TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    INVOCATION_NAME(3)      Linux Programmer's Manual     INVOCATION_NAME(3)
+    
+## NAME         top
+    
+    
+           program_invocation_name, program_invocation_short_name - obtain
+           name used to invoke calling program
+    
+## SYNOPSIS         top
+    
+    
+           #define _GNU_SOURCE / See feature_test_macros(7) /
+           #include <errno.h>
+    
+           extern char  _program_invocation_name_ ;
+           extern char  _program_invocation_short_name_ ;
+    
+## DESCRIPTION         top
+    
+    
+           _program_invocation_name_ contains the name that was used to invoke
+           the calling program.  This is the same as the value of _argv[0]_ in
+           _main_ (), with the difference that the scope of
+           _program_invocation_name_ is global.
+    
+           _program_invocation_short_name_ contains the basename component of
+           name that was used to invoke the calling program.  That is, it is
+           the same value as _program_invocation_name_ , with all text up to
+           and including the final slash (/), if any, removed.
+    
+           These variables are automatically initialized by the glibc run-
+           time startup code.
+    
+## CONFORMING TO         top
+    
+    
+           These variables are GNU extensions, and should not be used in
+           programs intended to be portable.
+    
+## NOTES         top
+    
+    
+           The Linux-specific _/proc/[number]/cmdline_ file provides access to
+           similar information.
+    
+## SEE ALSO         top
+    
+    
+           proc(5)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2017-09-15             INVOCATION_NAME(3)
+    

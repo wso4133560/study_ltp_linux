@@ -1,0 +1,95 @@
+  
+# malloc_trim(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    MALLOC_TRIM(3)          Linux Programmer's Manual         MALLOC_TRIM(3)
+    
+## NAME         top
+    
+    
+           malloc_trim - release free memory from the heap
+    
+## SYNOPSIS         top
+    
+    
+           #include <malloc.h>
+    
+           int malloc_trim(size_t _pad_ );
+    
+## DESCRIPTION         top
+    
+    
+           The malloc_trim () function attempts to release free memory from
+           the heap (by calling sbrk(2) or madvise(2) with suitable
+           arguments).
+    
+           The _pad_ argument specifies the amount of free space to leave
+           untrimmed at the top of the heap.  If this argument is 0, only
+           the minimum amount of memory is maintained at the top of the heap
+           (i.e., one page or less).  A nonzero argument can be used to
+           maintain some trailing space at the top of the heap in order to
+           allow future allocations to be made without having to extend the
+           heap with sbrk(2).
+    
+## RETURN VALUE         top
+    
+    
+           The malloc_trim () function returns 1 if memory was actually
+           released back to the system, or 0 if it was not possible to
+           release any memory.
+    
+## ERRORS         top
+    
+    
+           No errors are defined.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ malloc_trim ()                         │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           This function is a GNU extension.
+    
+## NOTES         top
+    
+    
+           Only the main heap (using sbrk(2)) honors the _pad_ argument;
+           thread heaps do not.
+    
+           Since glibc 2.8 this function frees memory in all arenas and in
+           all chunks with whole free pages.
+    
+           Before glibc 2.8 this function only freed memory at the top of
+           the heap in the main arena.
+    
+## SEE ALSO         top
+    
+    
+           sbrk(2), malloc(3), mallopt(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                 MALLOC_TRIM(3)
+    

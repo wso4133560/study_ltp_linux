@@ -1,0 +1,176 @@
+  
+# getgrnam(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | FILES | ATTRIBUTES |
+CONFORMING TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    GETGRNAM(3)             Linux Programmer's Manual            GETGRNAM(3)
+    
+## NAME         top
+    
+    
+           getgrnam, getgrnam_r, getgrgid, getgrgid_r - get group file entry
+    
+## SYNOPSIS         top
+    
+    
+           #include <sys/types.h>
+           #include <grp.h>
+    
+           struct group getgrnam(const char  _name_ );
+           struct group getgrgid(gid_t _gid_ );
+    
+           int getgrnam_r(const char restrict _name_ , struct group restrict _grp_ ,
+                          char restrict _buf_ , size_t _buflen_ ,
+                          struct group restrict _result_ );
+           int getgrgid_r(gid_t _gid_ , struct group restrict _grp_ ,
+                          char restrict _buf_ , size_t _buflen_ ,
+                          struct group restrict _result_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           getgrnam_r (), getgrgid_r ():
+               _POSIX_C_SOURCE
+                   || / Glibc <= 2.19: / _BSD_SOURCE || _SVID_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           The getgrnam () function returns a pointer to a structure
+           containing the broken-out fields of the record in the group
+           database (e.g., the local group file _/etc/group_ , NIS, and LDAP)
+           that matches the group name _name_.
+    
+           The getgrgid () function returns a pointer to a structure
+           containing the broken-out fields of the record in the group
+           database that matches the group ID _gid_.
+    
+           The _group_ structure is defined in _< grp.h>_ as follows:
+    
+               struct group {
+                   char   gr_name;        / group name /
+                   char   gr_passwd;      / group password /
+                   gid_t   gr_gid;         / group ID /
+                   char  gr_mem;         / NULL-terminated array of pointers
+                                              to names of group members /
+               };
+    
+           For more information about the fields of this structure, see
+           group(5).
+    
+           The getgrnam_r () and getgrgid_r () functions obtain the same
+           information as getgrnam () and getgrgid (), but store the retrieved
+           _group_ structure in the space pointed to by _grp_.  The string
+           fields pointed to by the members of the _group_ structure are
+           stored in the buffer _buf_ of size _buflen_.  A pointer to the result
+           (in case of success) or NULL (in case no entry was found or an
+           error occurred) is stored in _result_.
+    
+           The call
+    
+               sysconf(_SC_GETGR_R_SIZE_MAX)
+    
+           returns either -1, without changing _errno_ , or an initial
+           suggested size for _buf_.  (If this size is too small, the call
+           fails with ERANGE , in which case the caller can retry with a
+           larger buffer.)
+    
+## RETURN VALUE         top
+    
+    
+           The getgrnam () and getgrgid () functions return a pointer to a
+           _group_ structure, or NULL if the matching entry is not found or an
+           error occurs.  If an error occurs, _errno_ is set to indicate the
+           error.  If one wants to check _errno_ after the call, it should be
+           set to zero before the call.
+    
+           The return value may point to a static area, and may be
+           overwritten by subsequent calls to getgrent(3), getgrgid (), or
+           getgrnam ().  (Do not pass the returned pointer to free(3).)
+    
+           On success, getgrnam_r () and getgrgid_r () return zero, and set
+           _result_ to _grp_.  If no matching group record was found, these
+           functions return 0 and store NULL in _result_.  In case of error,
+           an error number is returned, and NULL is stored in _result_.
+    
+## ERRORS         top
+    
+    
+           0 or ENOENT or ESRCH or EBADF or EPERM or ...
+                  The given _name_ or _gid_ was not found.
+    
+           EINTR A signal was caught; see signal(7).
+    
+           EIO I/O error.
+    
+           EMFILE The per-process limit on the number of open file
+                  descriptors has been reached.
+    
+           ENFILE The system-wide limit on the total number of open files
+                  has been reached.
+    
+           ENOMEM Insufficient memory to allocate _group_ structure.
+    
+           ERANGE Insufficient buffer space supplied.
+    
+## FILES         top
+    
+    
+           _/etc/group_
+                  local group database file
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────┬───────────────┬─────────────────────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────┼───────────────┼─────────────────────────────────┤
+           │ getgrnam ()    │ Thread safety │ MT-Unsafe race:grnam locale     │
+           ├──────────────┼───────────────┼─────────────────────────────────┤
+           │ getgrgid ()    │ Thread safety │ MT-Unsafe race:grgid locale     │
+           ├──────────────┼───────────────┼─────────────────────────────────┤
+           │ getgrnam_r (), │ Thread safety │ MT-Safe locale                  │
+           │ getgrgid_r ()  │               │                                 │
+           └──────────────┴───────────────┴─────────────────────────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, SVr4, 4.3BSD.
+    
+## NOTES         top
+    
+    
+           The formulation given above under "RETURN VALUE" is from POSIX.1.
+           It does not call "not found" an error, hence does not specify
+           what value _errno_ might have in this situation.  But that makes it
+           impossible to recognize errors.  One might argue that according
+           to POSIX _errno_ should be left unchanged if an entry is not found.
+           Experiments on various UNIX-like systems show that lots of
+           different values occur in this situation: 0, ENOENT, EBADF,
+           ESRCH, EWOULDBLOCK, EPERM, and probably others.
+    
+## SEE ALSO         top
+    
+    
+           endgrent(3), fgetgrent(3), getgrent(3), getpwnam(3), setgrent(3),
+           group(5)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                    GETGRNAM(3)
+    

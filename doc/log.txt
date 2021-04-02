@@ -1,0 +1,114 @@
+  
+# log(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | BUGS | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    LOG(3)                  Linux Programmer's Manual                 LOG(3)
+    
+## NAME         top
+    
+    
+           log, logf, logl - natural logarithmic function
+    
+## SYNOPSIS         top
+    
+    
+           #include <math.h>
+    
+           double log(double _x_ );
+           float logf(float _x_ );
+           long double logl(long double _x_ );
+    
+           Link with _-lm_.
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           logf (), logl ():
+               _ISOC99_SOURCE || _POSIX_C_SOURCE >= 200112L
+                   || / Since glibc 2.19: / _DEFAULT_SOURCE
+                   || / Glibc <= 2.19: / _BSD_SOURCE || _SVID_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           These functions return the natural logarithm of _x_.
+    
+## RETURN VALUE         top
+    
+    
+           On success, these functions return the natural logarithm of _x_.
+    
+           If _x_ is a NaN, a NaN is returned.
+    
+           If _x_ is 1, the result is +0.
+    
+           If _x_ is positive infinity, positive infinity is returned.
+    
+           If _x_ is zero, then a pole error occurs, and the functions return
+           - HUGE_VAL , - HUGE_VALF , or - HUGE_VALL , respectively.
+    
+           If _x_ is negative (including negative infinity), then a domain
+           error occurs, and a NaN (not a number) is returned.
+    
+## ERRORS         top
+    
+    
+           See math_error(7) for information on how to determine whether an
+           error has occurred when calling these functions.
+    
+           The following errors can occur:
+    
+           Domain error: _x_ is negative
+                  _errno_ is set to EDOM.  An invalid floating-point exception
+                  ( FE_INVALID ) is raised.
+    
+           Pole error: _x_ is zero
+                  _errno_ is set to ERANGE.  A divide-by-zero floating-point
+                  exception ( FE_DIVBYZERO ) is raised.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ log (), logf (), logl ()                 │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           C99, POSIX.1-2001, POSIX.1-2008.
+    
+           The variant returning _double_ also conforms to SVr4, 4.3BSD, C89.
+    
+## BUGS         top
+    
+    
+           In glibc 2.5 and earlier, taking the log () of a NaN produces a
+           bogus invalid floating-point ( FE_INVALID ) exception.
+    
+## SEE ALSO         top
+    
+    
+           cbrt(3), clog(3), log10(3), log1p(3), log2(3), sqrt(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                         LOG(3)
+    

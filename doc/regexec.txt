@@ -1,0 +1,286 @@
+  
+# regex(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | EXAMPLES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    REGEX(3)                Linux Programmer's Manual               REGEX(3)
+    
+## NAME         top
+    
+    
+           regcomp, regexec, regerror, regfree - POSIX regex functions
+    
+## SYNOPSIS         top
+    
+    
+           #include <regex.h>
+    
+           int regcomp(regex_t restrict _preg_ , const char restrict _regex_ ,
+                       int _cflags_ );
+           int regexec(const regex_t restrict _preg_ , const char restrict _string_ ,
+                       size_t _nmatch_ , regmatch_t _pmatch_ [restrict], int _eflags_ );
+    
+           size_t regerror(int _errcode_ , const regex_t restrict _preg_ ,
+                       char restrict _errbuf_ , size_t _errbuf_size_ );
+           void regfree(regex_t  _preg_ );
+    
+## DESCRIPTION         top
+    
+    
+       POSIX regex compiling
+           regcomp () is used to compile a regular expression into a form
+           that is suitable for subsequent regexec () searches.
+    
+           regcomp () is supplied with _preg_ , a pointer to a pattern buffer
+           storage area; _regex_ , a pointer to the null-terminated string and
+           _cflags_ , flags used to determine the type of compilation.
+    
+           All regular expression searching must be done via a compiled
+           pattern buffer, thus regexec () must always be supplied with the
+           address of a regcomp () initialized pattern buffer.
+    
+           _cflags_ is the bitwise- or of zero or more of the following:
+    
+           REG_EXTENDED
+                  Use POSIX Extended Regular Expression syntax when
+                  interpreting _regex_.  If not set, POSIX Basic Regular
+                  Expression syntax is used.
+    
+           REG_ICASE
+                  Do not differentiate case.  Subsequent regexec () searches
+                  using this pattern buffer will be case insensitive.
+    
+           REG_NOSUB
+                  Do not report position of matches.  The _nmatch_ and _pmatch_
+                  arguments to regexec () are ignored if the pattern buffer
+                  supplied was compiled with this flag set.
+    
+           REG_NEWLINE
+                  Match-any-character operators don't match a newline.
+    
+                  A nonmatching list ( [^...] )  not containing a newline does
+                  not match a newline.
+    
+                  Match-beginning-of-line operator ( ^ ) matches the empty
+                  string immediately after a newline, regardless of whether
+                  _eflags_ , the execution flags of regexec (), contains
+                  REG_NOTBOL.
+    
+                  Match-end-of-line operator ( $ ) matches the empty string
+                  immediately before a newline, regardless of whether _eflags_
+                  contains REG_NOTEOL.
+    
+       POSIX regex matching
+           regexec () is used to match a null-terminated string against the
+           precompiled pattern buffer, _preg_.  _nmatch_ and _pmatch_ are used to
+           provide information regarding the location of any matches.
+           _eflags_ is the bitwise- or of zero or more of the following flags:
+    
+           REG_NOTBOL
+                  The match-beginning-of-line operator always fails to match
+                  (but see the compilation flag REG_NEWLINE above).  This
+                  flag may be used when different portions of a string are
+                  passed to regexec () and the beginning of the string should
+                  not be interpreted as the beginning of the line.
+    
+           REG_NOTEOL
+                  The match-end-of-line operator always fails to match (but
+                  see the compilation flag REG_NEWLINE above).
+    
+           REG_STARTEND
+                  Use _pmatch[0]_ on the input string, starting at byte
+                  _pmatch[0].rm_so_ and ending before byte _pmatch[0].rm_eo_.
+                  This allows matching embedded NUL bytes and avoids a
+                  strlen(3) on large strings.  It does not use _nmatch_ on
+                  input, and does not change REG_NOTBOL or REG_NEWLINE
+                  processing.  This flag is a BSD extension, not present in
+                  POSIX.
+    
+       Byte offsets
+           Unless REG_NOSUB was set for the compilation of the pattern
+           buffer, it is possible to obtain match addressing information.
+           _pmatch_ must be dimensioned to have at least _nmatch_ elements.
+           These are filled in by regexec () with substring match addresses.
+           The offsets of the subexpression starting at the _i_ th open
+           parenthesis are stored in _pmatch[i]_.  The entire regular
+           expression's match addresses are stored in _pmatch[0]_.  (Note that
+           to return the offsets of _N_ subexpression matches, _nmatch_ must be
+           at least _N+1_.)  Any unused structure elements will contain the
+           value -1.
+    
+           The _regmatch_t_ structure which is the type of _pmatch_ is defined
+           in _< regex.h>_.
+    
+               typedef struct {
+                   regoff_t rm_so;
+                   regoff_t rm_eo;
+               } regmatch_t;
+    
+           Each _rm_so_ element that is not -1 indicates the start offset of
+           the next largest substring match within the string.  The relative
+           _rm_eo_ element indicates the end offset of the match, which is the
+           offset of the first character after the matching text.
+    
+       POSIX error reporting
+           regerror () is used to turn the error codes that can be returned
+           by both regcomp () and regexec () into error message strings.
+    
+           regerror () is passed the error code, _errcode_ , the pattern buffer,
+           _preg_ , a pointer to a character string buffer, _errbuf_ , and the
+           size of the string buffer, _errbuf_size_.  It returns the size of
+           the _errbuf_ required to contain the null-terminated error message
+           string.  If both _errbuf_ and _errbuf_size_ are nonzero, _errbuf_ is
+           filled in with the first _errbuf_size - 1_ characters of the error
+           message and a terminating null byte ('\0').
+    
+       POSIX pattern buffer freeing
+           Supplying regfree () with a precompiled pattern buffer, _preg_ will
+           free the memory allocated to the pattern buffer by the compiling
+           process, regcomp ().
+    
+## RETURN VALUE         top
+    
+    
+           regcomp () returns zero for a successful compilation or an error
+           code for failure.
+    
+           regexec () returns zero for a successful match or REG_NOMATCH for
+           failure.
+    
+## ERRORS         top
+    
+    
+           The following errors can be returned by regcomp ():
+    
+           REG_BADBR
+                  Invalid use of back reference operator.
+    
+           REG_BADPAT
+                  Invalid use of pattern operators such as group or list.
+    
+           REG_BADRPT
+                  Invalid use of repetition operators such as using '' as
+                  the first character.
+    
+           REG_EBRACE
+                  Un-matched brace interval operators.
+    
+           REG_EBRACK
+                  Un-matched bracket list operators.
+    
+           REG_ECOLLATE
+                  Invalid collating element.
+    
+           REG_ECTYPE
+                  Unknown character class name.
+    
+           REG_EEND
+                  Nonspecific error.  This is not defined by POSIX.2.
+    
+           REG_EESCAPE
+                  Trailing backslash.
+    
+           REG_EPAREN
+                  Un-matched parenthesis group operators.
+    
+           REG_ERANGE
+                  Invalid use of the range operator; for example, the ending
+                  point of the range occurs prior to the starting point.
+    
+           REG_ESIZE
+                  Compiled regular expression requires a pattern buffer
+                  larger than 64 kB.  This is not defined by POSIX.2.
+    
+           REG_ESPACE
+                  The regex routines ran out of memory.
+    
+           REG_ESUBREG
+                  Invalid back reference to a subexpression.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌───────────────────────────────┬───────────────┬────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├───────────────────────────────┼───────────────┼────────────────┤
+           │ regcomp (), regexec ()           │ Thread safety │ MT-Safe locale │
+           ├───────────────────────────────┼───────────────┼────────────────┤
+           │ regerror ()                     │ Thread safety │ MT-Safe env    │
+           ├───────────────────────────────┼───────────────┼────────────────┤
+           │ regfree ()                      │ Thread safety │ MT-Safe        │
+           └───────────────────────────────┴───────────────┴────────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008.
+    
+## EXAMPLES         top
+    
+    
+           #include <stdint.h>
+           #include <stdio.h>
+           #include <stdlib.h>
+           #include <regex.h>
+    
+           #define ARRAY_SIZE(arr) (sizeof((arr)) / sizeof((arr)[0]))
+    
+           static const char const str =
+                   "1) John Driverhacker;\n2) John Doe;\n3) John Foo;\n";
+           static const char const re = "John.o";
+    
+           int main(void)
+           {
+               static const char s = str;
+               regex_t     regex;
+               regmatch_t  pmatch[1];
+               regoff_t    off, len;
+    
+               if (regcomp(&regex, re, REG_NEWLINE))
+                   exit(EXIT_FAILURE);
+    
+               printf("String = \"%s\"\n", str);
+               printf("Matches:\n");
+    
+               for (int i = 0; ; i++) {
+                   if (regexec(&regex, s, ARRAY_SIZE(pmatch), pmatch, 0))
+                       break;
+    
+                   off = pmatch[0].rm_so + (s - str);
+                   len = pmatch[0].rm_eo - pmatch[0].rm_so;
+                   printf("#%d:\n", i);
+                   printf("offset = %jd; length = %jd\n", (intmax_t) off,
+                           (intmax_t) len);
+                   printf("substring = \"%.s\"\n", len, s + pmatch[0].rm_so);
+    
+                   s += pmatch[0].rm_eo;
+               }
+    
+               exit(EXIT_SUCCESS);
+           }
+    
+## SEE ALSO         top
+    
+    
+           grep(1), regex(7)
+    
+           The glibc manual section, _Regular Expressions_
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                       REGEX(3)
+    

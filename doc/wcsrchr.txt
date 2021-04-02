@@ -1,0 +1,70 @@
+  
+# wcsrchr(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    WCSRCHR(3)              Linux Programmer's Manual             WCSRCHR(3)
+    
+## NAME         top
+    
+    
+           wcsrchr - search a wide character in a wide-character string
+    
+## SYNOPSIS         top
+    
+    
+           #include <wchar.h>
+    
+           wchar_t wcsrchr(const wchar_t  _wcs_ , wchar_t _wc_ );
+    
+## DESCRIPTION         top
+    
+    
+           The wcsrchr () function is the wide-character equivalent of the
+           strrchr(3) function.  It searches the last occurrence of _wc_ in
+           the wide-character string pointed to by _wcs_.
+    
+## RETURN VALUE         top
+    
+    
+           The wcsrchr () function returns a pointer to the last occurrence
+           of _wc_ in the wide-character string pointed to by _wcs_ , or NULL if
+           _wc_ does not occur in the string.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ wcsrchr ()                             │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C99.
+    
+## SEE ALSO         top
+    
+    
+           strrchr(3), wcschr(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                     WCSRCHR(3)
+    

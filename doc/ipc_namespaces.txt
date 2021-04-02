@@ -1,0 +1,65 @@
+  
+# ipc_namespaces(7) -- Linux manual page
+NAME | DESCRIPTION | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    IPC_NAMESPACES(7)       Linux Programmer's Manual      IPC_NAMESPACES(7)
+    
+## NAME         top
+    
+    
+           ipc_namespaces - overview of Linux IPC namespaces
+    
+## DESCRIPTION         top
+    
+    
+           IPC namespaces isolate certain IPC resources, namely, System V
+           IPC objects (see sysvipc(7)) and (since Linux 2.6.30) POSIX
+           message queues (see mq_overview(7)).  The common characteristic
+           of these IPC mechanisms is that IPC objects are identified by
+           mechanisms other than filesystem pathnames.
+    
+           Each IPC namespace has its own set of System V IPC identifiers
+           and its own POSIX message queue filesystem.  Objects created in
+           an IPC namespace are visible to all other processes that are
+           members of that namespace, but are not visible to processes in
+           other IPC namespaces.
+    
+           The following _/proc_ interfaces are distinct in each IPC
+           namespace:
+    
+             The POSIX message queue interfaces in _/proc/sys/fs/mqueue_.
+    
+             The System V IPC interfaces in _/proc/sys/kernel_ , namely:
+              _msgmax_ , _msgmnb_ , _msgmni_ , _sem_ , _shmall_ , _shmmax_ , _shmmni_ , and
+              _shm_rmid_forced_.
+    
+             The System V IPC interfaces in _/proc/sysvipc_.
+    
+           When an IPC namespace is destroyed (i.e., when the last process
+           that is a member of the namespace terminates), all IPC objects in
+           the namespace are automatically destroyed.
+    
+           Use of IPC namespaces requires a kernel that is configured with
+           the CONFIG_IPC_NS option.
+    
+## SEE ALSO         top
+    
+    
+           nsenter(1), unshare(1), clone(2), setns(2), unshare(2),
+           mq_overview(7), namespaces(7), sysvipc(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2019-08-02              IPC_NAMESPACES(7)
+    

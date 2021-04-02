@@ -1,0 +1,76 @@
+  
+# strspn(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    STRSPN(3)               Linux Programmer's Manual              STRSPN(3)
+    
+## NAME         top
+    
+    
+           strspn, strcspn - get length of a prefix substring
+    
+## SYNOPSIS         top
+    
+    
+           #include <string.h>
+    
+           size_t strspn(const char  _s_ , const char  _accept_ );
+           size_t strcspn(const char  _s_ , const char  _reject_ );
+    
+## DESCRIPTION         top
+    
+    
+           The strspn () function calculates the length (in bytes) of the
+           initial segment of _s_ which consists entirely of bytes in _accept_.
+    
+           The strcspn () function calculates the length of the initial
+           segment of _s_ which consists entirely of bytes not in _reject_.
+    
+## RETURN VALUE         top
+    
+    
+           The strspn () function returns the number of bytes in the initial
+           segment of _s_ which consist only of bytes from _accept_.
+    
+           The strcspn () function returns the number of bytes in the initial
+           segment of _s_ which are not in the string _reject_.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ strspn (), strcspn ()                   │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C89, C99, SVr4, 4.3BSD.
+    
+## SEE ALSO         top
+    
+    
+           index(3), memchr(3), rindex(3), strchr(3), string(3), strpbrk(3),
+           strsep(3), strstr(3), strtok(3), wcscspn(3), wcsspn(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                      STRSPN(3)
+    

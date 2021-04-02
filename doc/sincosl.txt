@@ -1,0 +1,110 @@
+  
+# sincos(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | VERSIONS | ATTRIBUTES
+| CONFORMING TO | NOTES | BUGS | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    SINCOS(3)               Linux Programmer's Manual              SINCOS(3)
+    
+## NAME         top
+    
+    
+           sincos, sincosf, sincosl - calculate sin and cos simultaneously
+    
+## SYNOPSIS         top
+    
+    
+           #define _GNU_SOURCE / See feature_test_macros(7) /
+           #include <math.h>
+    
+           void sincos(double _x_ , double  _sin_ , double  _cos_ );
+           void sincosf(float _x_ , float  _sin_ , float  _cos_ );
+           void sincosl(long double _x_ , long double  _sin_ , long double  _cos_ );
+    
+           Link with _-lm_.
+    
+## DESCRIPTION         top
+    
+    
+           Several applications need sine and cosine of the same angle _x_.
+           These functions compute both at the same time, and store the
+           results in _sin_ and _cos_.  Using this function can be more
+           efficient than two separate calls to sin(3) and cos(3).
+    
+           If _x_ is a NaN, a NaN is returned in _sin_ and _cos_.
+    
+           If _x_ is positive infinity or negative infinity, a domain error
+           occurs, and a NaN is returned in _sin_ and _cos_.
+    
+## RETURN VALUE         top
+    
+    
+           These functions return _void_.
+    
+## ERRORS         top
+    
+    
+           See math_error(7) for information on how to determine whether an
+           error has occurred when calling these functions.
+    
+           The following errors can occur:
+    
+           Domain error: _x_ is an infinity
+                  _errno_ is set to EDOM (but see BUGS).  An invalid floating-
+                  point exception ( FE_INVALID ) is raised.
+    
+## VERSIONS         top
+    
+    
+           These functions first appeared in glibc in version 2.1.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ sincos (), sincosf (), sincosl ()        │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           These functions are GNU extensions.
+    
+## NOTES         top
+    
+    
+           To see the performance advantage of sincos (), it may be necessary
+           to disable gcc(1) built-in optimizations, using flags such as:
+    
+               cc -O -lm -fno-builtin prog.c
+    
+## BUGS         top
+    
+    
+           Before version 2.22, the glibc implementation did not set _errno_
+           to EDOM when a domain error occurred.
+    
+## SEE ALSO         top
+    
+    
+           cos(3), sin(3), tan(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                      SINCOS(3)
+    

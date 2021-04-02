@@ -1,0 +1,86 @@
+  
+# getutmp(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | VERSIONS | ATTRIBUTES |
+CONFORMING TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    GETUTMP(3)              Linux Programmer's Manual             GETUTMP(3)
+    
+## NAME         top
+    
+    
+           getutmp, getutmpx - copy utmp structure to utmpx, and vice versa
+    
+## SYNOPSIS         top
+    
+    
+           #define _GNU_SOURCE / See feature_test_macros(7) /
+           #include <utmpx.h>
+    
+            void getutmp(const struct utmpx  _ux_ , struct utmp  _u_ );
+            void getutmpx(const struct utmp  _u_ , struct utmpx  _ux_ );
+    
+## DESCRIPTION         top
+    
+    
+           The getutmp () function copies the fields of the _utmpx_ structure
+           pointed to by _ux_ to the corresponding fields of the _utmp_
+           structure pointed to by _u_.  The getutmpx () function performs the
+           converse operation.
+    
+## RETURN VALUE         top
+    
+    
+           These functions do not return a value.
+    
+## VERSIONS         top
+    
+    
+           These functions first appeared in glibc in version 2.1.1.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ getutmp (), getutmpx ()                 │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           These functions are nonstandard, but appear on a few other
+           systems, such as Solaris and NetBSD.
+    
+## NOTES         top
+    
+    
+           These functions exist primarily for compatibility with other
+           systems where the _utmp_ and _utmpx_ structures contain different
+           fields, or the size of corresponding fields differs.  On Linux,
+           the two structures contain the same fields, and the fields have
+           the same sizes.
+    
+## SEE ALSO         top
+    
+    
+           utmpdump(1), getutent(3), utmp(5)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                     GETUTMP(3)
+    

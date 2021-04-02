@@ -1,0 +1,143 @@
+  
+# mpool(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | ERRORS | CONFORMING TO | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    MPOOL(3)                Linux Programmer's Manual               MPOOL(3)
+    
+## NAME         top
+    
+    
+           mpool - shared memory buffer pool
+    
+## SYNOPSIS         top
+    
+    
+           #include <db.h>
+           #include <mpool.h>
+    
+           MPOOL mpool_open(DBT  _key_ , int _fd_ , pgno_t _pagesize_ , pgno_t _maxcache_ );
+    
+           void mpool_filter(MPOOL  _mp_ , void (pgin)(void , pgno_t, void ),
+                             void ( _pgout_ )(void , pgno_t, void ),
+                             void  _pgcookie_ );
+    
+           void mpool_new(MPOOL  _mp_ , pgno_t  _pgnoaddr_ );
+           void mpool_get(MPOOL  _mp_ , pgno_t _pgno_ , unsigned int _flags_ );
+           int mpool_put(MPOOL  _mp_ , void  _pgaddr_ , unsigned int _flags_ );
+    
+           int mpool_sync(MPOOL  _mp_ );
+           int mpool_close(MPOOL  _mp_ );
+    
+## DESCRIPTION         top
+    
+    
+           _Note well_ : This page documents interfaces provided in glibc up
+           until version 2.1.  Since version 2.2, glibc no longer provides
+           these interfaces.  Probably, you are looking for the APIs
+           provided by the _libdb_ library instead.
+    
+           _Mpool_ is the library interface intended to provide page oriented
+           buffer management of files.  The buffers may be shared between
+           processes.
+    
+           The function mpool_open () initializes a memory pool.  The _key_
+           argument is the byte string used to negotiate between multiple
+           processes wishing to share buffers.  If the file buffers are
+           mapped in shared memory, all processes using the same key will
+           share the buffers.  If _key_ is NULL, the buffers are mapped into
+           private memory.  The _fd_ argument is a file descriptor for the
+           underlying file, which must be seekable.  If _key_ is non-NULL and
+           matches a file already being mapped, the _fd_ argument is ignored.
+    
+           The _pagesize_ argument is the size, in bytes, of the pages into
+           which the file is broken up.  The _maxcache_ argument is the
+           maximum number of pages from the underlying file to cache at any
+           one time.  This value is not relative to the number of processes
+           which share a file's buffers, but will be the largest value
+           specified by any of the processes sharing the file.
+    
+           The mpool_filter () function is intended to make transparent input
+           and output processing of the pages possible.  If the _pgin_
+           function is specified, it is called each time a buffer is read
+           into the memory pool from the backing file.  If the _pgout_
+           function is specified, it is called each time a buffer is written
+           into the backing file.  Both functions are called with the
+           _pgcookie_ pointer, the page number and a pointer to the page to
+           being read or written.
+    
+           The function mpool_new () takes an _MPOOL_ pointer and an address as
+           arguments.  If a new page can be allocated, a pointer to the page
+           is returned and the page number is stored into the _pgnoaddr_
+           address.  Otherwise, NULL is returned and _errno_ is set.
+    
+           The function mpool_get () takes an _MPOOL_ pointer and a page number
+           as arguments.  If the page exists, a pointer to the page is
+           returned.  Otherwise, NULL is returned and _errno_ is set.  The
+           _flags_ argument is not currently used.
+    
+           The function mpool_put () unpins the page referenced by _pgaddr_.
+           _pgaddr_ must be an address previously returned by mpool_get () or
+           mpool_new ().  The flag value is specified by ORing any of the
+           following values:
+    
+           MPOOL_DIRTY
+                  The page has been modified and needs to be written to the
+                  backing file.
+    
+           mpool_put () returns 0 on success and -1 if an error occurs.
+    
+           The function mpool_sync () writes all modified pages associated
+           with the _MPOOL_ pointer to the backing file.  mpool_sync () returns
+           0 on success and -1 if an error occurs.
+    
+           The mpool_close () function free's up any allocated memory
+           associated with the memory pool cookie.  Modified pages are not
+           written to the backing file.  mpool_close () returns 0 on success
+           and -1 if an error occurs.
+    
+## ERRORS         top
+    
+    
+           The mpool_open () function may fail and set _errno_ for any of the
+           errors specified for the library routine malloc(3).
+    
+           The mpool_get () function may fail and set _errno_ for the
+           following:
+    
+           EINVAL The requested record doesn't exist.
+    
+           The mpool_new () and mpool_get () functions may fail and set _errno_
+           for any of the errors specified for the library routines read(2),
+           write(2), and malloc(3).
+    
+           The mpool_sync () function may fail and set _errno_ for any of the
+           errors specified for the library routine write(2).
+    
+           The mpool_close () function may fail and set _errno_ for any of the
+           errors specified for the library routine free(3).
+    
+## CONFORMING TO         top
+    
+    
+           Not in POSIX.1.  Present on the BSDs.
+    
+## SEE ALSO         top
+    
+    
+           btree(3), dbopen(3), hash(3), recno(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    4.4 Berkeley Distribution      2021-03-22                       MPOOL(3)
+    

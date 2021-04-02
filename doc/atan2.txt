@@ -1,0 +1,118 @@
+  
+# atan2(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    ATAN2(3)                Linux Programmer's Manual               ATAN2(3)
+    
+## NAME         top
+    
+    
+           atan2, atan2f, atan2l - arc tangent function of two variables
+    
+## SYNOPSIS         top
+    
+    
+           #include <math.h>
+    
+           double atan2(double _y_ , double _x_ );
+           float atan2f(float _y_ , float _x_ );
+           long double atan2l(long double _y_ , long double _x_ );
+    
+           Link with _-lm_.
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           atan2f (), atan2l ():
+               _ISOC99_SOURCE || _POSIX_C_SOURCE >= 200112L
+                   || / Since glibc 2.19: / _DEFAULT_SOURCE
+                   || / Glibc <= 2.19: / _BSD_SOURCE || _SVID_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           These functions calculate the principal value of the arc tangent
+           of _y/x_ , using the signs of the two arguments to determine the
+           quadrant of the result.
+    
+## RETURN VALUE         top
+    
+    
+           On success, these functions return the principal value of the arc
+           tangent of _y/x_ in radians; the return value is in the range
+           [-pi, pi].
+    
+           If _y_ is +0 (-0) and _x_ is less than 0, +pi (-pi) is returned.
+    
+           If _y_ is +0 (-0) and _x_ is greater than 0, +0 (-0) is returned.
+    
+           If _y_ is less than 0 and _x_ is +0 or -0, -pi/2 is returned.
+    
+           If _y_ is greater than 0 and _x_ is +0 or -0, pi/2 is returned.
+    
+           If either _x_ or _y_ is NaN, a NaN is returned.
+    
+           If _y_ is +0 (-0) and _x_ is -0, +pi (-pi) is returned.
+    
+           If _y_ is +0 (-0) and _x_ is +0, +0 (-0) is returned.
+    
+           If _y_ is a finite value greater (less) than 0, and _x_ is negative
+           infinity, +pi (-pi) is returned.
+    
+           If _y_ is a finite value greater (less) than 0, and _x_ is positive
+           infinity, +0 (-0) is returned.
+    
+           If _y_ is positive infinity (negative infinity), and _x_ is finite,
+           pi/2 (-pi/2) is returned.
+    
+           If _y_ is positive infinity (negative infinity) and _x_ is negative
+           infinity, +3pi/4 (-3pi/4) is returned.
+    
+           If _y_ is positive infinity (negative infinity) and _x_ is positive
+           infinity, +pi/4 (-pi/4) is returned.
+    
+## ERRORS         top
+    
+    
+           No errors occur.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ atan2 (), atan2f (), atan2l ()           │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           C99, POSIX.1-2001, POSIX.1-2008.
+    
+           The variant returning _double_ also conforms to SVr4, 4.3BSD, C89.
+    
+## SEE ALSO         top
+    
+    
+           acos(3), asin(3), atan(3), carg(3), cos(3), sin(3), tan(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                       ATAN2(3)
+    

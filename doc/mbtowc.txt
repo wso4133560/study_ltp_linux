@@ -1,0 +1,104 @@
+  
+# mbtowc(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    MBTOWC(3)               Linux Programmer's Manual              MBTOWC(3)
+    
+## NAME         top
+    
+    
+           mbtowc - convert a multibyte sequence to a wide character
+    
+## SYNOPSIS         top
+    
+    
+           #include <stdlib.h>
+    
+           int mbtowc(wchar_t restrict _pwc_ , const char restrict _s_ , size_t _n_ );
+    
+## DESCRIPTION         top
+    
+    
+           The main case for this function is when _s_ is not NULL and _pwc_ is
+           not NULL.  In this case, the mbtowc () function inspects at most _n_
+           bytes of the multibyte string starting at _s_ , extracts the next
+           complete multibyte character, converts it to a wide character and
+           stores it at _pwc_.  It updates an internal shift state known only
+           to the mbtowc () function.  If _s_ does not point to a null byte
+           ('\0'), it returns the number of bytes that were consumed from _s_ ,
+           otherwise it returns 0.
+    
+           If the _n_ bytes starting at _s_ do not contain a complete multibyte
+           character, or if they contain an invalid multibyte sequence,
+           mbtowc () returns -1.  This can happen even if _n_ >= _MB_CUR_MAX_ , if
+           the multibyte string contains redundant shift sequences.
+    
+           A different case is when _s_ is not NULL but _pwc_ is NULL.  In this
+           case, the mbtowc () function behaves as above, except that it does
+           not store the converted wide character in memory.
+    
+           A third case is when _s_ is NULL.  In this case, _pwc_ and _n_ are
+           ignored.  The mbtowc () function resets the shift state, only
+           known to this function, to the initial state, and returns nonzero
+           if the encoding has nontrivial shift state, or zero if the
+           encoding is stateless.
+    
+## RETURN VALUE         top
+    
+    
+           If _s_ is not NULL, the mbtowc () function returns the number of
+           consumed bytes starting at _s_ , or 0 if _s_ points to a null byte, or
+           -1 upon failure.
+    
+           If _s_ is NULL, the mbtowc () function returns nonzero if the
+           encoding has nontrivial shift state, or zero if the encoding is
+           stateless.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌───────────────────────────────┬───────────────┬────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├───────────────────────────────┼───────────────┼────────────────┤
+           │ mbtowc ()                       │ Thread safety │ MT-Unsafe race │
+           └───────────────────────────────┴───────────────┴────────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C99.
+    
+## NOTES         top
+    
+    
+           The behavior of mbtowc () depends on the LC_CTYPE category of the
+           current locale.
+    
+           This function is not multithread safe.  The function mbrtowc(3)
+           provides a better interface to the same functionality.
+    
+## SEE ALSO         top
+    
+    
+           MB_CUR_MAX(3), mblen(3), mbrtowc(3), mbstowcs(3), wcstombs(3),
+           wctomb(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                      MBTOWC(3)
+    

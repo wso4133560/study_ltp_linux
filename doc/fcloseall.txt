@@ -1,0 +1,75 @@
+  
+# fcloseall(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    FCLOSEALL(3)            Linux Programmer's Manual           FCLOSEALL(3)
+    
+## NAME         top
+    
+    
+           fcloseall - close all open streams
+    
+## SYNOPSIS         top
+    
+    
+           #define _GNU_SOURCE / See feature_test_macros(7) /
+           #include <stdio.h>
+    
+           int fcloseall(void);
+    
+## DESCRIPTION         top
+    
+    
+           The fcloseall () function closes all of the calling process's open
+           streams.  Buffered output for each stream is written before it is
+           closed (as for fflush(3)); buffered input is discarded.
+    
+           The standard streams, _stdin_ , _stdout_ , and _stderr_ are also closed.
+    
+## RETURN VALUE         top
+    
+    
+           This function returns 0 if all files were successfully closed; on
+           error, EOF is returned.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌───────────────────────┬───────────────┬────────────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├───────────────────────┼───────────────┼────────────────────────┤
+           │ fcloseall ()            │ Thread safety │ MT-Unsafe race:streams │
+           └───────────────────────┴───────────────┴────────────────────────┘
+    
+           The fcloseall () function does not lock the streams, so it is not
+           thread-safe.
+    
+## CONFORMING TO         top
+    
+    
+           This function is a GNU extension.
+    
+## SEE ALSO         top
+    
+    
+           close(2), fclose(3), fflush(3), fopen(3), setbuf(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                   FCLOSEALL(3)
+    

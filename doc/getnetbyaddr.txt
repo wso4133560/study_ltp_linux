@@ -1,0 +1,142 @@
+  
+# getnetent(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | FILES | ATTRIBUTES | CONFORMING
+TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    GETNETENT(3)            Linux Programmer's Manual           GETNETENT(3)
+    
+## NAME         top
+    
+    
+           getnetent, getnetbyname, getnetbyaddr, setnetent, endnetent - get
+           network entry
+    
+## SYNOPSIS         top
+    
+    
+           #include <netdb.h>
+    
+           struct netent getnetent(void);
+    
+           struct netent getnetbyname(const char  _name_ );
+           struct netent getnetbyaddr(uint32_t _net_ , int _type_ );
+    
+           void setnetent(int _stayopen_ );
+           void endnetent(void);
+    
+## DESCRIPTION         top
+    
+    
+           The getnetent () function reads the next entry from the networks
+           database and returns a _netent_ structure containing the broken-out
+           fields from the entry.  A connection is opened to the database if
+           necessary.
+    
+           The getnetbyname () function returns a _netent_ structure for the
+           entry from the database that matches the network _name_.
+    
+           The getnetbyaddr () function returns a _netent_ structure for the
+           entry from the database that matches the network number _net_ of
+           type _type_.  The _net_ argument must be in host byte order.
+    
+           The setnetent () function opens a connection to the database, and
+           sets the next entry to the first entry.  If _stayopen_ is nonzero,
+           then the connection to the database will not be closed between
+           calls to one of the getnet () functions.
+    
+           The endnetent () function closes the connection to the database.
+    
+           The _netent_ structure is defined in _< netdb.h>_ as follows:
+    
+               struct netent {
+                   char      n_name;     / official network name /
+                   char     n_aliases;  / alias list /
+                   int        n_addrtype; / net address type /
+                   uint32_t   n_net;      / network number /
+               }
+    
+           The members of the _netent_ structure are:
+    
+           _n_name_ The official name of the network.
+    
+           _n_aliases_
+                  A NULL-terminated list of alternative names for the
+                  network.
+    
+           _n_addrtype_
+                  The type of the network number; always AF_INET.
+    
+           _n_net_  The network number in host byte order.
+    
+## RETURN VALUE         top
+    
+    
+           The getnetent (), getnetbyname (), and getnetbyaddr () functions
+           return a pointer to a statically allocated _netent_ structure, or a
+           null pointer if an error occurs or the end of the file is
+           reached.
+    
+## FILES         top
+    
+    
+           _/etc/networks_
+                  networks database file
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌───────────────┬───────────────┬────────────────────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├───────────────┼───────────────┼────────────────────────────────┤
+           │ getnetent ()    │ Thread safety │ MT-Unsafe race:netent          │
+           │               │               │ race:netentbuf env locale      │
+           ├───────────────┼───────────────┼────────────────────────────────┤
+           │ getnetbyname () │ Thread safety │ MT-Unsafe race:netbyname env   │
+           │               │               │ locale                         │
+           ├───────────────┼───────────────┼────────────────────────────────┤
+           │ getnetbyaddr () │ Thread safety │ MT-Unsafe race:netbyaddr       │
+           │               │               │ locale                         │
+           ├───────────────┼───────────────┼────────────────────────────────┤
+           │ setnetent (),   │ Thread safety │ MT-Unsafe race:netent env      │
+           │ endnetent ()    │               │ locale                         │
+           └───────────────┴───────────────┴────────────────────────────────┘
+           In the above table, _netent_ in _race:netent_ signifies that if any
+           of the functions setnetent (), getnetent (), or endnetent () are
+           used in parallel in different threads of a program, then data
+           races could occur.
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, 4.3BSD.
+    
+## NOTES         top
+    
+    
+           In glibc versions before 2.2, the _net_ argument of getnetbyaddr ()
+           was of type _long_.
+    
+## SEE ALSO         top
+    
+    
+           getnetent_r(3), getprotoent(3), getservent(3)
+           RFC 1101
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                   GETNETENT(3)
+    

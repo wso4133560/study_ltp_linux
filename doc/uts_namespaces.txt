@@ -1,0 +1,51 @@
+  
+# uts_namespaces(7) -- Linux manual page
+NAME | DESCRIPTION | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    UTS_NAMESPACES(7)       Linux Programmer's Manual      UTS_NAMESPACES(7)
+    
+## NAME         top
+    
+    
+           uts_namespaces - overview of Linux UTS namespaces
+    
+## DESCRIPTION         top
+    
+    
+           UTS namespaces provide isolation of two system identifiers: the
+           hostname and the NIS domain name.  These identifiers are set
+           using sethostname(2) and setdomainname(2), and can be retrieved
+           using uname(2), gethostname(2), and getdomainname(2).  Changes
+           made to these identifiers are visible to all other processes in
+           the same UTS namespace, but are not visible to processes in other
+           UTS namespaces.
+    
+           When a process creates a new UTS namespace using clone(2) or
+           unshare(2) with the CLONE_NEWUTS flag, the hostname and domain of
+           the new UTS namespace are copied from the corresponding values in
+           the caller's UTS namespace.
+    
+           Use of UTS namespaces requires a kernel that is configured with
+           the CONFIG_UTS_NS option.
+    
+## SEE ALSO         top
+    
+    
+           nsenter(1), unshare(1), clone(2), getdomainname(2),
+           gethostname(2), setns(2), uname(2), unshare(2), namespaces(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2019-11-19              UTS_NAMESPACES(7)
+    

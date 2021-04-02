@@ -1,0 +1,62 @@
+  
+# ttytype(5) -- Linux manual page
+NAME | DESCRIPTION | FILES | EXAMPLES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    TTYTYPE(5)              Linux Programmer's Manual             TTYTYPE(5)
+    
+## NAME         top
+    
+    
+           ttytype - terminal device to default terminal type mapping
+    
+## DESCRIPTION         top
+    
+    
+           The _/etc/ttytype_ file associates termcap(5)/terminfo(5) terminal
+           type names with tty lines.  Each line consists of a terminal
+           type, followed by whitespace, followed by a tty name (a device
+           name without the _/dev/_ ) prefix.
+    
+           This association is used by the program tset(1) to set the
+           environment variable TERM to the default terminal name for the
+           user's current tty.
+    
+           This facility was designed for a traditional time-sharing
+           environment featuring character-cell terminals hardwired to a
+           UNIX minicomputer.  It is little used on modern workstation and
+           personal UNIX systems.
+    
+## FILES         top
+    
+    
+           _/etc/ttytype_
+                  the tty definitions file.
+    
+## EXAMPLES         top
+    
+    
+           A typical _/etc/ttytype_ is:
+    
+               con80x25 tty1
+               vt320 ttys0
+    
+## SEE ALSO         top
+    
+    
+           termcap(5), terminfo(5), agetty(8), mingetty (8)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2020-06-09                     TTYTYPE(5)
+    

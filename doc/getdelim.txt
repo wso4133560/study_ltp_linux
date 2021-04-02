@@ -1,0 +1,152 @@
+  
+# getline(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | EXAMPLES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    GETLINE(3)              Linux Programmer's Manual             GETLINE(3)
+    
+## NAME         top
+    
+    
+           getline, getdelim - delimited string input
+    
+## SYNOPSIS         top
+    
+    
+           #include <stdio.h>
+    
+           ssize_t getline(char restrict _lineptr_ , size_t restrict _n_ ,
+                           FILE restrict _stream_ );
+           ssize_t getdelim(char restrict _lineptr_ , size_t restrict _n_ ,
+                           int _delim_ , FILE restrict _stream_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           getline (), getdelim ():
+               Since glibc 2.10:
+                   _POSIX_C_SOURCE >= 200809L
+               Before glibc 2.10:
+                   _GNU_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           getline () reads an entire line from _stream_ , storing the address
+           of the buffer containing the text into _lineptr_.  The buffer is
+           null-terminated and includes the newline character, if one was
+           found.
+    
+           If _lineptr_ is set to NULL and _n_ is set 0 before the call, then
+           getline () will allocate a buffer for storing the line.  This
+           buffer should be freed by the user program even if getline ()
+           failed.
+    
+           Alternatively, before calling getline (), _lineptr_ can contain a
+           pointer to a malloc(3)-allocated buffer _n_ bytes in size.  If the
+           buffer is not large enough to hold the line, getline () resizes it
+           with realloc(3), updating _lineptr_ and _n_ as necessary.
+    
+           In either case, on a successful call, _lineptr_ and _n_ will be
+           updated to reflect the buffer address and allocated size
+           respectively.
+    
+           getdelim () works like getline (), except that a line delimiter
+           other than newline can be specified as the _delimiter_ argument.
+           As with getline (), a delimiter character is not added if one was
+           not present in the input before end of file was reached.
+    
+## RETURN VALUE         top
+    
+    
+           On success, getline () and getdelim () return the number of
+           characters read, including the delimiter character, but not
+           including the terminating null byte ('\0').  This value can be
+           used to handle embedded null bytes in the line read.
+    
+           Both functions return -1 on failure to read a line (including
+           end-of-file condition).  In the event of a failure, _errno_ is set
+           to indicate the error.
+    
+## ERRORS         top
+    
+    
+           EINVAL Bad arguments ( _n_ or _lineptr_ is NULL, or _stream_ is not
+                  valid).
+    
+           ENOMEM Allocation or reallocation of the line buffer failed.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ getline (), getdelim ()                 │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           Both getline () and getdelim () were originally GNU extensions.
+           They were standardized in POSIX.1-2008.
+    
+## EXAMPLES         top
+    
+    
+           #define _GNU_SOURCE
+           #include <stdio.h>
+           #include <stdlib.h>
+    
+           int
+           main(int argc, char argv[])
+           {
+               FILE stream;
+               char line = NULL;
+               size_t len = 0;
+               ssize_t nread;
+    
+               if (argc != 2) {
+                   fprintf(stderr, "Usage: %s <file>\n", argv[0]);
+                   exit(EXIT_FAILURE);
+               }
+    
+               stream = fopen(argv[1], "r");
+               if (stream == NULL) {
+                   perror("fopen");
+                   exit(EXIT_FAILURE);
+               }
+    
+               while ((nread = getline(&line, &len, stream)) != -1) {
+                   printf("Retrieved line of length %zd:\n", nread);
+                   fwrite(line, nread, 1, stdout);
+               }
+    
+               free(line);
+               fclose(stream);
+               exit(EXIT_SUCCESS);
+           }
+    
+## SEE ALSO         top
+    
+    
+           read(2), fgets(3), fopen(3), fread(3), scanf(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                     GETLINE(3)
+    

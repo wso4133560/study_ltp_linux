@@ -1,0 +1,86 @@
+  
+# getloadavg(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | VERSIONS | ATTRIBUTES |
+CONFORMING TO | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    GETLOADAVG(3)           Linux Programmer's Manual          GETLOADAVG(3)
+    
+## NAME         top
+    
+    
+           getloadavg - get system load averages
+    
+## SYNOPSIS         top
+    
+    
+           #include <stdlib.h>
+    
+           int getloadavg(double _loadavg[]_ , int _nelem_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           getloadavg ():
+               Since glibc 2.19:
+                   _DEFAULT_SOURCE
+               In glibc up to and including 2.19:
+                   _BSD_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           The getloadavg () function returns the number of processes in the
+           system run queue averaged over various periods of time.  Up to
+           _nelem_ samples are retrieved and assigned to successive elements
+           of _loadavg[]_.  The system imposes a maximum of 3 samples,
+           representing averages over the last 1, 5, and 15 minutes,
+           respectively.
+    
+## RETURN VALUE         top
+    
+    
+           If the load average was unobtainable, -1 is returned; otherwise,
+           the number of samples actually retrieved is returned.
+    
+## VERSIONS         top
+    
+    
+           This function is available in glibc since version 2.2.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ getloadavg ()                          │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           Not in POSIX.1.  Present on the BSDs and Solaris.
+    
+## SEE ALSO         top
+    
+    
+           uptime(1), proc(5)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                  GETLOADAVG(3)
+    

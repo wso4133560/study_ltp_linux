@@ -1,0 +1,116 @@
+  
+# mbrtowc(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    MBRTOWC(3)              Linux Programmer's Manual             MBRTOWC(3)
+    
+## NAME         top
+    
+    
+           mbrtowc - convert a multibyte sequence to a wide character
+    
+## SYNOPSIS         top
+    
+    
+           #include <wchar.h>
+    
+           size_t mbrtowc(wchar_t restrict _pwc_ , const char restrict _s_ , size_t _n_ ,
+                          mbstate_t restrict _ps_ );
+    
+## DESCRIPTION         top
+    
+    
+           The main case for this function is when _s_ is not NULL and _pwc_ is
+           not NULL.  In this case, the mbrtowc () function inspects at most
+           _n_ bytes of the multibyte string starting at _s_ , extracts the next
+           complete multibyte character, converts it to a wide character and
+           stores it at _pwc_.  It updates the shift state _ps_.  If the
+           converted wide character is not L'\0' (the null wide character),
+           it returns the number of bytes that were consumed from _s_.  If the
+           converted wide character is L'\0', it resets the shift state _ps_
+           to the initial state and returns 0.
+    
+           If the _n_ bytes starting at _s_ do not contain a complete multibyte
+           character, mbrtowc () returns _(size_t) -2_.  This can happen even
+           if _n_ >= _MB_CUR_MAX_ , if the multibyte string contains redundant
+           shift sequences.
+    
+           If the multibyte string starting at _s_ contains an invalid
+           multibyte sequence before the next complete character, mbrtowc ()
+           returns _(size_t) -1_ and sets _errno_ to EILSEQ.  In this case, the
+           effects on _ps_ are undefined.
+    
+           A different case is when _s_ is not NULL but _pwc_ is NULL.  In this
+           case, the mbrtowc () function behaves as above, except that it
+           does not store the converted wide character in memory.
+    
+           A third case is when _s_ is NULL.  In this case, _pwc_ and _n_ are
+           ignored.  If the conversion state represented by _ps_ denotes an
+           incomplete multibyte character conversion, the mbrtowc () function
+           returns _(size_t) -1_ , sets _errno_ to EILSEQ , and leaves _ps_ in an
+           undefined state.  Otherwise, the mbrtowc () function puts _ps_ in
+           the initial state and returns 0.
+    
+           In all of the above cases, if _ps_ is NULL, a static anonymous
+           state known only to the mbrtowc () function is used instead.
+           Otherwise, _ps_ must be a valid _mbstate_t_ object.  An _mbstate_t_
+           object _a_ can be initialized to the initial state by zeroing it,
+           for example using
+    
+               memset(&a, 0, sizeof(a));
+    
+## RETURN VALUE         top
+    
+    
+           The mbrtowc () function returns the number of bytes parsed from
+           the multibyte sequence starting at _s_ , if a non-L'\0' wide
+           character was recognized.  It returns 0, if a L'\0' wide
+           character was recognized.  It returns _(size_t) -1_ and sets _errno_
+           to EILSEQ , if an invalid multibyte sequence was encountered.  It
+           returns _(size_t) -2_ if it couldn't parse a complete multibyte
+           character, meaning that _n_ should be increased.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌───────────────────┬───────────────┬────────────────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├───────────────────┼───────────────┼────────────────────────────┤
+           │ mbrtowc ()          │ Thread safety │ MT-Unsafe race:mbrtowc/!ps │
+           └───────────────────┴───────────────┴────────────────────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C99.
+    
+## NOTES         top
+    
+    
+           The behavior of mbrtowc () depends on the LC_CTYPE category of the
+           current locale.
+    
+## SEE ALSO         top
+    
+    
+           mbsinit(3), mbsrtowcs(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                     MBRTOWC(3)
+    

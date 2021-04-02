@@ -1,0 +1,381 @@
+  
+# openat2(2) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | VERSIONS | CONFORMING
+TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    OPENAT2(2)              Linux Programmer's Manual             OPENAT2(2)
+    
+## NAME         top
+    
+    
+           openat2 - open and possibly create a file (extended)
+    
+## SYNOPSIS         top
+    
+    
+           #include <sys/stat.h>
+           #include <fcntl.h>
+           #include <linux/openat2.h>
+    
+           long openat2(int _dirfd_ , const char  _pathname_ ,
+                       struct open_how  _how_ , size_t _size_ );
+    
+           _Note_ : There is no glibc wrapper for this system call; see NOTES.
+    
+## DESCRIPTION         top
+    
+    
+           The openat2 () system call is an extension of openat(2) and
+           provides a superset of its functionality.
+    
+           The openat2 () system call opens the file specified by _pathname_.
+           If the specified file does not exist, it may optionally (if
+           O_CREAT is specified in _how.flags_ ) be created.
+    
+           As with openat(2), if _pathname_ is a relative pathname, then it is
+           interpreted relative to the directory referred to by the file
+           descriptor _dirfd_ (or the current working directory of the calling
+           process, if _dirfd_ is the special value AT_FDCWD ).  If _pathname_ is
+           an absolute pathname, then _dirfd_ is ignored (unless _how.resolve_
+           contains RESOLVE_IN_ROOT , in which case _pathname_ is resolved
+           relative to _dirfd_ ).
+    
+           Rather than taking a single _flags_ argument, an extensible
+           structure ( _how_ ) is passed to allow for future extensions.  The
+           _size_ argument must be specified as _sizeof(struct open_how)_.
+    
+       The open_how structure
+           The _how_ argument specifies how _pathname_ should be opened, and
+           acts as a superset of the _flags_ and _mode_ arguments to openat(2).
+           This argument is a pointer to a structure of the following form:
+    
+               struct open_how {
+                   u64 flags;    / O_ flags /
+                   u64 mode;     / Mode for O_{CREAT,TMPFILE} /
+                   u64 resolve;  / RESOLVE_ flags /
+                   / ... /
+               };
+    
+           Any future extensions to openat2 () will be implemented as new
+           fields appended to the above structure, with a zero value in a
+           new field resulting in the kernel behaving as though that
+           extension field was not present.  Therefore, the caller _must_
+           zero-fill this structure on initialization.  (See the
+           "Extensibility" section of the NOTES for more detail on why this
+           is necessary.)
+    
+           The fields of the _open_how_ structure are as follows:
+    
+           _flags_  This field specifies the file creation and file status
+                  flags to use when opening the file.  All of the O_ flags
+                  defined for openat(2) are valid openat2 () flag values.
+    
+                  Whereas openat(2) ignores unknown bits in its _flags_
+                  argument, openat2 () returns an error if unknown or
+                  conflicting flags are specified in _how.flags_.
+    
+           _mode_   This field specifies the mode for the new file, with
+                  identical semantics to the _mode_ argument of openat(2).
+    
+                  Whereas openat(2) ignores bits other than those in the
+                  range _07777_ in its _mode_ argument, openat2 () returns an
+                  error if _how.mode_ contains bits other than _07777_.
+                  Similarly, an error is returned if openat2 () is called
+                  with a nonzero _how.mode_ and _how.flags_ does not contain
+                  O_CREAT or O_TMPFILE.
+    
+           _resolve_
+                  This is a bit-mask of flags that modify the way in which
+                  all components of _pathname_ will be resolved.  (See
+                  path_resolution(7) for background information.)
+    
+                  The primary use case for these flags is to allow trusted
+                  programs to restrict how untrusted paths (or paths inside
+                  untrusted directories) are resolved.  The full list of
+                  _resolve_ flags is as follows:
+    
+                  RESOLVE_BENEATH
+                         Do not permit the path resolution to succeed if any
+                         component of the resolution is not a descendant of
+                         the directory indicated by _dirfd_.  This causes
+                         absolute symbolic links (and absolute values of
+                         _pathname_ ) to be rejected.
+    
+                         Currently, this flag also disables magic-link
+                         resolution (see below).  However, this may change
+                         in the future.  Therefore, to ensure that magic
+                         links are not resolved, the caller should
+                         explicitly specify RESOLVE_NO_MAGICLINKS.
+    
+                  RESOLVE_IN_ROOT
+                         Treat the directory referred to by _dirfd_ as the
+                         root directory while resolving _pathname_.  Absolute
+                         symbolic links are interpreted relative to _dirfd_.
+                         If a prefix component of _pathname_ equates to _dirfd_ ,
+                         then an immediately following _.._ component likewise
+                         equates to _dirfd_ (just as _/.._ is traditionally
+                         equivalent to _/_ ).  If _pathname_ is an absolute path,
+                         it is also interpreted relative to _dirfd_.
+    
+                         The effect of this flag is as though the calling
+                         process had used chroot(2) to (temporarily) modify
+                         its root directory (to the directory referred to by
+                         _dirfd_ ).  However, unlike chroot(2) (which changes
+                         the filesystem root permanently for a process),
+                         RESOLVE_IN_ROOT allows a program to efficiently
+                         restrict path resolution on a per-open basis.
+    
+                         Currently, this flag also disables magic-link
+                         resolution.  However, this may change in the
+                         future.  Therefore, to ensure that magic links are
+                         not resolved, the caller should explicitly specify
+                         RESOLVE_NO_MAGICLINKS.
+    
+                  RESOLVE_NO_MAGICLINKS
+                         Disallow all magic-link resolution during path
+                         resolution.
+    
+                         Magic links are symbolic link-like objects that are
+                         most notably found in proc(5); examples include
+                         _/proc/[pid]/exe_ and _/proc/[pid]/fd/_.  (See
+                         symlink(7) for more details.)
+    
+                         Unknowingly opening magic links can be risky for
+                         some applications.  Examples of such risks include
+                         the following:
+    
+                         • If the process opening a pathname is a
+                           controlling process that currently has no
+                           controlling terminal (see credentials(7)), then
+                           opening a magic link inside _/proc/[pid]/fd_ that
+                           happens to refer to a terminal would cause the
+                           process to acquire a controlling terminal.
+    
+                         • In a containerized environment, a magic link
+                           inside _/proc_ may refer to an object outside the
+                           container, and thus may provide a means to escape
+                           from the container.
+    
+                         Because of such risks, an application may prefer to
+                         disable magic link resolution using the
+                         RESOLVE_NO_MAGICLINKS flag.
+    
+                         If the trailing component (i.e., basename) of
+                         _pathname_ is a magic link, _how.resolve_ contains
+                         RESOLVE_NO_MAGICLINKS , and _how.flags_ contains both
+                         O_PATH and O_NOFOLLOW , then an O_PATH file
+                         descriptor referencing the magic link will be
+                         returned.
+    
+                  RESOLVE_NO_SYMLINKS
+                         Disallow resolution of symbolic links during path
+                         resolution.  This option implies
+                         RESOLVE_NO_MAGICLINKS.
+    
+                         If the trailing component (i.e., basename) of
+                         _pathname_ is a symbolic link, _how.resolve_ contains
+                         RESOLVE_NO_SYMLINKS , and _how.flags_ contains both
+                         O_PATH and O_NOFOLLOW , then an O_PATH file
+                         descriptor referencing the symbolic link will be
+                         returned.
+    
+                         Note that the effect of the RESOLVE_NO_SYMLINKS
+                         flag, which affects the treatment of symbolic links
+                         in all of the components of _pathname_ , differs from
+                         the effect of the O_NOFOLLOW file creation flag (in
+                         _how.flags_ ), which affects the handling of symbolic
+                         links only in the final component of _pathname_.
+    
+                         Applications that employ the RESOLVE_NO_SYMLINKS
+                         flag are encouraged to make its use configurable
+                         (unless it is used for a specific security
+                         purpose), as symbolic links are very widely used by
+                         end-users.  Setting this flag indiscriminately—
+                         i.e., for purposes not specifically related to
+                         security—for all uses of openat2 () may result in
+                         spurious errors on previously functional systems.
+                         This may occur if, for example, a system pathname
+                         that is used by an application is modified (e.g.,
+                         in a new distribution release) so that a pathname
+                         component (now) contains a symbolic link.
+    
+                  RESOLVE_NO_XDEV
+                         Disallow traversal of mount points during path
+                         resolution (including all bind mounts).
+                         Consequently, _pathname_ must either be on the same
+                         mount as the directory referred to by _dirfd_ , or on
+                         the same mount as the current working directory if
+                         _dirfd_ is specified as AT_FDCWD.
+    
+                         Applications that employ the RESOLVE_NO_XDEV flag
+                         are encouraged to make its use configurable (unless
+                         it is used for a specific security purpose), as
+                         bind mounts are widely used by end-users.  Setting
+                         this flag indiscriminately—i.e., for purposes not
+                         specifically related to security—for all uses of
+                         openat2 () may result in spurious errors on
+                         previously functional systems.  This may occur if,
+                         for example, a system pathname that is used by an
+                         application is modified (e.g., in a new
+                         distribution release) so that a pathname component
+                         (now) contains a bind mount.
+    
+                  RESOLVE_CACHED
+                         Make the open operation fail unless all path
+                         components are already present in the kernel's
+                         lookup cache.  If any kind of revalidation or I/O
+                         is needed to satisfy the lookup, openat2 () fails
+                         with the error EAGAIN . This is useful in
+                         providing a fast-path open that can be performed
+                         without resorting to thread offload, or other
+                         mechanisms that an application might use to offload
+                         slower operations.
+    
+                  If any bits other than those listed above are set in
+                  _how.resolve_ , an error is returned.
+    
+## RETURN VALUE         top
+    
+    
+           On success, a new file descriptor is returned.  On error, -1 is
+           returned, and _errno_ is set to indicate the error.
+    
+## ERRORS         top
+    
+    
+           The set of errors returned by openat2 () includes all of the
+           errors returned by openat(2), as well as the following additional
+           errors:
+    
+           E2BIG An extension that this kernel does not support was
+                  specified in _how_.  (See the "Extensibility" section of
+                  NOTES for more detail on how extensions are handled.)
+    
+           EAGAIN _how.resolve_ contains either RESOLVE_IN_ROOT or
+                  RESOLVE_BENEATH , and the kernel could not ensure that a
+                  ".." component didn't escape (due to a race condition or
+                  potential attack).  The caller may choose to retry the
+                  openat2 () call.
+    
+           EAGAIN RESOLVE_CACHED was set, and the open operation cannot be
+                  performed using only cached information. The caller should
+                  retry without RESOLVE_CACHED set in _how.resolve ._
+    
+           EINVAL An unknown flag or invalid value was specified in _how_.
+    
+           EINVAL _mode_ is nonzero, but _how.flags_ does not contain O_CREAT or
+                  O_TMPFILE.
+    
+           EINVAL _size_ was smaller than any known version of _struct_
+                  _open_how_.
+    
+           ELOOP _how.resolve_ contains RESOLVE_NO_SYMLINKS , and one of the
+                  path components was a symbolic link (or magic link).
+    
+           ELOOP _how.resolve_ contains RESOLVE_NO_MAGICLINKS , and one of the
+                  path components was a magic link.
+    
+           EXDEV _how.resolve_ contains either RESOLVE_IN_ROOT or
+                  RESOLVE_BENEATH , and an escape from the root during path
+                  resolution was detected.
+    
+           EXDEV _how.resolve_ contains RESOLVE_NO_XDEV , and a path component
+                  crosses a mount point.
+    
+## VERSIONS         top
+    
+    
+           openat2 () first appeared in Linux 5.6.
+    
+## CONFORMING TO         top
+    
+    
+           This system call is Linux-specific.
+    
+           The semantics of RESOLVE_BENEATH were modeled after FreeBSD's
+           O_BENEATH.
+    
+## NOTES         top
+    
+    
+           Glibc does not provide a wrapper for this system call; call it
+           using syscall(2).
+    
+       Extensibility
+           In order to allow for future extensibility, openat2 () requires
+           the user-space application to specify the size of the _open_how_
+           structure that it is passing.  By providing this information, it
+           is possible for openat2 () to provide both forwards- and
+           backwards-compatibility, with _size_ acting as an implicit version
+           number.  (Because new extension fields will always be appended,
+           the structure size will always increase.)  This extensibility
+           design is very similar to other system calls such as
+           sched_setattr(2), perf_event_open(2), and clone3(2).
+    
+           If we let _usize_ be the size of the structure as specified by the
+           user-space application, and _ksize_ be the size of the structure
+           which the kernel supports, then there are three cases to
+           consider:
+    
+           • If _ksize_ equals _usize_ , then there is no version mismatch and
+             _how_ can be used verbatim.
+    
+           • If _ksize_ is larger than _usize_ , then there are some extension
+             fields that the kernel supports which the user-space
+             application is unaware of.  Because a zero value in any added
+             extension field signifies a no-op, the kernel treats all of the
+             extension fields not provided by the user-space application as
+             having zero values.  This provides backwards-compatibility.
+    
+           • If _ksize_ is smaller than _usize_ , then there are some extension
+             fields which the user-space application is aware of but which
+             the kernel does not support.  Because any extension field must
+             have its zero values signify a no-op, the kernel can safely
+             ignore the unsupported extension fields if they are all-zero.
+             If any unsupported extension fields are nonzero, then -1 is
+             returned and _errno_ is set to E2BIG.  This provides forwards-
+             compatibility.
+    
+           Because the definition of _struct open_how_ may change in the
+           future (with new fields being added when system headers are
+           updated), user-space applications should zero-fill _struct_
+           _open_how_ to ensure that recompiling the program with new headers
+           will not result in spurious errors at runtime.  The simplest way
+           is to use a designated initializer:
+    
+               struct open_how how = { .flags = O_RDWR,
+                                       .resolve = RESOLVE_IN_ROOT };
+    
+           or explicitly using memset(3) or similar:
+    
+               struct open_how how;
+               memset(&how, 0, sizeof(how));
+               how.flags = O_RDWR;
+               how.resolve = RESOLVE_IN_ROOT;
+    
+           A user-space application that wishes to determine which
+           extensions the running kernel supports can do so by conducting a
+           binary search on _size_ with a structure which has every byte
+           nonzero (to find the largest value which doesn't produce an error
+           of E2BIG ).
+    
+## SEE ALSO         top
+    
+    
+           openat(2), path_resolution(7), symlink(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                     OPENAT2(2)
+    

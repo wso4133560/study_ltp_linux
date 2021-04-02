@@ -1,0 +1,78 @@
+  
+# wcswidth(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    WCSWIDTH(3)             Linux Programmer's Manual            WCSWIDTH(3)
+    
+## NAME         top
+    
+    
+           wcswidth - determine columns needed for a fixed-size wide-
+           character string
+    
+## SYNOPSIS         top
+    
+    
+           #define _XOPEN_SOURCE / See feature_test_macros(7) /
+           #include <wchar.h>
+    
+           int wcswidth(const wchar_t  _s_ , size_t _n_ );
+    
+## DESCRIPTION         top
+    
+    
+           The wcswidth () function returns the number of columns needed to
+           represent the wide-character string pointed to by _s_ , but at most
+           _n_ wide characters.  If a nonprintable wide character occurs among
+           these characters, -1 is returned.
+    
+## RETURN VALUE         top
+    
+    
+           The wcswidth () function returns the number of column positions
+           for the wide-character string _s_ , truncated to at most length _n_.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌───────────────────────────────┬───────────────┬────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├───────────────────────────────┼───────────────┼────────────────┤
+           │ wcswidth ()                     │ Thread safety │ MT-Safe locale │
+           └───────────────────────────────┴───────────────┴────────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008.
+    
+## NOTES         top
+    
+    
+           The behavior of wcswidth () depends on the LC_CTYPE category of
+           the current locale.
+    
+## SEE ALSO         top
+    
+    
+           iswprint(3), wcwidth(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                    WCSWIDTH(3)
+    

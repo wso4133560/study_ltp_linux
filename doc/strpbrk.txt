@@ -1,0 +1,70 @@
+  
+# strpbrk(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    STRPBRK(3)              Linux Programmer's Manual             STRPBRK(3)
+    
+## NAME         top
+    
+    
+           strpbrk - search a string for any of a set of bytes
+    
+## SYNOPSIS         top
+    
+    
+           #include <string.h>
+    
+           char strpbrk(const char  _s_ , const char  _accept_ );
+    
+## DESCRIPTION         top
+    
+    
+           The strpbrk () function locates the first occurrence in the string
+           _s_ of any of the bytes in the string _accept_.
+    
+## RETURN VALUE         top
+    
+    
+           The strpbrk () function returns a pointer to the byte in _s_ that
+           matches one of the bytes in _accept_ , or NULL if no such byte is
+           found.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ strpbrk ()                             │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C89, C99, SVr4, 4.3BSD.
+    
+## SEE ALSO         top
+    
+    
+           index(3), memchr(3), rindex(3), strchr(3), string(3), strsep(3),
+           strspn(3), strstr(3), strtok(3), wcspbrk(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                     STRPBRK(3)
+    

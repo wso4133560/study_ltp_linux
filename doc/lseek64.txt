@@ -1,0 +1,142 @@
+  
+# lseek64(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | ATTRIBUTES | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    LSEEK64(3)              Linux Programmer's Manual             LSEEK64(3)
+    
+## NAME         top
+    
+    
+           lseek64 - reposition 64-bit read/write file offset
+    
+## SYNOPSIS         top
+    
+    
+           #define _LARGEFILE64_SOURCE / See feature_test_macros(7) /
+           #include <sys/types.h>
+           #include <unistd.h>
+    
+           off64_t lseek64(int _fd_ , off64_t _offset_ , int _whence_ );
+    
+## DESCRIPTION         top
+    
+    
+           The lseek () family of functions reposition the offset of the open
+           file associated with the file descriptor _fd_ to _offset_ bytes
+           relative to the start, current position, or end of the file, when
+           _whence_ has the value SEEK_SET , SEEK_CUR , or SEEK_END ,
+           respectively.
+    
+           For more details, return value, and errors, see lseek(2).
+    
+           Four interfaces are available: lseek (), lseek64 (), llseek (), and
+           _llseek ().
+    
+       lseek()
+           Prototype:
+    
+               off_t lseek(int _fd_ , off_t _offset_ , int _whence_ );
+    
+           The C library's lseek () wrapper function uses the type _off_t_.
+           This is a 32-bit signed type on 32-bit architectures, unless one
+           compiles with
+    
+               #define _FILE_OFFSET_BITS 64
+    
+           in which case it is a 64-bit signed type.
+    
+       lseek64()
+           Prototype:
+    
+               off64_t lseek64(int _fd_ , off64_t _offset_ , int _whence_ );
+    
+           The lseek64 () library function uses a 64-bit type even when _off_t_
+           is a 32-bit type.  Its prototype (and the type _off64_t_ ) is
+           available only when one compiles with
+    
+               #define _LARGEFILE64_SOURCE
+    
+           The function lseek64 () is available since glibc 2.1.
+    
+       llseek()
+           Prototype:
+    
+               loff_t llseek(int _fd_ , loff_t _offset_ , int _whence_ );
+    
+           The type _loff_t_ is a 64-bit signed type.  The llseek () library
+           function is available in glibc and works without special defines.
+           However, the glibc headers do not provide a prototype.  Users
+           should add the above prototype, or something equivalent, to their
+           own source.  When users complained about data loss caused by a
+           miscompilation of e2fsck(8), glibc 2.1.3 added the link-time
+           warning
+    
+               "the `llseek´ function may be dangerous; use `lseek64´
+               instead."
+    
+           This makes this function unusable if one desires a warning-free
+           compilation.
+    
+           Since glibc 2.28, this function symbol is no longer available to
+           newly linked applications.
+    
+       _llseek()
+           On 32-bit architectures, this is the system call that is used (by
+           the C library wrapper functions) to implement all of the above
+           functions.  The prototype is:
+    
+               int _llseek(int _fd_ , off_t _offset_hi_ , off_t _offset_lo_ ,
+                           loff_t  _result_ , int _whence_ );
+    
+           For more details, see llseek(2).
+    
+           64-bit systems don't need an _llseek () system call.  Instead,
+           they have an lseek(2) system call that supports 64-bit file
+           offsets.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ lseek64 ()                             │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## NOTES         top
+    
+    
+           lseek64 () is one of the functions that was specified in the Large
+           File Summit (LFS) specification that was completed in 1996.  The
+           purpose of the specification was to provide transitional support
+           that allowed applications on 32-bit systems to access files whose
+           size exceeds that which can be represented with a 32-bit _off_t_
+           type.  As noted above, this symbol is exposed by header files if
+           the _LARGEFILE64_SOURCE feature test macro is defined.
+           ALternatively, on a 32-bit system, the symbol _lseek_ is aliased to
+           _lseek64_ if the macro _FILE_OFFSET_BITS is defined with the value
+           64.
+    
+## SEE ALSO         top
+    
+    
+           llseek(2), lseek(2)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                     LSEEK64(3)
+    

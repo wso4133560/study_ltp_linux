@@ -1,0 +1,151 @@
+  
+# process_madvise(2) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | VERSIONS | CONFORMING
+TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    PROCESS_MADVISE(2)      Linux Programmer's Manual     PROCESS_MADVISE(2)
+    
+## NAME         top
+    
+    
+           process_madvise - give advice about use of memory to a process
+    
+## SYNOPSIS         top
+    
+    
+           #include <sys/uio.h>
+    
+           ssize_t process_madvise(int _pidfd_ , const struct iovec  _iovec_ ,
+                                   size_t _vlen_ , int _advice_ ,
+                                   unsigned int _flags_ );
+    
+           _Note_ : There is no glibc wrapper for this system call; see NOTES.
+    
+## DESCRIPTION         top
+    
+    
+           The process_madvise() system call is used to give advice or
+           directions to the kernel about the address ranges of another
+           process or of the calling process.  It provides the advice for
+           the address ranges described by _iovec_ and _vlen_.  The goal of such
+           advice is to improve system or application performance.
+    
+           The _pidfd_ argument is a PID file descriptor (see pidfd_open(2))
+           that specifies the process to which the advice is to be applied.
+    
+           The pointer _iovec_ points to an array of _iovec_ structures, defined
+           in _< sys/uio.h>_ as:
+    
+               struct iovec {
+                   void  iov_base;    / Starting address /
+                   size_t iov_len;     / Length of region /
+               };
+    
+           The _iovec_ structure describes address ranges beginning at
+           _iov_base_ address and with the size of _iov_len_ bytes.
+    
+           The _vlen_ specifies the number of elements in the _iovec_ structure.
+           This value must be less than or equal to IOV_MAX (defined in
+           _< limits.h>_ or accessible via the call _sysconf(_SC_IOV_MAX)_ ).
+    
+           The _advice_ argument is one of the following values:
+    
+           MADV_COLD
+                  See madvise(2).
+    
+           MADV_PAGEOUT
+                  See madvise(2).
+    
+           The _flags_ argument is reserved for future use; currently, this
+           argument must be specified as 0.
+    
+           The _vlen_ and _iovec_ arguments are checked before applying any
+           advice.  If _vlen_ is too big, or _iovec_ is invalid, then an error
+           will be returned immediately and no advice will be applied.
+    
+           The advice might be applied to only a part of _iovec_ if one of its
+           elements points to an invalid memory region in the remote
+           process.  No further elements will be processed beyond that
+           point.  (See the discussion regarding partial advice in RETURN
+           VALUE.)
+    
+           Permission to apply advice to another process is governed by a
+           ptrace access mode PTRACE_MODE_READ_REALCREDS check (see
+           ptrace(2)); in addition, because of the performance implications
+           of applying the advice, the caller must have the CAP_SYS_ADMIN
+           capability.
+    
+## RETURN VALUE         top
+    
+    
+           On success, process_madvise () returns the number of bytes
+           advised.  This return value may be less than the total number of
+           requested bytes, if an error occurred after some _iovec_ elements
+           were already processed.  The caller should check the return value
+           to determine whether a partial advice occurred.
+    
+           On error, -1 is returned and _errno_ is set to indicate the error.
+    
+## ERRORS         top
+    
+    
+           EBADF _pidfd_ is not a valid PID file descriptor.
+    
+           EFAULT The memory described by _iovec_ is outside the accessible
+                  address space of the process referred to by _pidfd_.
+    
+           EINVAL _flags_ is not 0.
+    
+           EINVAL The sum of the _iov_len_ values of _iovec_ overflows a _ssize_t_
+                  value.
+    
+           EINVAL _vlen_ is too large.
+    
+           ENOMEM Could not allocate memory for internal copies of the _iovec_
+                  structures.
+    
+           EPERM The caller does not have permission to access the address
+                  space of the process _pidfd_.
+    
+           ESRCH The target process does not exist (i.e., it has terminated
+                  and been waited on).
+    
+## VERSIONS         top
+    
+    
+           This system call first appeared in Linux 5.10.  Support for this
+           system call is optional, depending on the setting of the
+           CONFIG_ADVISE_SYSCALLS configuration option.
+    
+## CONFORMING TO         top
+    
+    
+           The process_madvise () system call is Linux-specific.
+    
+## NOTES         top
+    
+    
+           Glibc does not provide a wrapper for this system call; call it
+           using syscall(2).
+    
+## SEE ALSO         top
+    
+    
+           madvise(2), pidfd_open(2), process_vm_readv(2),
+           process_vm_write (2)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-01-12             PROCESS_MADVISE(2)
+    

@@ -1,0 +1,340 @@
+  
+# gethostbyname(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | FILES | ATTRIBUTES |
+CONFORMING TO | NOTES | BUGS | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    GETHOSTBYNAME(3)        Linux Programmer's Manual       GETHOSTBYNAME(3)
+    
+## NAME         top
+    
+    
+           gethostbyname, gethostbyaddr, sethostent, gethostent, endhostent,
+           h_errno, herror, hstrerror, gethostbyaddr_r, gethostbyname2,
+           gethostbyname2_r, gethostbyname_r, gethostent_r - get network
+           host entry
+    
+## SYNOPSIS         top
+    
+    
+           #include <netdb.h>
+    
+           extern int h_errno;
+    
+           struct hostent gethostbyname(const char  _name_ );
+           struct hostent gethostbyaddr(const void  _addr_ ,
+                                         socklen_t _len_ , int _type_ );
+    
+           void sethostent(int _stayopen_ );
+           void endhostent(void);
+    
+           void herror(const char  _s_ );
+           const char hstrerror(int _err_ );
+    
+           / System V/POSIX extension /
+           struct hostent gethostent(void);
+    
+           / GNU extensions /
+           struct hostent gethostbyname2(const char  _name_ , int _af_ );
+    
+           int gethostent_r(struct hostent restrict _ret_ ,
+                            char restrict _buf_ , size_t _buflen_ ,
+                            struct hostent restrict _result_ ,
+                            int restrict _h_errnop_ );
+    
+           int gethostbyaddr_r(const void restrict _addr_ , socklen_t _len_ , int _type_ ,
+                            struct hostent restrict _ret_ ,
+                            char restrict _buf_ , size_t _buflen_ ,
+                            struct hostent restrict _result_ ,
+                            int restrict _h_errnop_ );
+           int gethostbyname_r(const char restrict _name_ ,
+                            struct hostent restrict _ret_ ,
+                            char restrict _buf_ , size_t _buflen_ ,
+                            struct hostent restrict _result_ ,
+                            int restrict _h_errnop_ );
+           int gethostbyname2_r(const char restrict _name_ , int _af,_
+                            struct hostent restrict _ret_ ,
+                            char restrict _buf_ , size_t _buflen_ ,
+                            struct hostent restrict _result_ ,
+                            int restrict _h_errnop_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           gethostbyname2 (), gethostent_r (), gethostbyaddr_r (),
+           gethostbyname_r (), gethostbyname2_r ():
+               Since glibc 2.19:
+                   _DEFAULT_SOURCE
+               Glibc up to and including 2.19:
+                   _BSD_SOURCE || _SVID_SOURCE
+    
+           herror (), hstrerror ():
+               Since glibc 2.19:
+                   _DEFAULT_SOURCE
+               Glibc 2.8 to 2.19:
+                   _BSD_SOURCE || _SVID_SOURCE
+               Before glibc 2.8:
+                   none
+    
+           h_errno :
+               Since glibc 2.19
+                   _DEFAULT_SOURCE || _POSIX_C_SOURCE < 200809L
+               Glibc 2.12 to 2.19:
+                   _BSD_SOURCE || _SVID_SOURCE || _POSIX_C_SOURCE < 200809L
+               Before glibc 2.12:
+                   none
+    
+## DESCRIPTION         top
+    
+    
+           The gethostbyname (), gethostbyaddr (), herror (), and hstrerror ()
+           functions are obsolete.  Applications should use getaddrinfo(3),
+           getnameinfo(3), and gai_strerror(3) instead.
+    
+           The gethostbyname () function returns a structure of type _hostent_
+           for the given host _name_.  Here _name_ is either a hostname or an
+           IPv4 address in standard dot notation (as for inet_addr(3)).  If
+           _name_ is an IPv4 address, no lookup is performed and
+           gethostbyname () simply copies _name_ into the _h_name_ field and its
+           _struct in_addr_ equivalent into the _h_addr_list[0]_ field of the
+           returned _hostent_ structure.  If _name_ doesn't end in a dot and the
+           environment variable HOSTALIASES is set, the alias file pointed
+           to by HOSTALIASES will first be searched for _name_ (see
+           hostname(7) for the file format).  The current domain and its
+           parents are searched unless _name_ ends in a dot.
+    
+           The gethostbyaddr () function returns a structure of type _hostent_
+           for the given host address _addr_ of length _len_ and address type
+           _type_.  Valid address types are AF_INET and AF_INET6 (defined in
+           _< sys/socket.h>_).  The host address argument is a pointer to a
+           struct of a type depending on the address type, for example a
+           _struct in_addr _ (probably obtained via a call to inet_addr(3))
+           for address type AF_INET.
+    
+           The sethostent () function specifies, if _stayopen_ is true (1),
+           that a connected TCP socket should be used for the name server
+           queries and that the connection should remain open during
+           successive queries.  Otherwise, name server queries will use UDP
+           datagrams.
+    
+           The endhostent () function ends the use of a TCP connection for
+           name server queries.
+    
+           The (obsolete) herror () function prints the error message
+           associated with the current value of _h_errno_ on _stderr_.
+    
+           The (obsolete) hstrerror () function takes an error number
+           (typically _h_errno_ ) and returns the corresponding message string.
+    
+           The domain name queries carried out by gethostbyname () and
+           gethostbyaddr () rely on the Name Service Switch
+           (nsswitch.conf(5)) configured sources or a local name server
+           ( named (8)).  The default action is to query the Name Service
+           Switch (nsswitch.conf(5)) configured sources, failing that, a
+           local name server ( named (8)).
+    
+       Historical
+           The nsswitch.conf(5) file is the modern way of controlling the
+           order of host lookups.
+    
+           In glibc 2.4 and earlier, the _order_ keyword was used to control
+           the order of host lookups as defined in _/etc/host.conf_
+           (host.conf(5)).
+    
+           The _hostent_ structure is defined in _< netdb.h>_ as follows:
+    
+               struct hostent {
+                   char  h_name;            / official name of host /
+                   char h_aliases;         / alias list /
+                   int    h_addrtype;        / host address type /
+                   int    h_length;          / length of address /
+                   char h_addr_list;       / list of addresses /
+               }
+               #define h_addr h_addr_list[0] / for backward compatibility /
+    
+           The members of the _hostent_ structure are:
+    
+           _h_name_ The official name of the host.
+    
+           _h_aliases_
+                  An array of alternative names for the host, terminated by
+                  a null pointer.
+    
+           _h_addrtype_
+                  The type of address; always AF_INET or AF_INET6 at
+                  present.
+    
+           _h_length_
+                  The length of the address in bytes.
+    
+           _h_addr_list_
+                  An array of pointers to network addresses for the host (in
+                  network byte order), terminated by a null pointer.
+    
+           _h_addr_ The first address in _h_addr_list_ for backward
+                  compatibility.
+    
+## RETURN VALUE         top
+    
+    
+           The gethostbyname () and gethostbyaddr () functions return the
+           _hostent_ structure or a null pointer if an error occurs.  On
+           error, the _h_errno_ variable holds an error number.  When non-
+           NULL, the return value may point at static data, see the notes
+           below.
+    
+## ERRORS         top
+    
+    
+           The variable _h_errno_ can have the following values:
+    
+           HOST_NOT_FOUND
+                  The specified host is unknown.
+    
+           NO_DATA
+                  The requested name is valid but does not have an IP
+                  address.  Another type of request to the name server for
+                  this domain may return an answer.  The constant NO_ADDRESS
+                  is a synonym for NO_DATA.
+    
+           NO_RECOVERY
+                  A nonrecoverable name server error occurred.
+    
+           TRY_AGAIN
+                  A temporary error occurred on an authoritative name
+                  server.  Try again later.
+    
+## FILES         top
+    
+    
+           _/etc/host.conf_
+                  resolver configuration file
+    
+           _/etc/hosts_
+                  host database file
+    
+           _/etc/nsswitch.conf_
+                  name service switch configuration
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌───────────────────┬───────────────┬────────────────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├───────────────────┼───────────────┼────────────────────────────┤
+           │ gethostbyname ()    │ Thread safety │ MT-Unsafe race:hostbyname  │
+           │                   │               │ env locale                 │
+           ├───────────────────┼───────────────┼────────────────────────────┤
+           │ gethostbyaddr ()    │ Thread safety │ MT-Unsafe race:hostbyaddr  │
+           │                   │               │ env locale                 │
+           ├───────────────────┼───────────────┼────────────────────────────┤
+           │ sethostent (),      │ Thread safety │ MT-Unsafe race:hostent env │
+           │ endhostent (),      │               │ locale                     │
+           │ gethostent_r ()     │               │                            │
+           ├───────────────────┼───────────────┼────────────────────────────┤
+           │ herror (),          │ Thread safety │ MT-Safe                    │
+           │ hstrerror ()        │               │                            │
+           ├───────────────────┼───────────────┼────────────────────────────┤
+           │ gethostent ()       │ Thread safety │ MT-Unsafe race:hostent     │
+           │                   │               │ race:hostentbuf env locale │
+           ├───────────────────┼───────────────┼────────────────────────────┤
+           │ gethostbyname2 ()   │ Thread safety │ MT-Unsafe race:hostbyname2 │
+           │                   │               │ env locale                 │
+           ├───────────────────┼───────────────┼────────────────────────────┤
+           │ gethostbyaddr_r (), │ Thread safety │ MT-Safe env locale         │
+           │ gethostbyname_r (), │               │                            │
+           │ gethostbyname2_r () │               │                            │
+           └───────────────────┴───────────────┴────────────────────────────┘
+           In the above table, _hostent_ in _race:hostent_ signifies that if any
+           of the functions sethostent (), gethostent (), gethostent_r (), or
+           endhostent () are used in parallel in different threads of a
+           program, then data races could occur.
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001 specifies gethostbyname (), gethostbyaddr (),
+           sethostent (), endhostent (), gethostent (), and _h_errno_ ;
+           gethostbyname (), gethostbyaddr (), and _h_errno_ are marked
+           obsolescent in that standard.  POSIX.1-2008 removes the
+           specifications of gethostbyname (), gethostbyaddr (), and _h_errno_ ,
+           recommending the use of getaddrinfo(3) and getnameinfo(3)
+           instead.
+    
+## NOTES         top
+    
+    
+           The functions gethostbyname () and gethostbyaddr () may return
+           pointers to static data, which may be overwritten by later calls.
+           Copying the _struct hostent_ does not suffice, since it contains
+           pointers; a deep copy is required.
+    
+           In the original BSD implementation the _len_ argument of
+           gethostbyname () was an _int_.  The SUSv2 standard is buggy and
+           declares the _len_ argument of gethostbyaddr () to be of type
+           _size_t_.  (That is wrong, because it has to be _int_ , and _size_t_ is
+           not.  POSIX.1-2001 makes it _socklen_t_ , which is OK.)  See also
+           accept(2).
+    
+           The BSD prototype for gethostbyaddr () uses _const char _ for the
+           first argument.
+    
+       System V/POSIX extension
+           POSIX requires the gethostent () call, which should return the
+           next entry in the host data base.  When using DNS/BIND this does
+           not make much sense, but it may be reasonable if the host data
+           base is a file that can be read line by line.  On many systems, a
+           routine of this name reads from the file _/etc/hosts_.  It may be
+           available only when the library was built without DNS support.
+           The glibc version will ignore ipv6 entries.  This function is not
+           reentrant, and glibc adds a reentrant version gethostent_r ().
+    
+       GNU extensions
+           Glibc2 also has a gethostbyname2 () that works like
+           gethostbyname (), but permits to specify the address family to
+           which the address must belong.
+    
+           Glibc2 also has reentrant versions gethostent_r (),
+           gethostbyaddr_r (), gethostbyname_r (), and gethostbyname2_r ().
+           The caller supplies a _hostent_ structure _ret_ which will be filled
+           in on success, and a temporary work buffer _buf_ of size _buflen_.
+           After the call, _result_ will point to the result on success.  In
+           case of an error or if no entry is found _result_ will be NULL.
+           The functions return 0 on success and a nonzero error number on
+           failure.  In addition to the errors returned by the nonreentrant
+           versions of these functions, if _buf_ is too small, the functions
+           will return ERANGE , and the call should be retried with a larger
+           buffer.  The global variable _h_errno_ is not modified, but the
+           address of a variable in which to store error numbers is passed
+           in _h_errnop_.
+    
+## BUGS         top
+    
+    
+           gethostbyname () does not recognize components of a dotted IPv4
+           address string that are expressed in hexadecimal.
+    
+## SEE ALSO         top
+    
+    
+           getaddrinfo(3), getnameinfo(3), inet(3), inet_ntop(3),
+           inet_pton(3), resolver(3), hosts(5), nsswitch.conf(5),
+           hostname(7), named (8)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22               GETHOSTBYNAME(3)
+    

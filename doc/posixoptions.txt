@@ -1,0 +1,747 @@
+  
+# posixoptions(7) -- Linux manual page
+NAME | DESCRIPTION | X/OPEN SYSTEM INTERFACE EXTENSIONS | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    POSIXOPTIONS(7)         Linux Programmer's Manual        POSIXOPTIONS(7)
+    
+## NAME         top
+    
+    
+           posixoptions - optional parts of the POSIX standard
+    
+## DESCRIPTION         top
+    
+    
+           The POSIX standard (the information below is from POSIX.1-2001)
+           describes a set of behaviors and interfaces for a compliant
+           system.  However, many interfaces are optional and there are
+           feature test macros to test the availability of interfaces at
+           compile time, and functions sysconf(3), fpathconf(3),
+           pathconf(3), confstr(3) to do this at run time.  From shell
+           scripts one can use getconf (1).  For more detail, see sysconf(3).
+    
+           We give the name of the POSIX abbreviation, the option, the name
+           of the sysconf(3) parameter used to inquire about the option, and
+           possibly a very short description.  Much more precise detail can
+           be found in the POSIX standard itself, versions of which can
+           nowadays be accessed freely on the web.
+    
+       ADV - _POSIX_ADVISORY_INFO - _SC_ADVISORY_INFO
+           The following advisory functions are present:
+    
+               _posix_fadvise_ ()
+               _posix_fallocate_ ()
+               _posix_memalign_ ()
+               _posix_madvise_ ()
+    
+       AIO - _POSIX_ASYNCHRONOUS_IO - _SC_ASYNCHRONOUS_IO
+           The header _< aio.h>_ is present.  The following functions are
+           present:
+    
+               _aio_cancel_ ()
+               _aio_error_ ()
+               _aio_fsync_ ()
+               _aio_read_ ()
+               _aio_return_ ()
+               _aio_suspend_ ()
+               _aio_write_ ()
+               _lio_listio_ ()
+    
+       BAR - _POSIX_BARRIERS - _SC_BARRIERS
+           This option implies the _POSIX_THREADS and
+           _POSIX_THREAD_SAFE_FUNCTIONS options.  The following functions
+           are present:
+    
+               _pthread_barrier_destroy_ ()
+               _pthread_barrier_init_ ()
+               _pthread_barrier_wait_ ()
+               _pthread_barrierattr_destroy_ ()
+               _pthread_barrierattr_init_ ()
+    
+       --- - POSIX_CHOWN_RESTRICTED
+           If this option is in effect (as it always is under POSIX.1-2001),
+           then only root may change the owner of a file, and nonroot can
+           set the group of a file only to one of the groups it belongs to.
+           This affects the following functions
+    
+               _chown_ ()
+               _fchown_ ()
+    
+       CS - _POSIX_CLOCK_SELECTION - _SC_CLOCK_SELECTION
+           This option implies the _POSIX_TIMERS option.  The following
+           functions are present:
+    
+               _pthread_condattr_getclock_ ()
+               _pthread_condattr_setclock_ ()
+               _clock_nanosleep_ ()
+    
+           If CLOCK_REALTIME is changed by the function _clock_settime_ (),
+           then this affects all timers set for an absolute time.
+    
+       CPT - _POSIX_CPUTIME - _SC_CPUTIME
+           The CLOCK_PROCESS_CPUTIME_ID clock ID is supported.  The initial
+           value of this clock is 0 for each process.  This option implies
+           the _POSIX_TIMERS option.  The function _clock_getcpuclockid_ () is
+           present.
+    
+       --- - _POSIX_FILE_LOCKING - _SC_FILE_LOCKING
+           This option has been deleted.  Not in final XPG6.
+    
+       FSC - _POSIX_FSYNC - _SC_FSYNC
+           The function _fsync_ () is present.
+    
+       IP6 - _POSIX_IPV6 - _SC_IPV6
+           Internet Protocol Version 6 is supported.
+    
+       --- - _POSIX_JOB_CONTROL - _SC_JOB_CONTROL
+           If this option is in effect (as it always is under POSIX.1-2001),
+           then the system implements POSIX-style job control, and the
+           following functions are present:
+    
+               _setpgid_ ()
+               _tcdrain_ ()
+               _tcflush_ ()
+               _tcgetpgrp_ ()
+               _tcsendbreak_ ()
+               _tcsetattr_ ()
+               _tcsetpgrp_ ()
+    
+       MF - _POSIX_MAPPED_FILES - _SC_MAPPED_FILES
+           Shared memory is supported.  The include file _< sys/mman.h>_ is
+           present.  The following functions are present:
+    
+               _mmap_ ()
+               _msync_ ()
+               _munmap_ ()
+    
+       ML - _POSIX_MEMLOCK - _SC_MEMLOCK
+           Shared memory can be locked into core.  The following functions
+           are present:
+    
+               _mlockall_ ()
+               _munlockall_ ()
+    
+       MR/MLR - _POSIX_MEMLOCK_RANGE - _SC_MEMLOCK_RANGE
+           More precisely, ranges can be locked into core.  The following
+           functions are present:
+    
+               _mlock_ ()
+               _munlock_ ()
+    
+       MPR - _POSIX_MEMORY_PROTECTION - _SC_MEMORY_PROTECTION
+           The function _mprotect_ () is present.
+    
+       MSG - _POSIX_MESSAGE_PASSING - _SC_MESSAGE_PASSING
+           The include file _< mqueue.h>_ is present.  The following functions
+           are present:
+    
+               _mq_close_ ()
+               _mq_getattr_ ()
+               _mq_notify_ ()
+               _mq_open_ ()
+               _mq_receive_ ()
+               _mq_send_ ()
+               _mq_setattr_ ()
+               _mq_unlink_ ()
+    
+       MON - _POSIX_MONOTONIC_CLOCK - _SC_MONOTONIC_CLOCK
+           CLOCK_MONOTONIC is supported.  This option implies the
+           _POSIX_TIMERS option.  The following functions are affected:
+    
+               _aio_suspend_ ()
+               _clock_getres_ ()
+               _clock_gettime_ ()
+               _clock_settime_ ()
+               _timer_create_ ()
+    
+       --- - _POSIX_MULTI_PROCESS - _SC_MULTI_PROCESS
+           This option has been deleted.  Not in final XPG6.
+    
+       --- - _POSIX_NO_TRUNC
+           If this option is in effect (as it always is under POSIX.1-2001),
+           then pathname components longer than NAME_MAX are not truncated,
+           but give an error.  This property may be dependent on the path
+           prefix of the component.
+    
+       PIO - _POSIX_PRIORITIZED_IO - _SC_PRIORITIZED_IO
+           This option says that one can specify priorities for asynchronous
+           I/O.  This affects the functions
+    
+               _aio_read_ ()
+               _aio_write_ ()
+    
+       PS - _POSIX_PRIORITY_SCHEDULING - _SC_PRIORITY_SCHEDULING
+           The include file _< sched.h>_ is present.  The following functions
+           are present:
+    
+               _sched_get_priority_max_ ()
+               _sched_get_priority_min_ ()
+               _sched_getparam_ ()
+               _sched_getscheduler_ ()
+               _sched_rr_get_interval_ ()
+               _sched_setparam_ ()
+               _sched_setscheduler_ ()
+               _sched_yield_ ()
+    
+           If also _POSIX_SPAWN is in effect, then the following functions
+           are present:
+    
+               _posix_spawnattr_getschedparam_ ()
+               _posix_spawnattr_getschedpolicy_ ()
+               _posix_spawnattr_setschedparam_ ()
+               _posix_spawnattr_setschedpolicy_ ()
+    
+       RS - _POSIX_RAW_SOCKETS
+           Raw sockets are supported.  The following functions are affected:
+    
+               _getsockopt_ ()
+               _setsockopt_ ()
+    
+       --- - _POSIX_READER_WRITER_LOCKS - _SC_READER_WRITER_LOCKS
+           This option implies the _POSIX_THREADS option.  Conversely, under
+           POSIX.1-2001 the _POSIX_THREADS option implies this option.
+    
+           The following functions are present:
+    
+               _pthread_rwlock_destroy_ ()
+               _pthread_rwlock_init_ ()
+               _pthread_rwlock_rdlock_ ()
+               _pthread_rwlock_tryrdlock_ ()
+               _pthread_rwlock_trywrlock_ ()
+               _pthread_rwlock_unlock_ ()
+               _pthread_rwlock_wrlock_ ()
+               _pthread_rwlockattr_destroy_ ()
+               _pthread_rwlockattr_init_ ()
+    
+       RTS - _POSIX_REALTIME_SIGNALS - _SC_REALTIME_SIGNALS
+           Realtime signals are supported.  The following functions are
+           present:
+    
+               _sigqueue_ ()
+               _sigtimedwait_ ()
+               _sigwaitinfo_ ()
+    
+       --- - _POSIX_REGEXP - _SC_REGEXP
+           If this option is in effect (as it always is under POSIX.1-2001),
+           then POSIX regular expressions are supported and the following
+           functions are present:
+    
+               _regcomp_ ()
+               _regerror_ ()
+               _regexec_ ()
+               _regfree_ ()
+    
+       --- - _POSIX_SAVED_IDS - _SC_SAVED_IDS
+           If this option is in effect (as it always is under POSIX.1-2001),
+           then a process has a saved set-user-ID and a saved set-group-ID.
+           The following functions are affected:
+    
+               _exec_ ()
+               _kill_ ()
+               _seteuid_ ()
+               _setegid_ ()
+               _setgid_ ()
+               _setuid_ ()
+    
+       SEM - _POSIX_SEMAPHORES - _SC_SEMAPHORES
+           The include file _< semaphore.h>_ is present.  The following
+           functions are present:
+    
+               _sem_close_ ()
+               _sem_destroy_ ()
+               _sem_getvalue_ ()
+               _sem_init_ ()
+               _sem_open_ ()
+               _sem_post_ ()
+               _sem_trywait_ ()
+               _sem_unlink_ ()
+               _sem_wait_ ()
+    
+       SHM - _POSIX_SHARED_MEMORY_OBJECTS - _SC_SHARED_MEMORY_OBJECTS
+           The following functions are present:
+    
+               _mmap_ ()
+               _munmap_ ()
+               _shm_open_ ()
+               _shm_unlink_ ()
+    
+       --- - _POSIX_SHELL - _SC_SHELL
+           If this option is in effect (as it always is under POSIX.1-2001),
+           the function _system_ () is present.
+    
+       SPN - _POSIX_SPAWN - _SC_SPAWN
+           This option describes support for process creation in a context
+           where it is difficult or impossible to use _fork_ (), for example,
+           because no MMU is present.
+    
+           If _POSIX_SPAWN is in effect, then the include file _< spawn.h>_ and
+           the following functions are present:
+    
+               _posix_spawn_ ()
+               _posix_spawn_file_actions_addclose_ ()
+               _posix_spawn_file_actions_adddup2_ ()
+               _posix_spawn_file_actions_addopen_ ()
+               _posix_spawn_file_actions_destroy_ ()
+               _posix_spawn_file_actions_init_ ()
+               _posix_spawnattr_destroy_ ()
+               _posix_spawnattr_getsigdefault_ ()
+               _posix_spawnattr_getflags_ ()
+               _posix_spawnattr_getpgroup_ ()
+               _posix_spawnattr_getsigmask_ ()
+               _posix_spawnattr_init_ ()
+               _posix_spawnattr_setsigdefault_ ()
+               _posix_spawnattr_setflags_ ()
+               _posix_spawnattr_setpgroup_ ()
+               _posix_spawnattr_setsigmask_ ()
+               _posix_spawnp_ ()
+    
+           If also _POSIX_PRIORITY_SCHEDULING is in effect, then the
+           following functions are present:
+    
+               _posix_spawnattr_getschedparam_ ()
+               _posix_spawnattr_getschedpolicy_ ()
+               _posix_spawnattr_setschedparam_ ()
+               _posix_spawnattr_setschedpolicy_ ()
+    
+       SPI - _POSIX_SPIN_LOCKS - _SC_SPIN_LOCKS
+           This option implies the _POSIX_THREADS and
+           _POSIX_THREAD_SAFE_FUNCTIONS options.  The following functions
+           are present:
+    
+               _pthread_spin_destroy_ ()
+               _pthread_spin_init_ ()
+               _pthread_spin_lock_ ()
+               _pthread_spin_trylock_ ()
+               _pthread_spin_unlock_ ()
+    
+       SS - _POSIX_SPORADIC_SERVER - _SC_SPORADIC_SERVER
+           The scheduling policy SCHED_SPORADIC is supported.  This option
+           implies the _POSIX_PRIORITY_SCHEDULING option.  The following
+           functions are affected:
+    
+               _sched_setparam_ ()
+               _sched_setscheduler_ ()
+    
+       SIO - _POSIX_SYNCHRONIZED_IO - _SC_SYNCHRONIZED_IO
+           The following functions are affected:
+    
+               _open_ ()
+               _msync_ ()
+               _fsync_ ()
+               _fdatasync_ ()
+    
+       TSA - _POSIX_THREAD_ATTR_STACKADDR - _SC_THREAD_ATTR_STACKADDR
+           The following functions are affected:
+    
+               _pthread_attr_getstack_ ()
+               _pthread_attr_getstackaddr_ ()
+               _pthread_attr_setstack_ ()
+               _pthread_attr_setstackaddr_ ()
+    
+       TSS - _POSIX_THREAD_ATTR_STACKSIZE - _SC_THREAD_ATTR_STACKSIZE
+           The following functions are affected:
+    
+               _pthread_attr_getstack_ ()
+               _pthread_attr_getstacksize_ ()
+               _pthread_attr_setstack_ ()
+               _pthread_attr_setstacksize_ ()
+    
+       TCT - _POSIX_THREAD_CPUTIME - _SC_THREAD_CPUTIME
+           The clockID CLOCK_THREAD_CPUTIME_ID is supported.  This option
+           implies the _POSIX_TIMERS option.  The following functions are
+           affected:
+    
+               _pthread_getcpuclockid_ ()
+               _clock_getres_ ()
+               _clock_gettime_ ()
+               _clock_settime_ ()
+               _timer_create_ ()
+    
+       TPI - _POSIX_THREAD_PRIO_INHERIT - _SC_THREAD_PRIO_INHERIT
+           The following functions are affected:
+    
+               _pthread_mutexattr_getprotocol_ ()
+               _pthread_mutexattr_setprotocol_ ()
+    
+       TPP - _POSIX_THREAD_PRIO_PROTECT - _SC_THREAD_PRIO_PROTECT
+           The following functions are affected:
+    
+               _pthread_mutex_getprioceiling_ ()
+               _pthread_mutex_setprioceiling_ ()
+               _pthread_mutexattr_getprioceiling_ ()
+               _pthread_mutexattr_getprotocol_ ()
+               _pthread_mutexattr_setprioceiling_ ()
+               _pthread_mutexattr_setprotocol_ ()
+    
+       TPS - _POSIX_THREAD_PRIORITY_SCHEDULING -
+           _SC_THREAD_PRIORITY_SCHEDULING
+           If this option is in effect, the different threads inside a
+           process can run with different priorities and/or different
+           schedulers.  The following functions are affected:
+    
+               _pthread_attr_getinheritsched_ ()
+               _pthread_attr_getschedpolicy_ ()
+               _pthread_attr_getscope_ ()
+               _pthread_attr_setinheritsched_ ()
+               _pthread_attr_setschedpolicy_ ()
+               _pthread_attr_setscope_ ()
+               _pthread_getschedparam_ ()
+               _pthread_setschedparam_ ()
+               _pthread_setschedprio_ ()
+    
+       TSH - _POSIX_THREAD_PROCESS_SHARED - _SC_THREAD_PROCESS_SHARED
+           The following functions are affected:
+    
+               _pthread_barrierattr_getpshared_ ()
+               _pthread_barrierattr_setpshared_ ()
+               _pthread_condattr_getpshared_ ()
+               _pthread_condattr_setpshared_ ()
+               _pthread_mutexattr_getpshared_ ()
+               _pthread_mutexattr_setpshared_ ()
+               _pthread_rwlockattr_getpshared_ ()
+               _pthread_rwlockattr_setpshared_ ()
+    
+       TSF - _POSIX_THREAD_SAFE_FUNCTIONS - _SC_THREAD_SAFE_FUNCTIONS
+           The following functions are affected:
+    
+               _readdir_r_ ()
+               _getgrgid_r_ ()
+               _getgrnam_r_ ()
+               _getpwnam_r_ ()
+               _getpwuid_r_ ()
+               _flockfile_ ()
+               _ftrylockfile_ ()
+               _funlockfile_ ()
+               _getc_unlocked_ ()
+               _getchar_unlocked_ ()
+               _putc_unlocked_ ()
+               _putchar_unlocked_ ()
+               _rand_r_ ()
+               _strerror_r_ ()
+               _strtok_r_ ()
+               _asctime_r_ ()
+               _ctime_r_ ()
+               _gmtime_r_ ()
+               _localtime_r_ ()
+    
+       TSP - _POSIX_THREAD_SPORADIC_SERVER - _SC_THREAD_SPORADIC_SERVER
+           This option implies the _POSIX_THREAD_PRIORITY_SCHEDULING option.
+           The following functions are affected:
+    
+               _sched_getparam_ ()
+               _sched_setparam_ ()
+               _sched_setscheduler_ ()
+    
+       THR - _POSIX_THREADS - _SC_THREADS
+           Basic support for POSIX threads is available.  The following
+           functions are present:
+    
+               _pthread_atfork_ ()
+               _pthread_attr_destroy_ ()
+               _pthread_attr_getdetachstate_ ()
+               _pthread_attr_getschedparam_ ()
+               _pthread_attr_init_ ()
+               _pthread_attr_setdetachstate_ ()
+               _pthread_attr_setschedparam_ ()
+               _pthread_cancel_ ()
+               _pthread_cleanup_push_ ()
+               _pthread_cleanup_pop_ ()
+               _pthread_cond_broadcast_ ()
+               _pthread_cond_destroy_ ()
+               _pthread_cond_init_ ()
+               _pthread_cond_signal_ ()
+               _pthread_cond_timedwait_ ()
+               _pthread_cond_wait_ ()
+               _pthread_condattr_destroy_ ()
+               _pthread_condattr_init_ ()
+               _pthread_create_ ()
+               _pthread_detach_ ()
+               _pthread_equal_ ()
+               _pthread_exit_ ()
+               _pthread_getspecific_ ()
+               _pthread_join_ ()
+               _pthread_key_create_ ()
+               _pthread_key_delete_ ()
+               _pthread_mutex_destroy_ ()
+               _pthread_mutex_init_ ()
+               _pthread_mutex_lock_ ()
+               _pthread_mutex_trylock_ ()
+               _pthread_mutex_unlock_ ()
+               _pthread_mutexattr_destroy_ ()
+               _pthread_mutexattr_init_ ()
+               _pthread_once_ ()
+               _pthread_rwlock_destroy_ ()
+               _pthread_rwlock_init_ ()
+               _pthread_rwlock_rdlock_ ()
+               _pthread_rwlock_tryrdlock_ ()
+               _pthread_rwlock_trywrlock_ ()
+               _pthread_rwlock_unlock_ ()
+               _pthread_rwlock_wrlock_ ()
+               _pthread_rwlockattr_destroy_ ()
+               _pthread_rwlockattr_init_ ()
+               _pthread_self_ ()
+               _pthread_setcancelstate_ ()
+               _pthread_setcanceltype_ ()
+               _pthread_setspecific_ ()
+               _pthread_testcancel_ ()
+    
+       TMO - _POSIX_TIMEOUTS - _SC_TIMEOUTS
+           The following functions are present:
+    
+               _mq_timedreceive_ ()
+               _mq_timedsend_ ()
+               _pthread_mutex_timedlock_ ()
+               _pthread_rwlock_timedrdlock_ ()
+               _pthread_rwlock_timedwrlock_ ()
+               _sem_timedwait_ ()
+               _posix_trace_timedgetnext_event_ ()
+    
+       TMR - _POSIX_TIMERS - _SC_TIMERS
+           The following functions are present:
+    
+               _clock_getres_ ()
+               _clock_gettime_ ()
+               _clock_settime_ ()
+               _nanosleep_ ()
+               _timer_create_ ()
+               _timer_delete_ ()
+               _timer_gettime_ ()
+               _timer_getoverrun_ ()
+               _timer_settime_ ()
+    
+       TRC - _POSIX_TRACE - _SC_TRACE
+           POSIX tracing is available.  The following functions are present:
+    
+               _posix_trace_attr_destroy_ ()
+               _posix_trace_attr_getclockres_ ()
+               _posix_trace_attr_getcreatetime_ ()
+               _posix_trace_attr_getgenversion_ ()
+               _posix_trace_attr_getmaxdatasize_ ()
+               _posix_trace_attr_getmaxsystemeventsize_ ()
+               _posix_trace_attr_getmaxusereventsize_ ()
+               _posix_trace_attr_getname_ ()
+               _posix_trace_attr_getstreamfullpolicy_ ()
+               _posix_trace_attr_getstreamsize_ ()
+               _posix_trace_attr_init_ ()
+               _posix_trace_attr_setmaxdatasize_ ()
+               _posix_trace_attr_setname_ ()
+               _posix_trace_attr_setstreamsize_ ()
+               _posix_trace_attr_setstreamfullpolicy_ ()
+               _posix_trace_clear_ ()
+               _posix_trace_create_ ()
+               _posix_trace_event_ ()
+               _posix_trace_eventid_equal_ ()
+               _posix_trace_eventid_get_name_ ()
+               _posix_trace_eventid_open_ ()
+               _posix_trace_eventtypelist_getnext_id_ ()
+               _posix_trace_eventtypelist_rewind_ ()
+               _posix_trace_flush_ ()
+               _posix_trace_get_attr_ ()
+               _posix_trace_get_status_ ()
+               _posix_trace_getnext_event_ ()
+               _posix_trace_shutdown_ ()
+               _posix_trace_start_ ()
+               _posix_trace_stop_ ()
+               _posix_trace_trygetnext_event_ ()
+    
+       TEF - _POSIX_TRACE_EVENT_FILTER - _SC_TRACE_EVENT_FILTER
+           This option implies the _POSIX_TRACE option.  The following
+           functions are present:
+    
+               _posix_trace_eventset_add_ ()
+               _posix_trace_eventset_del_ ()
+               _posix_trace_eventset_empty_ ()
+               _posix_trace_eventset_fill_ ()
+               _posix_trace_eventset_ismember_ ()
+               _posix_trace_get_filter_ ()
+               _posix_trace_set_filter_ ()
+               _posix_trace_trid_eventid_open_ ()
+    
+       TRI - _POSIX_TRACE_INHERIT - _SC_TRACE_INHERIT
+           Tracing children of the traced process is supported.  This option
+           implies the _POSIX_TRACE option.  The following functions are
+           present:
+    
+               _posix_trace_attr_getinherited_ ()
+               _posix_trace_attr_setinherited_ ()
+    
+       TRL - _POSIX_TRACE_LOG - _SC_TRACE_LOG
+           This option implies the _POSIX_TRACE option.  The following
+           functions are present:
+    
+               _posix_trace_attr_getlogfullpolicy_ ()
+               _posix_trace_attr_getlogsize_ ()
+               _posix_trace_attr_setlogfullpolicy_ ()
+               _posix_trace_attr_setlogsize_ ()
+               _posix_trace_close_ ()
+               _posix_trace_create_withlog_ ()
+               _posix_trace_open_ ()
+               _posix_trace_rewind_ ()
+    
+       TYM - _POSIX_TYPED_MEMORY_OBJECTS - _SC_TYPED_MEMORY_OBJECT
+           The following functions are present:
+    
+               _posix_mem_offset_ ()
+               _posix_typed_mem_get_info_ ()
+               _posix_typed_mem_open_ ()
+    
+       --- - _POSIX_VDISABLE
+           Always present (probably 0).  Value to set a changeable special
+           control character to indicate that it is disabled.
+    
+## X/OPEN SYSTEM INTERFACE EXTENSIONS         top
+    
+    
+       XSI - _XOPEN_CRYPT - _SC_XOPEN_CRYPT
+           The following functions are present:
+    
+               _crypt_ ()
+               _encrypt_ ()
+               _setkey_ ()
+    
+       XSI - _XOPEN_REALTIME - _SC_XOPEN_REALTIME
+           This option implies the following options:
+    
+           _POSIX_ASYNCHRONOUS_IO == 200112L
+           _POSIX_FSYNC
+           _POSIX_MAPPED_FILES
+           _POSIX_MEMLOCK == 200112L
+           _POSIX_MEMLOCK_RANGE == 200112L
+           _POSIX_MEMORY_PROTECTION
+           _POSIX_MESSAGE_PASSING == 200112L
+           _POSIX_PRIORITIZED_IO
+           _POSIX_PRIORITY_SCHEDULING == 200112L
+           _POSIX_REALTIME_SIGNALS == 200112L
+           _POSIX_SEMAPHORES == 200112L
+           _POSIX_SHARED_MEMORY_OBJECTS == 200112L
+           _POSIX_SYNCHRONIZED_IO == 200112L
+           _POSIX_TIMERS == 200112L
+    
+       ADV - --- - ---
+           The Advanced Realtime option group implies that the following
+           options are all defined to 200112L:
+    
+           _POSIX_ADVISORY_INFO
+           _POSIX_CLOCK_SELECTION
+                  (implies _POSIX_TIMERS )
+           _POSIX_CPUTIME
+                  (implies _POSIX_TIMERS )
+           _POSIX_MONOTONIC_CLOCK
+                  (implies _POSIX_TIMERS )
+           _POSIX_SPAWN
+           _POSIX_SPORADIC_SERVER
+                  (implies _POSIX_PRIORITY_SCHEDULING )
+           _POSIX_TIMEOUTS
+           _POSIX_TYPED_MEMORY_OBJECTS
+    
+       XSI - _XOPEN_REALTIME_THREADS - _SC_XOPEN_REALTIME_THREADS
+           This option implies that the following options are all defined to
+           200112L:
+    
+           _POSIX_THREAD_PRIO_INHERIT
+           _POSIX_THREAD_PRIO_PROTECT
+           _POSIX_THREAD_PRIORITY_SCHEDULING
+    
+       ADVANCED REALTIME THREADS - --- - ---
+           This option implies that the following options are all defined to
+           200112L:
+    
+           _POSIX_BARRIERS
+                  (implies _POSIX_THREADS , _POSIX_THREAD_SAFE_FUNCTIONS )
+           _POSIX_SPIN_LOCKS
+                  (implies _POSIX_THREADS , _POSIX_THREAD_SAFE_FUNCTIONS )
+           _POSIX_THREAD_CPUTIME
+                  (implies _POSIX_TIMERS )
+           _POSIX_THREAD_SPORADIC_SERVER
+                  (implies _POSIX_THREAD_PRIORITY_SCHEDULING )
+    
+       TRACING - --- - ---
+           This option implies that the following options are all defined to
+           200112L:
+    
+           _POSIX_TRACE
+           _POSIX_TRACE_EVENT_FILTER
+           _POSIX_TRACE_LOG
+           _POSIX_TRACE_INHERIT
+    
+       STREAMS - _XOPEN_STREAMS - _SC_XOPEN_STREAMS
+           The following functions are present:
+    
+               _fattach_ ()
+               _fdetach_ ()
+               _getmsg_ ()
+               _getpmsg_ ()
+               _ioctl_ ()
+               _isastream_ ()
+               _putmsg_ ()
+               _putpmsg_ ()
+    
+       XSI - _XOPEN_LEGACY - _SC_XOPEN_LEGACY
+           Functions included in the legacy option group were previously
+           mandatory, but are now optional in this version.  The following
+           functions are present:
+    
+               _bcmp_ ()
+               _bcopy_ ()
+               _bzero_ ()
+               _ecvt_ ()
+               _fcvt_ ()
+               _ftime_ ()
+               _gcvt_ ()
+               _getcwd_ ()
+               _index_ ()
+               _mktemp_ ()
+               _rindex_ ()
+               _utimes_ ()
+               _wcswcs_ ()
+    
+       XSI - _XOPEN_UNIX - _SC_XOPEN_UNIX
+           The following functions are present:
+    
+               _mmap_ ()
+               _munmap_ ()
+               _msync_ ()
+    
+           This option implies the following options:
+    
+           _POSIX_FSYNC
+           _POSIX_MAPPED_FILES
+           _POSIX_MEMORY_PROTECTION
+           _POSIX_THREAD_ATTR_STACKADDR
+           _POSIX_THREAD_ATTR_STACKSIZE
+           _POSIX_THREAD_PROCESS_SHARED
+           _POSIX_THREAD_SAFE_FUNCTIONS
+           _POSIX_THREADS
+    
+           This option may imply the following options from the XSI option
+           groups:
+    
+           Encryption ( _XOPEN_CRYPT )
+           Realtime ( _XOPEN_REALTIME )
+           Advanced Realtime ( ADB )
+           Realtime Threads ( _XOPEN_REALTIME_THREADS )
+           Advanced Realtime Threads ( ADVANCED REALTIME THREADS )
+           Tracing ( TRACING )
+           XSI Streams ( STREAMS )
+           Legacy ( _XOPEN_LEGACY )
+    
+## SEE ALSO         top
+    
+    
+           sysconf(3), standards(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2018-04-30                POSIXOPTIONS(7)
+    

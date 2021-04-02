@@ -1,0 +1,87 @@
+  
+# qecvt(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | ATTRIBUTES | CONFORMING TO | NOTES | SEE ALSO
+| COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    QECVT(3)                Linux Programmer's Manual               QECVT(3)
+    
+## NAME         top
+    
+    
+           qecvt, qfcvt, qgcvt - convert a floating-point number to a string
+    
+## SYNOPSIS         top
+    
+    
+           #include <stdlib.h>
+    
+           char qecvt(long double _number_ , int _ndigits_ , int restrict _decpt_ ,
+                       int restrict _sign_ );
+           char qfcvt(long double _number_ , int _ndigits_ , int restrict _decpt_ ,
+                       int restrict _sign_ );
+           char qgcvt(long double _number_ , int _ndigit_ , char  _buf_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           qecvt (), qfcvt (), qgcvt ():
+               Since glibc 2.19:
+                   _DEFAULT_SOURCE
+               In glibc up to and including 2.19:
+                   _SVID_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           The functions qecvt (), qfcvt (), and qgcvt () are identical to
+           ecvt(3), fcvt(3), and gcvt(3) respectively, except that they use
+           a _long double_ argument _number_.  See ecvt(3) and gcvt(3).
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌─────────────────────────┬───────────────┬──────────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├─────────────────────────┼───────────────┼──────────────────────┤
+           │ qecvt ()                  │ Thread safety │ MT-Unsafe race:qecvt │
+           ├─────────────────────────┼───────────────┼──────────────────────┤
+           │ qfcvt ()                  │ Thread safety │ MT-Unsafe race:qfcvt │
+           ├─────────────────────────┼───────────────┼──────────────────────┤
+           │ qgcvt ()                  │ Thread safety │ MT-Safe              │
+           └─────────────────────────┴───────────────┴──────────────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           SVr4.  Not seen in most common UNIX implementations, but occurs
+           in SunOS.  Supported by glibc.
+    
+## NOTES         top
+    
+    
+           These functions are obsolete.  Instead, snprintf(3) is
+           recommended.
+    
+## SEE ALSO         top
+    
+    
+           ecvt(3), ecvt_r(3), gcvt(3), sprintf(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                       QECVT(3)
+    

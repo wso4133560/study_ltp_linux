@@ -1,0 +1,75 @@
+  
+# cexp(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | VERSIONS | ATTRIBUTES | CONFORMING TO | SEE
+ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    CEXP(3)                 Linux Programmer's Manual                CEXP(3)
+    
+## NAME         top
+    
+    
+           cexp, cexpf, cexpl - complex exponential function
+    
+## SYNOPSIS         top
+    
+    
+           #include <complex.h>
+    
+           double complex cexp(double complex _z_ );
+           float complex cexpf(float complex _z_ );
+           long double complex cexpl(long double complex _z_ );
+    
+           Link with _-lm_.
+    
+## DESCRIPTION         top
+    
+    
+           These functions calculate e (2.71828..., the base of natural
+           logarithms) raised to the power of _z_.
+    
+           One has:
+    
+               cexp(I  z) = ccos(z) + I  csin(z)
+    
+## VERSIONS         top
+    
+    
+           These functions first appeared in glibc in version 2.1.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ cexp (), cexpf (), cexpl ()              │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           C99, POSIX.1-2001, POSIX.1-2008.
+    
+## SEE ALSO         top
+    
+    
+           cabs(3), cexp2(3), clog(3), cpow(3), complex(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                        CEXP(3)
+    

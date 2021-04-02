@@ -1,0 +1,71 @@
+  
+# memmove(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    MEMMOVE(3)              Linux Programmer's Manual             MEMMOVE(3)
+    
+## NAME         top
+    
+    
+           memmove - copy memory area
+    
+## SYNOPSIS         top
+    
+    
+           #include <string.h>
+    
+           void memmove(void  _dest_ , const void  _src_ , size_t _n_ );
+    
+## DESCRIPTION         top
+    
+    
+           The memmove () function copies _n_ bytes from memory area _src_ to
+           memory area _dest_.  The memory areas may overlap: copying takes
+           place as though the bytes in _src_ are first copied into a
+           temporary array that does not overlap _src_ or _dest_ , and the bytes
+           are then copied from the temporary array to _dest_.
+    
+## RETURN VALUE         top
+    
+    
+           The memmove () function returns a pointer to _dest_.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ memmove ()                             │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C89, C99, SVr4, 4.3BSD.
+    
+## SEE ALSO         top
+    
+    
+           bcopy(3), bstring(3), memccpy(3), memcpy(3), strcpy(3),
+           strncpy(3), wmemmove(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                     MEMMOVE(3)
+    

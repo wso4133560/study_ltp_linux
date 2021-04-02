@@ -1,0 +1,111 @@
+  
+# ceil(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    CEIL(3)                 Linux Programmer's Manual                CEIL(3)
+    
+## NAME         top
+    
+    
+           ceil, ceilf, ceill - ceiling function: smallest integral value
+           not less than argument
+    
+## SYNOPSIS         top
+    
+    
+           #include <math.h>
+    
+           double ceil(double _x_ );
+           float ceilf(float _x_ );
+           long double ceill(long double _x_ );
+    
+           Link with _-lm_.
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           ceilf (), ceill ():
+               _ISOC99_SOURCE || _POSIX_C_SOURCE >= 200112L
+                   || / Since glibc 2.19: / _DEFAULT_SOURCE
+                   || / Glibc <= 2.19: / _BSD_SOURCE || _SVID_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           These functions return the smallest integral value that is not
+           less than _x_.
+    
+           For example, _ceil(0.5)_ is 1.0, and _ceil(-0.5)_ is 0.0.
+    
+## RETURN VALUE         top
+    
+    
+           These functions return the ceiling of _x_.
+    
+           If _x_ is integral, +0, -0, NaN, or infinite, _x_ itself is returned.
+    
+## ERRORS         top
+    
+    
+           No errors occur.  POSIX.1-2001 documents a range error for
+           overflows, but see NOTES.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ ceil (), ceilf (), ceill ()              │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           C99, POSIX.1-2001, POSIX.1-2008.
+    
+           The variant returning _double_ also conforms to SVr4, 4.3BSD, C89.
+    
+## NOTES         top
+    
+    
+           SUSv2 and POSIX.1-2001 contain text about overflow (which might
+           set _errno_ to ERANGE , or raise an FE_OVERFLOW exception).  In
+           practice, the result cannot overflow on any current machine, so
+           this error-handling stuff is just nonsense.  (More precisely,
+           overflow can happen only when the maximum value of the exponent
+           is smaller than the number of mantissa bits.  For the IEEE-754
+           standard 32-bit and 64-bit floating-point numbers the maximum
+           value of the exponent is 128 (respectively, 1024), and the number
+           of mantissa bits is 24 (respectively, 53).)
+    
+           The integral value returned by these functions may be too large
+           to store in an integer type ( _int_ , _long_ , etc.).  To avoid an
+           overflow, which will produce undefined results, an application
+           should perform a range check on the returned value before
+           assigning it to an integer type.
+    
+## SEE ALSO         top
+    
+    
+           floor(3), lrint(3), nearbyint(3), rint(3), round(3), trunc(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                        CEIL(3)
+    

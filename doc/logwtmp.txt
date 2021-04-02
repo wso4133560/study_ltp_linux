@@ -1,0 +1,87 @@
+  
+# updwtmp(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | FILES | ATTRIBUTES | CONFORMING TO | NOTES |
+SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    UPDWTMP(3)              Linux Programmer's Manual             UPDWTMP(3)
+    
+## NAME         top
+    
+    
+           updwtmp, logwtmp - append an entry to the wtmp file
+    
+## SYNOPSIS         top
+    
+    
+           #include <utmp.h>
+    
+           void updwtmp(const char  _wtmp_file_ , const struct utmp  _ut_ );
+           void logwtmp(const char  _line_ , const char  _name_ , const char  _host_ );
+    
+           For logwtmp (), link with _-lutil_.
+    
+## DESCRIPTION         top
+    
+    
+           updwtmp () appends the utmp structure _ut_ to the wtmp file.
+    
+           logwtmp () constructs a utmp structure using _line_ , _name_ , _host_ ,
+           current time, and current process ID.  Then it calls updwtmp () to
+           append the structure to the wtmp file.
+    
+## FILES         top
+    
+    
+           _/var/log/wtmp_
+                  database of past user logins
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌─────────────────────┬───────────────┬──────────────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├─────────────────────┼───────────────┼──────────────────────────┤
+           │ updwtmp (), logwtmp () │ Thread safety │ MT-Unsafe sig:ALRM timer │
+           └─────────────────────┴───────────────┴──────────────────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           Not in POSIX.1.  Present on Solaris, NetBSD, and perhaps other
+           systems.
+    
+## NOTES         top
+    
+    
+           For consistency with the other "utmpx" functions (see
+           getutxent(3)), glibc provides (since version 2.1):
+    
+               #include <utmpx.h>
+               void updwtmpx (const char  _wtmpx_file_ , const struct utmpx  _utx_ );
+    
+           This function performs the same task as updwtmp (), but differs in
+           that it takes a _utmpx_ structure as its last argument.
+    
+## SEE ALSO         top
+    
+    
+           getutxent(3), wtmp(5)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                     UPDWTMP(3)
+    

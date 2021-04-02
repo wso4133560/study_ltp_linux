@@ -1,0 +1,74 @@
+  
+# memfrob(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    MEMFROB(3)              Linux Programmer's Manual             MEMFROB(3)
+    
+## NAME         top
+    
+    
+           memfrob - frobnicate (encrypt) a memory area
+    
+## SYNOPSIS         top
+    
+    
+           #define _GNU_SOURCE / See feature_test_macros(7) /
+           #include <string.h>
+    
+           void memfrob(void  _s_ , size_t _n_ );
+    
+## DESCRIPTION         top
+    
+    
+           The memfrob () function encrypts the first _n_ bytes of the memory
+           area _s_ by exclusive-ORing each character with the number 42.  The
+           effect can be reversed by using memfrob () on the encrypted memory
+           area.
+    
+           Note that this function is not a proper encryption routine as the
+           XOR constant is fixed, and is suitable only for hiding strings.
+    
+## RETURN VALUE         top
+    
+    
+           The memfrob () function returns a pointer to the encrypted memory
+           area.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ memfrob ()                             │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           The memfrob () function is unique to the GNU C Library.
+    
+## SEE ALSO         top
+    
+    
+           bstring(3), strfry(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                     MEMFROB(3)
+    

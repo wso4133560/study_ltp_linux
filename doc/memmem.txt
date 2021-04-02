@@ -1,0 +1,78 @@
+  
+# memmem(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+BUGS | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    MEMMEM(3)               Linux Programmer's Manual              MEMMEM(3)
+    
+## NAME         top
+    
+    
+           memmem - locate a substring
+    
+## SYNOPSIS         top
+    
+    
+           #define _GNU_SOURCE / See feature_test_macros(7) /
+           #include <string.h>
+    
+           void memmem(const void  _haystack_ , size_t _haystacklen_ ,
+                        const void  _needle_ , size_t _needlelen_ );
+    
+## DESCRIPTION         top
+    
+    
+           The memmem () function finds the start of the first occurrence of
+           the substring _needle_ of length _needlelen_ in the memory area
+           _haystack_ of length _haystacklen_.
+    
+## RETURN VALUE         top
+    
+    
+           The memmem () function returns a pointer to the beginning of the
+           substring, or NULL if the substring is not found.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ memmem ()                              │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           This function is not specified in POSIX.1, but is present on a
+           number of other systems.
+    
+## BUGS         top
+    
+    
+           In glibc 2.0, if _needle_ is empty, memmem () returns a pointer to
+           the last byte of _haystack_.  This is fixed in glibc 2.1.
+    
+## SEE ALSO         top
+    
+    
+           bstring(3), strstr(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                      MEMMEM(3)
+    

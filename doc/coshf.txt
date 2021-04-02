@@ -1,0 +1,111 @@
+  
+# cosh(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | BUGS | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    COSH(3)                 Linux Programmer's Manual                COSH(3)
+    
+## NAME         top
+    
+    
+           cosh, coshf, coshl - hyperbolic cosine function
+    
+## SYNOPSIS         top
+    
+    
+           #include <math.h>
+    
+           double cosh(double _x_ );
+           float coshf(float _x_ );
+           long double coshl(long double _x_ );
+    
+           Link with _-lm_.
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           coshf (), coshl ():
+               _ISOC99_SOURCE || _POSIX_C_SOURCE >= 200112L
+                   || / Since glibc 2.19: / _DEFAULT_SOURCE
+                   || / Glibc <= 2.19: / _BSD_SOURCE || _SVID_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           These functions return the hyperbolic cosine of _x_ , which is
+           defined mathematically as:
+    
+               cosh(x) = (exp(x) + exp(-x)) / 2
+    
+## RETURN VALUE         top
+    
+    
+           On success, these functions return the hyperbolic cosine of _x_.
+    
+           If _x_ is a NaN, a NaN is returned.
+    
+           If _x_ is +0 or -0, 1 is returned.
+    
+           If _x_ is positive infinity or negative infinity, positive infinity
+           is returned.
+    
+           If the result overflows, a range error occurs, and the functions
+           return + HUGE_VAL , + HUGE_VALF , or + HUGE_VALL , respectively.
+    
+## ERRORS         top
+    
+    
+           See math_error(7) for information on how to determine whether an
+           error has occurred when calling these functions.
+    
+           The following errors can occur:
+    
+           Range error: result overflow
+                  _errno_ is set to ERANGE.  An overflow floating-point
+                  exception ( FE_OVERFLOW ) is raised.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ cosh (), coshf (), coshl ()              │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           C99, POSIX.1-2001, POSIX.1-2008.
+    
+           The variant returning _double_ also conforms to SVr4, 4.3BSD.
+    
+## BUGS         top
+    
+    
+           In glibc version 2.3.4 and earlier, an overflow floating-point
+           ( FE_OVERFLOW ) exception is not raised when an overflow occurs.
+    
+## SEE ALSO         top
+    
+    
+           acosh(3), asinh(3), atanh(3), ccos(3), sinh(3), tanh(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                        COSH(3)
+    

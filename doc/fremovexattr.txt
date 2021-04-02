@@ -1,0 +1,96 @@
+  
+# removexattr(2) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | VERSIONS | CONFORMING
+TO | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    REMOVEXATTR(2)          Linux Programmer's Manual         REMOVEXATTR(2)
+    
+## NAME         top
+    
+    
+           removexattr, lremovexattr, fremovexattr - remove an extended
+           attribute
+    
+## SYNOPSIS         top
+    
+    
+           #include <sys/xattr.h>
+    
+           int removexattr(const char  _path_ , const char  _name_ );
+           int lremovexattr(const char  _path_ , const char  _name_ );
+           int fremovexattr(int _fd_ , const char  _name_ );
+    
+## DESCRIPTION         top
+    
+    
+           Extended attributes are _name_ : _value_ pairs associated with inodes
+           (files, directories, symbolic links, etc.).  They are extensions
+           to the normal attributes which are associated with all inodes in
+           the system (i.e., the stat(2) data).  A complete overview of
+           extended attributes concepts can be found in xattr(7).
+    
+           removexattr () removes the extended attribute identified by _name_
+           and associated with the given _path_ in the filesystem.
+    
+           lremovexattr () is identical to removexattr (), except in the case
+           of a symbolic link, where the extended attribute is removed from
+           the link itself, not the file that it refers to.
+    
+           fremovexattr () is identical to removexattr (), only the extended
+           attribute is removed from the open file referred to by _fd_ (as
+           returned by open(2)) in place of _path_.
+    
+           An extended attribute name is a null-terminated string.  The _name_
+           includes a namespace prefix; there may be several, disjoint
+           namespaces associated with an individual inode.
+    
+## RETURN VALUE         top
+    
+    
+           On success, zero is returned.  On failure, -1 is returned and
+           _errno_ is set to indicate the error.
+    
+## ERRORS         top
+    
+    
+           ENODATA
+                  The named attribute does not exist.
+    
+           ENOTSUP
+                  Extended attributes are not supported by the filesystem,
+                  or are disabled.
+    
+           In addition, the errors documented in stat(2) can also occur.
+    
+## VERSIONS         top
+    
+    
+           These system calls have been available on Linux since kernel 2.4;
+           glibc support is provided since version 2.3.
+    
+## CONFORMING TO         top
+    
+    
+           These system calls are Linux-specific.
+    
+## SEE ALSO         top
+    
+    
+           getfattr(1), setfattr(1), getxattr(2), listxattr(2), open(2),
+           setxattr(2), stat(2), symlink(7), xattr(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                 REMOVEXATTR(2)
+    

@@ -1,0 +1,95 @@
+  
+# siginterrupt(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    SIGINTERRUPT(3)         Linux Programmer's Manual        SIGINTERRUPT(3)
+    
+## NAME         top
+    
+    
+           siginterrupt - allow signals to interrupt system calls
+    
+## SYNOPSIS         top
+    
+    
+           #include <signal.h>
+    
+           int siginterrupt(int _sig_ , int _flag_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           siginterrupt ():
+               _XOPEN_SOURCE >= 500
+                   || / Since glibc 2.12: / _POSIX_C_SOURCE >= 200809L
+                   || / Glibc <= 2.19: / _BSD_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           The siginterrupt () function changes the restart behavior when a
+           system call is interrupted by the signal _sig_.  If the _flag_
+           argument is false (0), then system calls will be restarted if
+           interrupted by the specified signal _sig_.  This is the default
+           behavior in Linux.
+    
+           If the _flag_ argument is true (1) and no data has been
+           transferred, then a system call interrupted by the signal _sig_
+           will return -1 and _errno_ will be set to EINTR.
+    
+           If the _flag_ argument is true (1) and data transfer has started,
+           then the system call will be interrupted and will return the
+           actual amount of data transferred.
+    
+## RETURN VALUE         top
+    
+    
+           The siginterrupt () function returns 0 on success.  It returns -1
+           if the signal number _sig_ is invalid, with _errno_ set to indicate
+           the error.
+    
+## ERRORS         top
+    
+    
+           EINVAL The specified signal number is invalid.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌───────────────┬───────────────┬────────────────────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├───────────────┼───────────────┼────────────────────────────────┤
+           │ siginterrupt () │ Thread safety │ MT-Unsafe const:sigintr        │
+           └───────────────┴───────────────┴────────────────────────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           4.3BSD, POSIX.1-2001.  POSIX.1-2008 marks siginterrupt () as
+           obsolete, recommending the use of sigaction(2) with the
+           SA_RESTART flag instead.
+    
+## SEE ALSO         top
+    
+    
+           signal(2)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                SIGINTERRUPT(3)
+    

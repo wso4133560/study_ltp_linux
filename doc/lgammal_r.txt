@@ -1,0 +1,139 @@
+  
+# lgamma(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | CONFORMING TO | BUGS |
+SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    LGAMMA(3)               Linux Programmer's Manual              LGAMMA(3)
+    
+## NAME         top
+    
+    
+           lgamma, lgammaf, lgammal, lgamma_r, lgammaf_r, lgammal_r, signgam
+           - log gamma function
+    
+## SYNOPSIS         top
+    
+    
+           #include <math.h>
+    
+           double lgamma(double _x_ );
+           float lgammaf(float _x_ );
+           long double lgammal(long double _x_ );
+    
+           double lgamma_r(double _x_ , int  _signp_ );
+           float lgammaf_r(float _x_ , int  _signp_ );
+           long double lgammal_r(long double _x_ , int  _signp_ );
+    
+           extern int _signgam_ ;
+    
+           Link with _-lm_.
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           lgamma ():
+               _ISOC99_SOURCE || _POSIX_C_SOURCE >= 200112L || _XOPEN_SOURCE
+                   || / Since glibc 2.19: / _DEFAULT_SOURCE
+                   || / Glibc <= 2.19: / _BSD_SOURCE || _SVID_SOURCE
+    
+           lgammaf (), lgammal ():
+               _ISOC99_SOURCE || _POSIX_C_SOURCE >= 200112L
+                   || / Since glibc 2.19: / _DEFAULT_SOURCE
+                   || / Glibc <= 2.19: / _BSD_SOURCE || _SVID_SOURCE
+    
+           lgamma_r (), lgammaf_r (), lgammal_r ():
+               / Since glibc 2.19: / _DEFAULT_SOURCE
+                   || / Glibc <= 2.19: / _BSD_SOURCE || _SVID_SOURCE
+    
+           _signgam_ :
+               _XOPEN_SOURCE
+                   || / Since glibc 2.19: / _DEFAULT_SOURCE
+                   || / Glibc <= 2.19: / _BSD_SOURCE || _SVID_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           For the definition of the Gamma function, see tgamma(3).
+    
+           The lgamma (), lgammaf (), and lgammal () functions return the
+           natural logarithm of the absolute value of the Gamma function.
+           The sign of the Gamma function is returned in the external
+           integer _signgam_ declared in _< math.h>_.  It is 1 when the Gamma
+           function is positive or zero, -1 when it is negative.
+    
+           Since using a constant location _signgam_ is not thread-safe, the
+           functions lgamma_r (), lgammaf_r (), and lgammal_r () have been
+           introduced; they return the sign via the argument _signp_.
+    
+## RETURN VALUE         top
+    
+    
+           On success, these functions return the natural logarithm of
+           Gamma(x).
+    
+           If _x_ is a NaN, a NaN is returned.
+    
+           If _x_ is 1 or 2, +0 is returned.
+    
+           If _x_ is positive infinity or negative infinity, positive infinity
+           is returned.
+    
+           If _x_ is a nonpositive integer, a pole error occurs, and the
+           functions return + HUGE_VAL , + HUGE_VALF , or + HUGE_VALL ,
+           respectively.
+    
+           If the result overflows, a range error occurs, and the functions
+           return HUGE_VAL , HUGE_VALF , or HUGE_VALL , respectively, with the
+           correct mathematical sign.
+    
+## ERRORS         top
+    
+    
+           See math_error(7) for information on how to determine whether an
+           error has occurred when calling these functions.
+    
+           The following errors can occur:
+    
+           Pole error: _x_ is a nonpositive integer
+                  _errno_ is set to ERANGE (but see BUGS).  A divide-by-zero
+                  floating-point exception ( FE_DIVBYZERO ) is raised.
+    
+           Range error: result overflow
+                  _errno_ is set to ERANGE.  An overflow floating-point
+                  exception ( FE_OVERFLOW ) is raised.
+    
+## CONFORMING TO         top
+    
+    
+           The lgamma () functions are specified in C99, POSIX.1-2001, and
+           POSIX.1-2008.  _signgam_ is specified in POSIX.1-2001 and
+           POSIX.1-2008, but not in C99.  The lgamma_r () functions are
+           nonstandard, but present on several other systems.
+    
+## BUGS         top
+    
+    
+           In glibc 2.9 and earlier, when a pole error occurs, _errno_ is set
+           to EDOM ; instead of the POSIX-mandated ERANGE.  Since version
+           2.10, glibc does the right thing.
+    
+## SEE ALSO         top
+    
+    
+           tgamma(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                      LGAMMA(3)
+    

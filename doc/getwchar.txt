@@ -1,0 +1,83 @@
+  
+# getwchar(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    GETWCHAR(3)             Linux Programmer's Manual            GETWCHAR(3)
+    
+## NAME         top
+    
+    
+           getwchar - read a wide character from standard input
+    
+## SYNOPSIS         top
+    
+    
+           #include <wchar.h>
+    
+           wint_t getwchar(void);
+    
+## DESCRIPTION         top
+    
+    
+           The getwchar () function is the wide-character equivalent of the
+           getchar(3) function.  It reads a wide character from _stdin_ and
+           returns it.  If the end of stream is reached, or if _ferror(stdin)_
+           becomes true, it returns WEOF.  If a wide-character conversion
+           error occurs, it sets _errno_ to EILSEQ and returns WEOF.
+    
+           For a nonlocking counterpart, see unlocked_stdio(3).
+    
+## RETURN VALUE         top
+    
+    
+           The getwchar () function returns the next wide-character from
+           standard input, or WEOF.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ getwchar ()                            │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C99.
+    
+## NOTES         top
+    
+    
+           The behavior of getwchar () depends on the LC_CTYPE category of
+           the current locale.
+    
+           It is reasonable to expect that getwchar () will actually read a
+           multibyte sequence from standard input and then convert it to a
+           wide character.
+    
+## SEE ALSO         top
+    
+    
+           fgetwc(3), unlocked_stdio(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                    GETWCHAR(3)
+    

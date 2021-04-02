@@ -1,0 +1,91 @@
+  
+# stpncpy(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    STPNCPY(3)              Linux Programmer's Manual             STPNCPY(3)
+    
+## NAME         top
+    
+    
+           stpncpy - copy a fixed-size string, returning a pointer to its
+           end
+    
+## SYNOPSIS         top
+    
+    
+           #include <string.h>
+    
+           char stpncpy(char restrict _dest_ , const char restrict _src_ , size_t _n_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           stpncpy ():
+               Since glibc 2.10:
+                   _POSIX_C_SOURCE >= 200809L
+               Before glibc 2.10:
+                   _GNU_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           The stpncpy () function copies at most _n_ characters from the
+           string pointed to by _src_ , including the terminating null byte
+           ('\0'), to the array pointed to by _dest_.  Exactly _n_ characters
+           are written at _dest_.  If the length _strlen(src)_ is smaller than
+           _n_ , the remaining characters in the array pointed to by _dest_ are
+           filled with null bytes ('\0'), If the length _strlen(src)_ is
+           greater than or equal to _n_ , the string pointed to by _dest_ will
+           not be null-terminated.
+    
+           The strings may not overlap.
+    
+           The programmer must ensure that there is room for at least _n_
+           characters at _dest_.
+    
+## RETURN VALUE         top
+    
+    
+           stpncpy () returns a pointer to the terminating null byte in _dest_ ,
+           or, if _dest_ is not null-terminated, _dest_ + _n_.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ stpncpy ()                             │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           This function was added to POSIX.1-2008.  Before that, it was a
+           GNU extension.  It first appeared in version 1.07 of the GNU C
+           library in 1993.
+    
+## SEE ALSO         top
+    
+    
+           strncpy(3), wcpncpy(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                     STPNCPY(3)
+    

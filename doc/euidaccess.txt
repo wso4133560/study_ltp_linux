@@ -1,0 +1,107 @@
+  
+# euidaccess(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | VERSIONS | ATTRIBUTES
+| CONFORMING TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    EUIDACCESS(3)           Linux Programmer's Manual          EUIDACCESS(3)
+    
+## NAME         top
+    
+    
+           euidaccess, eaccess - check effective user's permissions for a
+           file
+    
+## SYNOPSIS         top
+    
+    
+           #define _GNU_SOURCE / See feature_test_macros(7) /
+           #include <unistd.h>
+    
+           int euidaccess(const char  _pathname_ , int _mode_ );
+           int eaccess(const char  _pathname_ , int _mode_ );
+    
+## DESCRIPTION         top
+    
+    
+           Like access(2), euidaccess () checks permissions and existence of
+           the file identified by its argument _pathname_.  However, whereas
+           access(2) performs checks using the real user and group
+           identifiers of the process, euidaccess () uses the effective
+           identifiers.
+    
+           _mode_ is a mask consisting of one or more of R_OK , W_OK , X_OK , and
+           F_OK , with the same meanings as for access(2).
+    
+           eaccess () is a synonym for euidaccess (), provided for
+           compatibility with some other systems.
+    
+## RETURN VALUE         top
+    
+    
+           On success (all requested permissions granted), zero is returned.
+           On error (at least one bit in _mode_ asked for a permission that is
+           denied, or some other error occurred), -1 is returned, and _errno_
+           is set to indicate the error.
+    
+## ERRORS         top
+    
+    
+           As for access(2).
+    
+## VERSIONS         top
+    
+    
+           The eaccess () function was added to glibc in version 2.4.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ euidaccess (), eaccess ()               │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           These functions are nonstandard.  Some other systems have an
+           eaccess () function.
+    
+## NOTES         top
+    
+    
+           _Warning_ : Using this function to check a process's permissions on
+           a file before performing some operation based on that information
+           leads to race conditions: the file permissions may change between
+           the two steps.  Generally, it is safer just to attempt the
+           desired operation and handle any permission error that occurs.
+    
+           This function always dereferences symbolic links.  If you need to
+           check the permissions on a symbolic link, use faccessat(2) with
+           the flags AT_EACCESS and AT_SYMLINK_NOFOLLOW.
+    
+## SEE ALSO         top
+    
+    
+           access(2), chmod(2), chown(2), faccessat(2), open(2), setgid(2),
+           setuid(2), stat(2), credentials(7), path_resolution(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                  EUIDACCESS(3)
+    

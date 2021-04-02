@@ -1,0 +1,66 @@
+  
+# group(5) -- Linux manual page
+NAME | DESCRIPTION | FILES | BUGS | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    GROUP(5)                Linux Programmer's Manual               GROUP(5)
+    
+## NAME         top
+    
+    
+           group - user group file
+    
+## DESCRIPTION         top
+    
+    
+           The _/etc/group_ file is a text file that defines the groups on the
+           system.  There is one entry per line, with the following format:
+    
+               group_name:password:GID:user_list
+    
+           The fields are as follows:
+    
+           _group_name_
+                  the name of the group.
+    
+           _password_
+                  the (encrypted) group password.  If this field is empty,
+                  no password is needed.
+    
+           _GID_    the numeric group ID.
+    
+           _user_list_
+                  a list of the usernames that are members of this group,
+                  separated by commas.
+    
+## FILES         top
+    
+    
+           _/etc/group_
+    
+## BUGS         top
+    
+    
+           As the 4.2BSD initgroups(3) man page says: no one seems to keep
+           _/etc/group_ up-to-date.
+    
+## SEE ALSO         top
+    
+    
+           chgrp(1), gpasswd(1), groups(1), login(1), newgrp(1), sg(1),
+           getgrent(3), getgrnam(3), gshadow(5), passwd(5), vigr(8)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2020-04-11                       GROUP(5)
+    

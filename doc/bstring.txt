@@ -1,0 +1,75 @@
+  
+# bstring(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    BSTRING(3)              Linux Programmer's Manual             BSTRING(3)
+    
+## NAME         top
+    
+    
+           bcmp, bcopy, bzero, memccpy, memchr, memcmp, memcpy, memfrob,
+           memmem, memmove, memset - byte string operations
+    
+## SYNOPSIS         top
+    
+    
+           #include <string.h>
+    
+           int bcmp(const void  _s1_ , const void  _s2_ , size_t _n_ );
+    
+           void bcopy(const void  _src_ , void  _dest_ , size_t _n_ );
+    
+           void bzero(void  _s_ , size_t _n_ );
+    
+           void memccpy(void  _dest_ , const void  _src_ , int _c_ , size_t _n_ );
+    
+           void memchr(const void  _s_ , int _c_ , size_t _n_ );
+    
+           int memcmp(const void  _s1_ , const void  _s2_ , size_t _n_ );
+    
+           void memcpy(void  _dest_ , const void  _src_ , size_t _n_ );
+    
+           void memfrob(void  _s_ , size_t _n_ );
+    
+           void memmem(const void  _haystack_ , size_t _haystacklen_ ,
+                        const void  _needle_ , size_t _needlelen_ );
+    
+           void memmove(void  _dest_ , const void  _src_ , size_t _n_ );
+    
+           void memset(void  _s_ , int _c_ , size_t _n_ );
+    
+## DESCRIPTION         top
+    
+    
+           The byte string functions perform operations on strings (byte
+           arrays) that are not necessarily null-terminated.  See the
+           individual man pages for descriptions of each function.
+    
+## NOTES         top
+    
+    
+           The functions bcmp (), bcopy (), and bzero () are obsolete.  Use
+           memcmp (), memcpy (), and memset () instead.
+    
+## SEE ALSO         top
+    
+    
+           bcmp(3), bcopy(3), bzero(3), memccpy(3), memchr(3), memcmp(3),
+           memcpy(3), memfrob(3), memmem(3), memmove(3), memset(3),
+           string(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                     BSTRING(3)
+    

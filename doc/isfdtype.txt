@@ -1,0 +1,84 @@
+  
+# isfdtype(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | CONFORMING TO | NOTES
+| SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    ISFDTYPE(3)             Linux Programmer's Manual            ISFDTYPE(3)
+    
+## NAME         top
+    
+    
+           isfdtype - test file type of a file descriptor
+    
+## SYNOPSIS         top
+    
+    
+           #include <sys/stat.h>
+           #include <sys/socket.h>
+    
+           int isfdtype(int _fd_ , int _fdtype_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           isfdtype ():
+               Since glibc 2.20:
+                   _DEFAULT_SOURCE
+               Before glibc 2.20:
+                   _BSD_SOURCE || _SVID_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           The isfdtype () function tests whether the file descriptor _fd_
+           refers to a file of type _fdtype_.  The _fdtype_ argument specifies
+           one of the S_IF constants defined in _< sys/stat.h>_ and documented
+           in stat(2) (e.g., S_IFREG ).
+    
+## RETURN VALUE         top
+    
+    
+           The isfdtype () function returns 1 if the file descriptor _fd_ is of
+           type _fdtype_ and 0 if it is not.  On failure, -1 is returned and
+           _errno_ is set to indicate the error.
+    
+## ERRORS         top
+    
+    
+           The isfdtype () function can fail with any of the same errors as
+           fstat(2).
+    
+## CONFORMING TO         top
+    
+    
+           The isfdtype () function is not specified in any standard, but did
+           appear in the draft POSIX.1g standard.  It is present on OpenBSD
+           and Tru64 UNIX (where the required header file in both cases is
+           just _< sys/stat.h>_, as shown in the POSIX.1g draft), and possibly
+           other systems.
+    
+## NOTES         top
+    
+    
+           Portable applications should use fstat(2) instead.
+    
+## SEE ALSO         top
+    
+    
+           fstat(2)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                    ISFDTYPE(3)
+    

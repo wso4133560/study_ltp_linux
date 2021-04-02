@@ -1,0 +1,109 @@
+  
+# bindresvport(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    BINDRESVPORT(3)         Linux Programmer's Manual        BINDRESVPORT(3)
+    
+## NAME         top
+    
+    
+           bindresvport - bind a socket to a privileged IP port
+    
+## SYNOPSIS         top
+    
+    
+           #include <sys/types.h>
+           #include <netinet/in.h>
+    
+           int bindresvport(int _sockfd_ , struct sockaddr_in  _sin_ );
+    
+## DESCRIPTION         top
+    
+    
+           bindresvport () is used to bind the socket referred to by the file
+           descriptor _sockfd_ to a privileged anonymous IP port, that is, a
+           port number arbitrarily selected from the range 512 to 1023.
+    
+           If the bind(2) performed by bindresvport () is successful, and _sin_
+           is not NULL, then _sin- >sin_port_ returns the port number actually
+           allocated.
+    
+           _sin_ can be NULL, in which case _sin- >sin_family_ is implicitly
+           taken to be AF_INET.  However, in this case, bindresvport () has
+           no way to return the port number actually allocated.  (This
+           information can later be obtained using getsockname(2).)
+    
+## RETURN VALUE         top
+    
+    
+           bindresvport () returns 0 on success; otherwise -1 is returned and
+           _errno_ is set to indicate the error.
+    
+## ERRORS         top
+    
+    
+           bindresvport () can fail for any of the same reasons as bind(2).
+           In addition, the following errors may occur:
+    
+           EACCES The calling process was not privileged (on Linux: the
+                  calling process did not have the CAP_NET_BIND_SERVICE
+                  capability in the user namespace governing its network
+                  namespace).
+    
+           EADDRINUSE
+                  All privileged ports are in use.
+    
+           EAFNOSUPPORT ( EPFNOSUPPORT in glibc 2.7 and earlier)
+                  _sin_ is not NULL and _sin- >sin_family_ is not AF_INET.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌───────────────┬───────────────┬────────────────────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├───────────────┼───────────────┼────────────────────────────────┤
+           │ bindresvport () │ Thread safety │ glibc >= 2.17: MT-Safe;        │
+           │               │               │ glibc < 2.17: MT-Unsafe        │
+           └───────────────┴───────────────┴────────────────────────────────┘
+    
+           The bindresvport () function uses a static variable that was not
+           protected by a lock before glibc 2.17, rendering the function MT-
+           Unsafe.
+    
+## CONFORMING TO         top
+    
+    
+           Not in POSIX.1.  Present on the BSDs, Solaris, and many other
+           systems.
+    
+## NOTES         top
+    
+    
+           Unlike some bindresvport () implementations, the glibc
+           implementation ignores any value that the caller supplies in
+           _sin- >sin_port_.
+    
+## SEE ALSO         top
+    
+    
+           bind(2), getsockname(2)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                BINDRESVPORT(3)
+    

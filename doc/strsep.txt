@@ -1,0 +1,103 @@
+  
+# strsep(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+NOTES | BUGS | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    STRSEP(3)               Linux Programmer's Manual              STRSEP(3)
+    
+## NAME         top
+    
+    
+           strsep - extract token from string
+    
+## SYNOPSIS         top
+    
+    
+           #include <string.h>
+    
+           char strsep(char restrict _stringp_ , const char restrict _delim_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           strsep ():
+               Since glibc 2.19:
+                   _DEFAULT_SOURCE
+               Glibc 2.19 and earlier:
+                   _BSD_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           If _stringp_ is NULL, the strsep () function returns NULL and does
+           nothing else.  Otherwise, this function finds the first token in
+           the string _stringp_ , that is delimited by one of the bytes in the
+           string _delim_.  This token is terminated by overwriting the
+           delimiter with a null byte ('\0'), and _stringp_ is updated to
+           point past the token.  In case no delimiter was found, the token
+           is taken to be the entire string _stringp_ , and _stringp_ is made
+           NULL.
+    
+## RETURN VALUE         top
+    
+    
+           The strsep () function returns a pointer to the token, that is, it
+           returns the original value of _stringp_.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ strsep ()                              │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           4.4BSD.
+    
+## NOTES         top
+    
+    
+           The strsep () function was introduced as a replacement for
+           strtok(3), since the latter cannot handle empty fields.  However,
+           strtok(3) conforms to C89/C99 and hence is more portable.
+    
+## BUGS         top
+    
+    
+           Be cautious when using this function.  If you do use it, note
+           that:
+    
+            This function modifies its first argument.
+    
+            This function cannot be used on constant strings.
+    
+            The identity of the delimiting character is lost.
+    
+## SEE ALSO         top
+    
+    
+           index(3), memchr(3), rindex(3), strchr(3), string(3), strpbrk(3),
+           strspn(3), strstr(3), strtok(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                      STRSEP(3)
+    

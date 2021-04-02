@@ -1,0 +1,122 @@
+  
+# pthread_attr_setaffinity_np(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | VERSIONS | ATTRIBUTES
+| CONFORMING TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    PTHREAD_ATTR_SETAFFINITY_NP(3)Programmer'sPManual_ATTR_SETAFFINITY_NP(3)
+    
+## NAME         top
+    
+    
+           pthread_attr_setaffinity_np, pthread_attr_getaffinity_np -
+           set/get CPU affinity attribute in thread attributes object
+    
+## SYNOPSIS         top
+    
+    
+           #define _GNU_SOURCE / See feature_test_macros(7) /
+           #include <pthread.h>
+    
+           int pthread_attr_setaffinity_np(pthread_attr_t  _attr_ ,
+                              size_t _cpusetsize_ , const cpu_set_t  _cpuset_ );
+           int pthread_attr_getaffinity_np(const pthread_attr_t  _attr_ ,
+                              size_t _cpusetsize_ , cpu_set_t  _cpuset_ );
+    
+           Compile and link with _-pthread_.
+    
+## DESCRIPTION         top
+    
+    
+           The pthread_attr_setaffinity_np () function sets the CPU affinity
+           mask attribute of the thread attributes object referred to by
+           _attr_ to the value specified in _cpuset_.  This attribute determines
+           the CPU affinity mask of a thread created using the thread
+           attributes object _attr_.
+    
+           The pthread_attr_getaffinity_np () function returns the CPU
+           affinity mask attribute of the thread attributes object referred
+           to by _attr_ in the buffer pointed to by _cpuset_.
+    
+           The argument _cpusetsize_ is the length (in bytes) of the buffer
+           pointed to by _cpuset_.  Typically, this argument would be
+           specified as _sizeof(cpu_set_t)_.
+    
+           For more details on CPU affinity masks, see sched_setaffinity(2).
+           For a description of a set of macros that can be used to
+           manipulate and inspect CPU sets, see CPU_SET(3).
+    
+## RETURN VALUE         top
+    
+    
+           On success, these functions return 0; on error, they return a
+           nonzero error number.
+    
+## ERRORS         top
+    
+    
+           EINVAL ( pthread_attr_setaffinity_np ()) _cpuset_ specified a CPU
+                  that was outside the set supported by the kernel.  (The
+                  kernel configuration option CONFIG_NR_CPUS defines the
+                  range of the set supported by the kernel data type used to
+                  represent CPU sets.)
+    
+           EINVAL ( pthread_attr_getaffinity_np ()) A CPU in the affinity mask
+                  of the thread attributes object referred to by _attr_ lies
+                  outside the range specified by _cpusetsize_ (i.e.,
+                  _cpuset_ / _cpusetsize_ is too small).
+    
+           ENOMEM ( pthread_attr_setaffinity_np ()) Could not allocate memory.
+    
+## VERSIONS         top
+    
+    
+           These functions are provided by glibc since version 2.3.4.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ pthread_attr_setaffinity_np (),        │ Thread safety │ MT-Safe │
+           │ pthread_attr_getaffinity_np ()         │               │         │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           These functions are nonstandard GNU extensions; hence the suffix
+           "_np" (nonportable) in the names.
+    
+## NOTES         top
+    
+    
+           In glibc 2.3.3 only, versions of these functions were provided
+           that did not have a _cpusetsize_ argument.  Instead the CPU set
+           size given to the underlying system calls was always
+           _sizeof(cpu_set_t)_.
+    
+## SEE ALSO         top
+    
+    
+           sched_setaffinity(2), pthread_attr_init(3),
+           pthread_setaffinity_np(3), cpuset(7), pthreads(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22 PTHREAD_ATTR_SETAFFINITY_NP(3)
+    

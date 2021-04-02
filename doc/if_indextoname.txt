@@ -1,0 +1,95 @@
+  
+# if_nametoindex(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    IF_NAMETOINDEX(3)       Linux Programmer's Manual      IF_NAMETOINDEX(3)
+    
+## NAME         top
+    
+    
+           if_nametoindex, if_indextoname - mappings between network
+           interface names and indexes
+    
+## SYNOPSIS         top
+    
+    
+           #include <net/if.h>
+    
+           unsigned int if_nametoindex(const char  _ifname_ );
+           char if_indextoname(unsigned int ifindex, char  _ifname_ );
+    
+## DESCRIPTION         top
+    
+    
+           The if_nametoindex () function returns the index of the network
+           interface corresponding to the name _ifname_.
+    
+           The if_indextoname () function returns the name of the network
+           interface corresponding to the interface index _ifindex_.  The name
+           is placed in the buffer pointed to by _ifname_.  The buffer must
+           allow for the storage of at least IF_NAMESIZE bytes.
+    
+## RETURN VALUE         top
+    
+    
+           On success, if_nametoindex () returns the index number of the
+           network interface; on error, 0 is returned and _errno_ is set to
+           indicate the error.
+    
+           On success, if_indextoname () returns _ifname_ ; on error, NULL is
+           returned and _errno_ is set to indicate the error.
+    
+## ERRORS         top
+    
+    
+           if_nametoindex () may fail and set _errno_ if:
+    
+           ENODEV No interface found with given name.
+    
+           if_indextoname () may fail and set _errno_ if:
+    
+           ENXIO No interface found for the index.
+    
+           if_nametoindex () and if_indextoname () may also fail for any of
+           the errors specified for socket(2) or ioctl(2).
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ if_nametoindex (), if_indextoname ()    │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, RFC 3493.
+    
+           This function first appeared in BSDi.
+    
+## SEE ALSO         top
+    
+    
+           getifaddrs(3), if_nameindex(3), ifconfig(8)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22              IF_NAMETOINDEX(3)
+    

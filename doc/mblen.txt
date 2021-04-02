@@ -1,0 +1,100 @@
+  
+# mblen(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    MBLEN(3)                Linux Programmer's Manual               MBLEN(3)
+    
+## NAME         top
+    
+    
+           mblen - determine number of bytes in next multibyte character
+    
+## SYNOPSIS         top
+    
+    
+           #include <stdlib.h>
+    
+           int mblen(const char  _s_ , size_t _n_ );
+    
+## DESCRIPTION         top
+    
+    
+           If _s_ is not NULL, the mblen () function inspects at most _n_ bytes
+           of the multibyte string starting at _s_ and extracts the next
+           complete multibyte character.  It uses a static anonymous shift
+           state known only to the mblen () function.  If the multibyte
+           character is not the null wide character, it returns the number
+           of bytes that were consumed from _s_.  If the multibyte character
+           is the null wide character, it returns 0.
+    
+           If the _n_ bytes starting at _s_ do not contain a complete multibyte
+           character, mblen () returns -1.  This can happen even if _n_ is
+           greater than or equal to _MB_CUR_MAX_ , if the multibyte string
+           contains redundant shift sequences.
+    
+           If the multibyte string starting at _s_ contains an invalid
+           multibyte sequence before the next complete character, mblen ()
+           also returns -1.
+    
+           If _s_ is NULL, the mblen () function resets the shift state, known
+           to only this function, to the initial state, and returns nonzero
+           if the encoding has nontrivial shift state, or zero if the
+           encoding is stateless.
+    
+## RETURN VALUE         top
+    
+    
+           The mblen () function returns the number of bytes parsed from the
+           multibyte sequence starting at _s_ , if a non-null wide character
+           was recognized.  It returns 0, if a null wide character was
+           recognized.  It returns -1, if an invalid multibyte sequence was
+           encountered or if it couldn't parse a complete multibyte
+           character.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌───────────────────────────────┬───────────────┬────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├───────────────────────────────┼───────────────┼────────────────┤
+           │ mblen ()                        │ Thread safety │ MT-Unsafe race │
+           └───────────────────────────────┴───────────────┴────────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C99.
+    
+## NOTES         top
+    
+    
+           The behavior of mblen () depends on the LC_CTYPE category of the
+           current locale.
+    
+           The function mbrlen(3) provides a better interface to the same
+           functionality.
+    
+## SEE ALSO         top
+    
+    
+           mbrlen(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                       MBLEN(3)
+    

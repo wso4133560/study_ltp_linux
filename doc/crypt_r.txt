@@ -1,0 +1,205 @@
+  
+# crypt(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    CRYPT(3)                Linux Programmer's Manual               CRYPT(3)
+    
+## NAME         top
+    
+    
+           crypt, crypt_r - password and data encryption
+    
+## SYNOPSIS         top
+    
+    
+           #include <unistd.h>
+    
+           char crypt(const char  _key_ , const char  _salt_ );
+    
+           #include <crypt.h>
+    
+           char crypt_r(const char  _key_ , const char  _salt_ ,
+                         struct crypt_data restrict _data_ );
+    
+           Link with _-lcrypt_.
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           crypt ():
+               Since glibc 2.28:
+                   _DEFAULT_SOURCE
+               Glibc 2.27 and earlier:
+                   _XOPEN_SOURCE
+    
+           crypt_r ():
+               _GNU_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           crypt () is the password encryption function.  It is based on the
+           Data Encryption Standard algorithm with variations intended
+           (among other things) to discourage use of hardware
+           implementations of a key search.
+    
+           _key_ is a user's typed password.
+    
+           _salt_ is a two-character string chosen from the set [ a-zA-Z0-9./ ].
+           This string is used to perturb the algorithm in one of 4096
+           different ways.
+    
+           By taking the lowest 7 bits of each of the first eight characters
+           of the _key_ , a 56-bit key is obtained.  This 56-bit key is used to
+           encrypt repeatedly a constant string (usually a string consisting
+           of all zeros).  The returned value points to the encrypted
+           password, a series of 13 printable ASCII characters (the first
+           two characters represent the salt itself).  The return value
+           points to static data whose content is overwritten by each call.
+    
+           Warning: the key space consists of 256 equal 7.2e16 possible
+           values.  Exhaustive searches of this key space are possible using
+           massively parallel computers.  Software, such as crack (1), is
+           available which will search the portion of this key space that is
+           generally used by humans for passwords.  Hence, password
+           selection should, at minimum, avoid common words and names.  The
+           use of a passwd(1) program that checks for crackable passwords
+           during the selection process is recommended.
+    
+           The DES algorithm itself has a few quirks which make the use of
+           the crypt () interface a very poor choice for anything other than
+           password authentication.  If you are planning on using the
+           crypt () interface for a cryptography project, don't do it: get a
+           good book on encryption and one of the widely available DES
+           libraries.
+    
+           crypt_r () is a reentrant version of crypt ().  The structure
+           pointed to by _data_ is used to store result data and bookkeeping
+           information.  Other than allocating it, the only thing that the
+           caller should do with this structure is to set _data- >initialized_
+           to zero before the first call to crypt_r ().
+    
+## RETURN VALUE         top
+    
+    
+           On success, a pointer to the encrypted password is returned.  On
+           error, NULL is returned.
+    
+## ERRORS         top
+    
+    
+           EINVAL _salt_ has the wrong format.
+    
+           ENOSYS The crypt () function was not implemented, probably because
+                  of U.S.A. export restrictions.
+    
+           EPERM _/proc/sys/crypto/fips_enabled_ has a nonzero value, and an
+                  attempt was made to use a weak encryption type, such as
+                  DES.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌─────────────────────────┬───────────────┬──────────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├─────────────────────────┼───────────────┼──────────────────────┤
+           │ crypt ()                  │ Thread safety │ MT-Unsafe race:crypt │
+           ├─────────────────────────┼───────────────┼──────────────────────┤
+           │ crypt_r ()                │ Thread safety │ MT-Safe              │
+           └─────────────────────────┴───────────────┴──────────────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           crypt (): POSIX.1-2001, POSIX.1-2008, SVr4, 4.3BSD.  crypt_r () is
+           a GNU extension.
+    
+## NOTES         top
+    
+    
+       Availability in glibc
+           The crypt (), encrypt(3), and setkey(3) functions are part of the
+           POSIX.1-2008 XSI Options Group for Encryption and are optional.
+           If the interfaces are not available, then the symbolic constant
+           _XOPEN_CRYPT is either not defined, or it is defined to -1 and
+           availability can be checked at run time with sysconf(3).  This
+           may be the case if the downstream distribution has switched from
+           glibc crypt to _libxcrypt_.  When recompiling applications in such
+           distributions, the programmer must detect if _XOPEN_CRYPT is not
+           available and include _< crypt.h>_ for the function prototypes;
+           otherwise _libxcrypt_ is an ABI-compatible drop-in replacement.
+    
+       Features in glibc
+           The glibc version of this function supports additional encryption
+           algorithms.
+    
+           If _salt_ is a character string starting with the characters "$ _id_ $"
+           followed by a string optionally terminated by "$", then the
+           result has the form:
+    
+                  $ _id_ $ _salt_ $ _encrypted_
+    
+           _id_ identifies the encryption method used instead of DES and this
+           then determines how the rest of the password string is
+           interpreted.  The following values of _id_ are supported:
+    
+                  ID  | Method
+                  ─────────────────────────────────────────────────────────
+                  1   | MD5
+                  2a  | Blowfish (not in mainline glibc; added in some
+                      | Linux distributions)
+                  5   | SHA-256 (since glibc 2.7)
+                  6   | SHA-512 (since glibc 2.7)
+    
+           Thus, $5$ _salt_ $ _encrypted_ and $6$ _salt_ $ _encrypted_ contain the
+           password encrypted with, respectively, functions based on SHA-256
+           and SHA-512.
+    
+           " _salt_ " stands for the up to 16 characters following "$ _id_ $" in the
+           salt.  The " _encrypted_ " part of the password string is the actual
+           computed password.  The size of this string is fixed:
+    
+           MD5     | 22 characters
+           SHA-256 | 43 characters
+           SHA-512 | 86 characters
+    
+           The characters in " _salt_ " and " _encrypted_ " are drawn from the set
+           [ a-zA-Z0-9./ ].  In the MD5 and SHA implementations the entire _key_
+           is significant (instead of only the first 8 bytes in DES).
+    
+           Since glibc 2.7, the SHA-256 and SHA-512 implementations support
+           a user-supplied number of hashing rounds, defaulting to 5000.  If
+           the "$ _id_ $" characters in the salt are followed by "rounds= _xxx_ $",
+           where _xxx_ is an integer, then the result has the form
+    
+                  $ _id_ $ _rounds=yyy_ $ _salt_ $ _encrypted_
+    
+           where _yyy_ is the number of hashing rounds actually used.  The
+           number of rounds actually used is 1000 if _xxx_ is less than 1000,
+           999999999 if _xxx_ is greater than 999999999, and is equal to _xxx_
+           otherwise.
+    
+## SEE ALSO         top
+    
+    
+           login(1), passwd(1), encrypt(3), getpass(3), passwd(5)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                       CRYPT(3)
+    

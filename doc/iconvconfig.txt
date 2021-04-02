@@ -1,0 +1,100 @@
+  
+# iconvconfig(8) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | OPTIONS | EXIT STATUS | FILES | SEE ALSO |
+COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    ICONVCONFIG(8)         Linux System Administration        ICONVCONFIG(8)
+    
+## NAME         top
+    
+    
+           iconvconfig - create iconv module configuration cache
+    
+## SYNOPSIS         top
+    
+    
+           iconvconfig [ _options_ ] [ _directory_ ]...
+    
+## DESCRIPTION         top
+    
+    
+           The iconv(3) function internally uses _gconv_ modules to convert to
+           and from a character set.  A configuration file is used to
+           determine the needed modules for a conversion.  Loading and
+           parsing such a configuration file would slow down programs that
+           use iconv(3), so a caching mechanism is employed.
+    
+           The iconvconfig program reads iconv module configuration files
+           and writes a fast-loading gconv module configuration cache file.
+    
+           In addition to the system provided gconv modules, the user can
+           specify custom gconv module directories with the environment
+           variable GCONV_PATH.  However, iconv module configuration caching
+           is used only when the environment variable GCONV_PATH is not set.
+    
+## OPTIONS         top
+    
+    
+           --nostdlib
+                  Do not search the system default gconv directory, only the
+                  directories provided on the command line.
+    
+           -o _outputfile_ , --output= _outputfile_
+                  Use _outputfile_ for output instead of the system default
+                  cache location.
+    
+           --prefix= _pathname_
+                  Set the prefix to be prepended to the system pathnames.
+                  See FILES, below.  By default, the prefix is empty.
+                  Setting the prefix to _foo_ , the gconv module configuration
+                  would be read from _foo/usr/lib/gconv/gconv-modules_ and the
+                  cache would be written to
+                  _foo/usr/lib/gconv/gconv-modules.cache_.
+    
+           -? , --help
+                  Print a usage summary and exit.
+    
+           --usage
+                  Print a short usage summary and exit.
+    
+           -V , --version
+                  Print the version number, license, and disclaimer of
+                  warranty for iconv.
+    
+## EXIT STATUS         top
+    
+    
+           Zero on success, nonzero on errors.
+    
+## FILES         top
+    
+    
+           _/usr/lib/gconv_
+                  Usual default gconv module path.
+    
+           _/usr/lib/gconv/gconv-modules_
+                  Usual system default gconv module configuration file.
+    
+           _/usr/lib/gconv/gconv-modules.cache_
+                  Usual system gconv module configuration cache.
+    
+## SEE ALSO         top
+    
+    
+           iconv(1), iconv(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                 ICONVCONFIG(8)
+    

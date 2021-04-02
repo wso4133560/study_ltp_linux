@@ -1,0 +1,57 @@
+  
+# shells(5) -- Linux manual page
+NAME | DESCRIPTION | FILES | EXAMPLES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    SHELLS(5)               Linux Programmer's Manual              SHELLS(5)
+    
+## NAME         top
+    
+    
+           shells - pathnames of valid login shells
+    
+## DESCRIPTION         top
+    
+    
+           _/etc/shells_ is a text file which contains the full pathnames of
+           valid login shells.  This file is consulted by chsh(1) and
+           available to be queried by other programs.
+    
+           Be aware that there are programs which consult this file to find
+           out if a user is a normal user; for example, FTP daemons
+           traditionally disallow access to users with shells not included
+           in this file.
+    
+## FILES         top
+    
+    
+           _/etc/shells_
+    
+## EXAMPLES         top
+    
+    
+           _/etc/shells_ may contain the following paths:
+    
+               _/bin/sh_
+               _/bin/bash_
+               _/bin/csh_
+    
+## SEE ALSO         top
+    
+    
+           chsh(1), getusershell(3), pam_shells(8)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2020-06-09                      SHELLS(5)
+    

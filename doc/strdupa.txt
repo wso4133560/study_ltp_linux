@@ -1,0 +1,110 @@
+  
+# strdup(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    STRDUP(3)               Linux Programmer's Manual              STRDUP(3)
+    
+## NAME         top
+    
+    
+           strdup, strndup, strdupa, strndupa - duplicate a string
+    
+## SYNOPSIS         top
+    
+    
+           #include <string.h>
+    
+           char strdup(const char  _s_ );
+    
+           char strndup(const char  _s_ , size_t _n_ );
+           char strdupa(const char  _s_ );
+           char strndupa(const char  _s_ , size_t _n_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           strdup ():
+               _XOPEN_SOURCE >= 500
+                   || / Since glibc 2.12: / _POSIX_C_SOURCE >= 200809L
+                   || / Glibc <= 2.19: / _BSD_SOURCE || _SVID_SOURCE
+    
+           strndup ():
+               Since glibc 2.10:
+                   _POSIX_C_SOURCE >= 200809L
+               Before glibc 2.10:
+                   _GNU_SOURCE
+    
+           strdupa (), strndupa ():
+               _GNU_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           The strdup () function returns a pointer to a new string which is
+           a duplicate of the string _s_.  Memory for the new string is
+           obtained with malloc(3), and can be freed with free(3).
+    
+           The strndup () function is similar, but copies at most _n_ bytes.
+           If _s_ is longer than _n_ , only _n_ bytes are copied, and a terminating
+           null byte ('\0') is added.
+    
+           strdupa () and strndupa () are similar, but use alloca(3) to
+           allocate the buffer.  They are available only when using the GNU
+           GCC suite, and suffer from the same limitations described in
+           alloca(3).
+    
+## RETURN VALUE         top
+    
+    
+           On success, the strdup () function returns a pointer to the
+           duplicated string.  It returns NULL if insufficient memory was
+           available, with _errno_ set to indicate the error.
+    
+## ERRORS         top
+    
+    
+           ENOMEM Insufficient memory available to allocate duplicate
+                  string.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ strdup (), strndup (), strdupa (),       │ Thread safety │ MT-Safe │
+           │ strndupa ()                            │               │         │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           strdup () conforms to SVr4, 4.3BSD, POSIX.1-2001.  strndup ()
+           conforms to POSIX.1-2008.  strdupa () and strndupa () are GNU
+           extensions.
+    
+## SEE ALSO         top
+    
+    
+           alloca(3), calloc(3), free(3), malloc(3), realloc(3), string(3),
+           wcsdup(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                      STRDUP(3)
+    

@@ -1,0 +1,91 @@
+  
+# memusagestat(1) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | OPTIONS | BUGS | EXAMPLES | SEE ALSO |
+COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    MEMUSAGESTAT(1)         Linux programmer's manual        MEMUSAGESTAT(1)
+    
+## NAME         top
+    
+    
+           memusagestat - generate graphic from memory profiling data
+    
+## SYNOPSIS         top
+    
+    
+           memusagestat [ _option_ ]... _datafile_ [ _outfile_ ]
+    
+## DESCRIPTION         top
+    
+    
+           memusagestat creates a PNG file containing a graphical
+           representation of the memory profiling data in the file _datafile_ ;
+           that file is generated via the _-d_ (or _--data_ ) option of
+           memusage(1).
+    
+           The red line in the graph shows the heap usage (allocated memory)
+           and the green line shows the stack usage.  The x-scale is either
+           the number of memory-handling function calls or (if the _-t_ option
+           is specified) time.
+    
+## OPTIONS         top
+    
+    
+           -o _file_ , --output= _file_
+                  Name of the output file.
+    
+           -s _string_ , --string= _string_
+                  Use _string_ as the title inside the output graph.
+    
+           -t , --time
+                  Use time (rather than number of function calls) as the
+                  scale for the X axis.
+    
+           -T , --total
+                  Also draw a graph of total memory consumption.
+    
+           -x _size_ , --x-size= _size_
+                  Make the output graph _size_ pixels wide.
+    
+           -y _size_ , --y-size= _size_
+                  Make the output graph _size_ pixels high.
+    
+           -? , --help
+                  Print a help message and exit.
+    
+           --usage
+                  Print a short usage message and exit.
+    
+           -V , --version
+                  Print version information and exit.
+    
+## BUGS         top
+    
+    
+           To report bugs, see ⟨http://www.gnu.org/software/libc/bugs.html⟩
+    
+## EXAMPLES         top
+    
+    
+           See memusage(1).
+    
+## SEE ALSO         top
+    
+    
+           memusage(1), mtrace(1)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                MEMUSAGESTAT(1)
+    

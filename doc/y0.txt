@@ -1,0 +1,162 @@
+  
+# y0(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | BUGS | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    Y0(3)                   Linux Programmer's Manual                  Y0(3)
+    
+## NAME         top
+    
+    
+           y0, y0f, y0l, y1, y1f, y1l, yn, ynf, ynl - Bessel functions of
+           the second kind
+    
+## SYNOPSIS         top
+    
+    
+           #include <math.h>
+    
+           double y0(double _x_ );
+           double y1(double _x_ );
+           double yn(int _n_ , double _x_ );
+    
+           float y0f(float _x_ );
+           float y1f(float _x_ );
+           float ynf(int _n_ , float _x_ );
+    
+           long double y0l(long double _x_ );
+           long double y1l(long double _x_ );
+           long double ynl(int _n_ , long double _x_ );
+    
+           Link with _-lm_.
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           y0 (), y1 (), yn ():
+               _XOPEN_SOURCE
+                   || / Since glibc 2.19: / _DEFAULT_SOURCE
+                   || / Glibc <= 2.19: / _SVID_SOURCE || _BSD_SOURCE
+    
+           y0f (), y0l (), y1f (), y1l (), ynf (), ynl ():
+               _XOPEN_SOURCE >= 600
+                   || (_ISOC99_SOURCE && _XOPEN_SOURCE)
+                   || / Since glibc 2.19: / _DEFAULT_SOURCE
+                   || / Glibc <= 2.19: / _SVID_SOURCE || _BSD_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           The y0 () and y1 () functions return Bessel functions of _x_ of the
+           second kind of orders 0 and 1, respectively.  The yn () function
+           returns the Bessel function of _x_ of the second kind of order _n_.
+    
+           The value of _x_ must be positive.
+    
+           The y0f (), y1f (), and ynf () functions are versions that take and
+           return _float_ values.  The y0l (), y1l (), and ynl () functions are
+           versions that take and return _long double_ values.
+    
+## RETURN VALUE         top
+    
+    
+           On success, these functions return the appropriate Bessel value
+           of the second kind for _x_.
+    
+           If _x_ is a NaN, a NaN is returned.
+    
+           If _x_ is negative, a domain error occurs, and the functions return
+           - HUGE_VAL , - HUGE_VALF , or - HUGE_VALL , respectively.
+           (POSIX.1-2001 also allows a NaN return for this case.)
+    
+           If _x_ is 0.0, a pole error occurs, and the functions return
+           - HUGE_VAL , - HUGE_VALF , or - HUGE_VALL , respectively.
+    
+           If the result underflows, a range error occurs, and the functions
+           return 0.0
+    
+           If the result overflows, a range error occurs, and the functions
+           return - HUGE_VAL , - HUGE_VALF , or - HUGE_VALL , respectively.
+           (POSIX.1-2001 also allows a 0.0 return for this case.)
+    
+## ERRORS         top
+    
+    
+           See math_error(7) for information on how to determine whether an
+           error has occurred when calling these functions.
+    
+           The following errors can occur:
+    
+           Domain error: _x_ is negative
+                  _errno_ is set to EDOM.  An invalid floating-point exception
+                  ( FE_INVALID ) is raised.
+    
+           Pole error: _x_ is 0.0
+                  _errno_ is set to ERANGE and an FE_DIVBYZERO exception is
+                  raised (but see BUGS).
+    
+           Range error: result underflow
+                  _errno_ is set to ERANGE.  No FE_UNDERFLOW exception is
+                  returned by fetestexcept(3) for this case.
+    
+           Range error: result overflow
+                  _errno_ is set to ERANGE (but see BUGS).  An overflow
+                  floating-point exception ( FE_OVERFLOW ) is raised.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ y0 (), y0f (), y0l ()                    │ Thread safety │ MT-Safe │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ y1 (), y1f (), y1l ()                    │ Thread safety │ MT-Safe │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ yn (), ynf (), ynl ()                    │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           The functions returning _double_ conform to SVr4, 4.3BSD,
+           POSIX.1-2001, POSIX.1-2008.  The others are nonstandard functions
+           that also exist on the BSDs.
+    
+## BUGS         top
+    
+    
+           Before glibc 2.19, these functions misdiagnosed pole errors:
+           _errno_ was set to EDOM , instead of ERANGE and no FE_DIVBYZERO
+           exception was raised.
+    
+           Before glibc 2.17, did not set _errno_ for "range error: result
+           underflow".
+    
+           In glibc version 2.3.2 and earlier, these functions do not raise
+           an invalid floating-point exception ( FE_INVALID ) when a domain
+           error occurs.
+    
+## SEE ALSO         top
+    
+    
+           j0(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                          Y0(3)
+    

@@ -1,0 +1,100 @@
+  
+# asinh(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    ASINH(3)                Linux Programmer's Manual               ASINH(3)
+    
+## NAME         top
+    
+    
+           asinh, asinhf, asinhl - inverse hyperbolic sine function
+    
+## SYNOPSIS         top
+    
+    
+           #include <math.h>
+    
+           double asinh(double _x_ );
+           float asinhf(float _x_ );
+           long double asinhl(long double _x_ );
+    
+           Link with _-lm_.
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           asinh ():
+               _ISOC99_SOURCE || _POSIX_C_SOURCE >= 200112L
+                   || _XOPEN_SOURCE >= 500
+                   || / Since glibc 2.19: / _DEFAULT_SOURCE
+                   || / Glibc <= 2.19: / _BSD_SOURCE || _SVID_SOURCE
+    
+           asinhf (), asinhl ():
+               _ISOC99_SOURCE || _POSIX_C_SOURCE >= 200112L
+                   || / Since glibc 2.19: / _DEFAULT_SOURCE
+                   || / Glibc <= 2.19: / _BSD_SOURCE || _SVID_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           These functions calculate the inverse hyperbolic sine of _x_ ; that
+           is the value whose hyperbolic sine is _x_.
+    
+## RETURN VALUE         top
+    
+    
+           On success, these functions return the inverse hyperbolic sine of
+           _x_.
+    
+           If _x_ is a NaN, a NaN is returned.
+    
+           If _x_ is +0 (-0), +0 (-0) is returned.
+    
+           If _x_ is positive infinity (negative infinity), positive infinity
+           (negative infinity) is returned.
+    
+## ERRORS         top
+    
+    
+           No errors occur.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ asinh (), asinhf (), asinhl ()           │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           C99, POSIX.1-2001, POSIX.1-2008.
+    
+           The variant returning _double_ also conforms to SVr4, 4.3BSD.
+    
+## SEE ALSO         top
+    
+    
+           acosh(3), atanh(3), casinh(3), cosh(3), sinh(3), tanh(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                       ASINH(3)
+    

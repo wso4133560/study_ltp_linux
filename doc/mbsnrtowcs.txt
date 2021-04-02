@@ -1,0 +1,132 @@
+  
+# mbsnrtowcs(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    MBSNRTOWCS(3)           Linux Programmer's Manual          MBSNRTOWCS(3)
+    
+## NAME         top
+    
+    
+           mbsnrtowcs - convert a multibyte string to a wide-character
+           string
+    
+## SYNOPSIS         top
+    
+    
+           #include <wchar.h>
+    
+           size_t mbsnrtowcs(wchar_t restrict _dest_ , const char restrict _src_ ,
+                             size_t _nms_ , size_t _len_ , mbstate_t restrict _ps_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           mbsnrtowcs ():
+               Since glibc 2.10:
+                   _POSIX_C_SOURCE >= 200809L
+               Before glibc 2.10:
+                   _GNU_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           The mbsnrtowcs () function is like the mbsrtowcs(3) function,
+           except that the number of bytes to be converted, starting at
+           _src_ , is limited to at most _nms_ bytes.
+    
+           If _dest_ is not NULL, the mbsnrtowcs () function converts at most
+           _nms_ bytes from the multibyte string _src_ to a wide-character
+           string starting at _dest_.  At most _len_ wide characters are written
+           to _dest_.  The shift state _ps_ is updated.  The conversion is
+           effectively performed by repeatedly calling _mbrtowc(dest, src,_
+           _n, ps)_ where _n_ is some positive number, as long as this call
+           succeeds, and then incrementing _dest_ by one and _src_ by the
+           number of bytes consumed.  The conversion can stop for three
+           reasons:
+    
+           1. An invalid multibyte sequence has been encountered.  In this
+              case, _src_ is left pointing to the invalid multibyte sequence,
+              _(size_t) -1_ is returned, and _errno_ is set to EILSEQ.
+    
+           2. The _nms_ limit forces a stop, or _len_ non-L'\0' wide characters
+              have been stored at _dest_.  In this case, _src_ is left pointing
+              to the next multibyte sequence to be converted, and the number
+              of wide characters written to _dest_ is returned.
+    
+           3. The multibyte string has been completely converted, including
+              the terminating null wide character ('\0') (which has the side
+              effect of bringing back _ps_ to the initial state).  In this
+              case, _src_ is set to NULL, and the number of wide characters
+              written to _dest_ , excluding the terminating null wide
+              character, is returned.
+    
+           According to POSIX.1, if the input buffer ends with an incomplete
+           character, it is unspecified whether conversion stops at the end
+           of the previous character (if any), or at the end of the input
+           buffer.  The glibc implementation adopts the former behavior.
+    
+           If _dest_ is NULL, _len_ is ignored, and the conversion proceeds as
+           above, except that the converted wide characters are not written
+           out to memory, and that no destination length limit exists.
+    
+           In both of the above cases, if _ps_ is NULL, a static anonymous
+           state known only to the mbsnrtowcs () function is used instead.
+    
+           The programmer must ensure that there is room for at least _len_
+           wide characters at _dest_.
+    
+## RETURN VALUE         top
+    
+    
+           The mbsnrtowcs () function returns the number of wide characters
+           that make up the converted part of the wide-character string, not
+           including the terminating null wide character.  If an invalid
+           multibyte sequence was encountered, _(size_t) -1_ is returned, and
+           _errno_ set to EILSEQ.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌─────────────┬───────────────┬──────────────────────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├─────────────┼───────────────┼──────────────────────────────────┤
+           │ mbsnrtowcs () │ Thread safety │ MT-Unsafe race:mbsnrtowcs/!ps    │
+           └─────────────┴───────────────┴──────────────────────────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2008.
+    
+## NOTES         top
+    
+    
+           The behavior of mbsnrtowcs () depends on the LC_CTYPE category of
+           the current locale.
+    
+           Passing NULL as _ps_ is not multithread safe.
+    
+## SEE ALSO         top
+    
+    
+           iconv(3), mbrtowc(3), mbsinit(3), mbsrtowcs(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                  MBSNRTOWCS(3)
+    

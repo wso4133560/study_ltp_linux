@@ -1,0 +1,937 @@
+  
+# system_data_types(7) -- Linux manual page
+NAME | DESCRIPTION | NOTES | EXAMPLES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    SYSTEM_DATA_TYPES(7)    Linux Programmer's Manual   SYSTEM_DATA_TYPES(7)
+    
+## NAME         top
+    
+    
+           system_data_types - overview of system data types
+    
+## DESCRIPTION         top
+    
+    
+           _aiocb_
+                  _Include_ : _< aio.h>_.
+    
+                  struct aiocb {
+                      int             aio_fildes;    / File descriptor /
+                      off_t           aio_offset;    / File offset /
+                      volatile void  aio_buf;       / Location of buffer /
+                      size_t          aio_nbytes;    / Length of transfer /
+                      int             aio_reqprio;   / Request priority offset /
+                      struct sigevent aio_sigevent;  / Signal number and value /
+                      int             aio_lio_opcode;/ Operation to be performed /
+                  };
+    
+                  For further information about this structure, see aio(7).
+    
+                  _Conforming to_ : POSIX.1-2001 and later.
+    
+                  _See also_ : aio_cancel(3), aio_error(3), aio_fsync(3),
+                  aio_read(3), aio_return(3), aio_suspend(3), aio_write(3),
+                  lio_listio(3)
+    
+           _clock_t_
+                  _Include_ : _< time.h>_ or _< sys/types.h>_.  Alternatively,
+                  _< sys/time.h>_.
+    
+                  Used for system time in clock ticks or CLOCKS_PER_SEC
+                  (defined in _< time.h>_).  According to POSIX, it shall be an
+                  integer type or a real-floating type.
+    
+                  _Conforming to_ : C99 and later; POSIX.1-2001 and later.
+    
+                  _See also_ : times(2), clock(3)
+    
+           _clockid_t_
+                  _Include_ : _< sys/types.h>_.  Alternatively, _< time.h>_.
+    
+                  Used for clock ID type in the clock and timer functions.
+                  According to POSIX, it shall be defined as an arithmetic
+                  type.
+    
+                  _Conforming to_ : POSIX.1-2001 and later.
+    
+                  _See also_ : clock_adjtime(2), clock_getres(2),
+                  clock_nanosleep(2), timer_create(2),
+                  clock_getcpuclockid(3)
+    
+           _dev_t_
+                  _Include_ : _< sys/types.h>_.  Alternatively, _< sys/stat.h>_.
+    
+                  Used for device IDs.  According to POSIX, it shall be an
+                  integer type.  For further details of this type, see
+                  makedev(3).
+    
+                  _Conforming to_ : POSIX.1-2001 and later.
+    
+                  _See also_ : mknod(2), stat(2)
+    
+           _div_t_
+                  _Include_ : _< stdlib.h>_.
+    
+                  typedef struct {
+                      int quot; / Quotient /
+                      int rem;  / Remainder /
+                  } div_t;
+    
+                  It is the type of the value returned by the div(3)
+                  function.
+    
+                  _Conforming to_ : C99 and later; POSIX.1-2001 and later.
+    
+                  _See also_ : div(3)
+    
+           _double_t_
+                  _Include_ : _< math.h>_.
+    
+                  The implementation's most efficient floating type at least
+                  as wide as _double_.  Its type depends on the value of the
+                  macro FLT_EVAL_METHOD (defined in _< float.h>_):
+    
+                  0      _double_t_ is _double_.
+    
+                  1      _double_t_ is _double_.
+    
+                  2      _double_t_ is _long double_.
+    
+                  For other values of FLT_EVAL_METHOD , the type of _double_t_
+                  is implementation-defined.
+    
+                  _Conforming to_ : C99 and later; POSIX.1-2001 and later.
+    
+                  _See also_ : the _float_t_ type in this page.
+    
+           _fd_set_
+                  _Include_ : _< sys/select.h>_.  Alternatively, _< sys/time.h>_.
+    
+                  A structure type that can represent a set of file
+                  descriptors.  According to POSIX, the maximum number of
+                  file descriptors in an _fd_set_ structure is the value of
+                  the macro FD_SETSIZE.
+    
+                  _Conforming to_ : POSIX.1-2001 and later.
+    
+                  _See also_ : select(2)
+    
+           _fenv_t_
+                  _Include_ : _< fenv.h>_.
+    
+                  This type represents the entire floating-point
+                  environment, including control modes and status flags; for
+                  further details, see fenv(3).
+    
+                  _Conforming to_ : C99 and later; POSIX.1-2001 and later.
+    
+                  _See also_ : fenv(3)
+    
+           _fexcept_t_
+                  _Include_ : _< fenv.h>_.
+    
+                  This type represents the floating-point status flags
+                  collectively; for further details see fenv(3).
+    
+                  _Conforming to_ : C99 and later; POSIX.1-2001 and later.
+    
+                  _See also_ : fenv(3)
+    
+           _FILE_
+                  _Include_ : _< stdio.h>_.  Alternatively, _< wchar.h>_.
+    
+                  An object type used for streams.
+    
+                  _Conforming to_ : C99 and later; POSIX.1-2001 and later.
+    
+                  _See also_ : fclose(3), flockfile(3), fopen(3), fprintf(3),
+                  fread(3), fscanf(3), stdin(3), stdio(3)
+    
+           _float_t_
+                  _Include_ : _< math.h>_.
+    
+                  The implementation's most efficient floating type at least
+                  as wide as _float_.  Its type depends on the value of the
+                  macro FLT_EVAL_METHOD (defined in _< float.h>_):
+    
+                  0      _float_t_ is _float_.
+    
+                  1      _float_t_ is _double_.
+    
+                  2      _float_t_ is _long double_.
+    
+                  For other values of FLT_EVAL_METHOD , the type of _float_t_
+                  is implementation-defined.
+    
+                  _Conforming to_ : C99 and later; POSIX.1-2001 and later.
+    
+                  _See also_ : the _double_t_ type in this page.
+    
+           _gid_t_
+                  _Include_ : _< sys/types.h>_.  Alternatively, _< grp.h>_, _< pwd.h>_,
+                  _< signal.h>_, _< stropts.h>_, _< sys/ipc.h>_, _< sys/stat.h>_, or
+                  _< unistd.h>_.
+    
+                  A type used to hold group IDs.  According to POSIX, this
+                  shall be an integer type.
+    
+                  _Conforming to_ : POSIX.1-2001 and later.
+    
+                  _See also_ : chown(2), getgid(2), getegid(2), getgroups(2),
+                  getresgid(2), getgrnam (2), credentials(7)
+    
+           _id_t_
+                  _Include_ : _< sys/types.h>_.  Alternatively, _< sys/resource.h>_.
+    
+                  A type used to hold a general identifier.  According to
+                  POSIX, this shall be an integer type that can be used to
+                  contain a _pid_t_ , _uid_t_ , or _gid_t_.
+    
+                  _Conforming to_ : POSIX.1-2001 and later.
+    
+                  _See also_ : getpriority(2), waitid(2)
+    
+           _imaxdiv_t_
+                  _Include_ : _< inttypes.h>_.
+    
+                  typedef struct {
+                      intmax_t    quot; / Quotient /
+                      intmax_t    rem;  / Remainder /
+                  } imaxdiv_t;
+    
+                  It is the type of the value returned by the imaxdiv(3)
+                  function.
+    
+                  _Conforming to_ : C99 and later; POSIX.1-2001 and later.
+    
+                  _See also_ : imaxdiv(3)
+    
+           _intmax_t_
+                  _Include_ : _< stdint.h>_.  Alternatively, _< inttypes.h>_.
+    
+                  A signed integer type capable of representing any value of
+                  any signed integer type supported by the implementation.
+                  According to the C language standard, it shall be capable
+                  of storing values in the range [ INTMAX_MIN , INTMAX_MAX ].
+    
+                  The macro INTMAX_C () expands its argument to an integer
+                  constant of type _intmax_t_.
+    
+                  The length modifier for _intmax_t_ for the printf(3) and the
+                  scanf(3) families of functions is j ; resulting commonly in
+                  %jd or %ji for printing _intmax_t_ values.
+    
+                  _Conforming to_ : C99 and later; POSIX.1-2001 and later.
+    
+                  _Bugs_ : _intmax_t_ is not large enough to represent values of
+                  type ___int128_ in implementations where ___int128_ is defined
+                  and _long long_ is less than 128 bits wide.
+    
+                  _See also_ : the _uintmax_t_ type in this page.
+    
+           _int_ N __t_
+                  _Include_ : _< stdint.h>_.  Alternatively, _< inttypes.h>_.
+    
+                  _int8_t_ , _int16_t_ , _int32_t_ , _int64_t_
+    
+                  A signed integer type of a fixed width of exactly N bits,
+                  N being the value specified in its type name.  According
+                  to the C language standard, they shall be capable of
+                  storing values in the range [ INT N _MIN , INT N _MAX ],
+                  substituting N by the appropriate number.
+    
+                  According to POSIX, _int8_t_ , _int16_t_ , and _int32_t_ are
+                  required; _int64_t_ is only required in implementations that
+                  provide integer types with width 64; and all other types
+                  of this form are optional.
+    
+                  The length modifiers for the _int_ N __t_ types for the
+                  printf(3) family of functions are expanded by macros of
+                  the forms PRId N and PRIi N (defined in _< inttypes.h>_);
+                  resulting for example in %"PRId64" or %"PRIi64" for
+                  printing _int64_t_ values.  The length modifiers for the
+                  _int_ N __t_ types for the scanf(3) family of functions are
+                  expanded by macros of the forms SCNd N and SCNi N, (defined
+                  in _< inttypes.h>_); resulting for example in %"SCNd8" or
+                  %"SCNi8" for scanning _int8_t_ values.
+    
+                  _Conforming to_ : C99 and later; POSIX.1-2001 and later.
+    
+                  _See also_ : the _intmax_t_ , _uint_ N __t_ , and _uintmax_t_ types in
+                  this page.
+    
+           _intptr_t_
+                  _Include_ : _< stdint.h>_.  Alternatively, _< inttypes.h>_.
+    
+                  A signed integer type such that any valid ( _void _ ) value
+                  can be converted to this type and back.  According to the
+                  C language standard, it shall be capable of storing values
+                  in the range [ INTPTR_MIN , INTPTR_MAX ].
+    
+                  The length modifier for _intptr_t_ for the printf(3) family
+                  of functions is expanded by the macros PRIdPTR and PRIiPTR
+                  (defined in _< inttypes.h>_); resulting commonly in
+                  %"PRIdPTR" or %"PRIiPTR" for printing _intptr_t_ values.
+                  The length modifier for _intptr_t_ for the scanf(3) family
+                  of functions is expanded by the macros SCNdPTR and
+                  SCNiPTR, (defined in _< inttypes.h>_); resulting commonly in
+                  %"SCNdPTR" or %"SCNiPTR" for scanning _intptr_t_ values.
+    
+                  _Conforming to_ : C99 and later; POSIX.1-2001 and later.
+    
+                  _See also_ : the _uintptr_t_ and _void _ types in this page.
+    
+           _lconv_
+                  _Include_ : _< locale.h>_.
+    
+                  struct lconv {                  / Values in the "C" locale: /
+                      char   decimal_point;      / "." /
+                      char   thousands_sep;      / "" /
+                      char   grouping;           / "" /
+                      char   mon_decimal_point;  / "" /
+                      char   mon_thousands_sep;  / "" /
+                      char   mon_grouping;       / "" /
+                      char   positive_sign;      / "" /
+                      char   negative_sign;      / "" /
+                      char   currency_symbol;    / "" /
+                      char    frac_digits;        / CHAR_MAX /
+                      char    p_cs_precedes;      / CHAR_MAX /
+                      char    n_cs_precedes;      / CHAR_MAX /
+                      char    p_sep_by_space;     / CHAR_MAX /
+                      char    n_sep_by_space;     / CHAR_MAX /
+                      char    p_sign_posn;        / CHAR_MAX /
+                      char    n_sign_posn;        / CHAR_MAX /
+                      char   int_curr_symbol;    / "" /
+                      char    int_frac_digits;    / CHAR_MAX /
+                      char    int_p_cs_precedes;  / CHAR_MAX /
+                      char    int_n_cs_precedes;  / CHAR_MAX /
+                      char    int_p_sep_by_space; / CHAR_MAX /
+                      char    int_n_sep_by_space; / CHAR_MAX /
+                      char    int_p_sign_posn;    / CHAR_MAX /
+                      char    int_n_sign_posn;    / CHAR_MAX /
+                  };
+    
+                  Contains members related to the formatting of numeric
+                  values.  In the "C" locale, its members have the values
+                  shown in the comments above.
+    
+                  _Conforming to_ : C11 and later; POSIX.1-2001 and later.
+    
+                  _See also_ : setlocale(3), localeconv(3), charsets (5),
+                  locale(7)
+    
+           _ldiv_t_
+                  _Include_ : _< stdlib.h>_.
+    
+                  typedef struct {
+                      long    quot; / Quotient /
+                      long    rem;  / Remainder /
+                  } ldiv_t;
+    
+                  It is the type of the value returned by the ldiv(3)
+                  function.
+    
+                  _Conforming to_ : C99 and later; POSIX.1-2001 and later.
+    
+                  _See also_ : ldiv(3)
+    
+           _lldiv_t_
+                  _Include_ : _< stdlib.h>_.
+    
+                  typedef struct {
+                      long long   quot; / Quotient /
+                      long long   rem;  / Remainder /
+                  } lldiv_t;
+    
+                  It is the type of the value returned by the lldiv(3)
+                  function.
+    
+                  _Conforming to_ : C99 and later; POSIX.1-2001 and later.
+    
+                  _See also_ : lldiv(3)
+    
+           _off64_t_
+                  _Include_ : _< sys/types.h>_.
+    
+                  Used for file sizes.  It is a 64-bit signed integer type.
+    
+                  _Conforming to_ : Present in glibc.  It is not standardized
+                  by the C language standard nor POSIX.
+    
+                  _Notes_ : The feature test macro _LARGEFILE64_SOURCE has to
+                  be defined for this type to be available.
+    
+                  _See also_ : copy_file_range(2), readahead(2),
+                  sync_file_range(2), lseek64(3), feature_test_macros(7)
+    
+                  See also the _off_t_ type in this page.
+    
+           _off_t_
+                  _Include_ : _< sys/types.h>_.  Alternatively, _< aio.h>_,
+                  _< fcntl.h>_, _< stdio.h>_, _< sys/mman.h>_, _< sys/stat.h.h>_, or
+                  _< unistd.h>_.
+    
+                  Used for file sizes.  According to POSIX, this shall be a
+                  signed integer type.
+    
+                  _Versions_ : _< aio.h>_ and _< stdio.h>_ define _off_t_ since
+                  POSIX.1-2008.
+    
+                  _Conforming to_ : POSIX.1-2001 and later.
+    
+                  _Notes_ : On some architectures, the width of this type can
+                  be controlled with the feature test macro
+                  _FILE_OFFSET_BITS.
+    
+                  _See also_ : lseek(2), mmap(2), posix_fadvise(2), pread(2),
+                  truncate(2), fseeko(3), lockf(3), posix_fallocate(3),
+                  feature_test_macros(7)
+    
+                  See also the _off64_t_ type in this page.
+    
+           _pid_t_
+                  _Include_ : _< sys/types.h>_.  Alternatively, _< fcntl.h>_,
+                  _< sched.h>_, _< signal.h>_, _< spawn.h>_, _< sys/msg.h>_,
+                  _< sys/sem.h>_, _< sys/shm.h>_, _< sys/wait.h>_, _< termios.h>_,
+                  _< time.h>_, _< unistd.h>_, or _< utmpx.h>_.
+    
+                  This type is used for storing process IDs, process group
+                  IDs, and session IDs.  According to POSIX, it shall be a
+                  signed integer type, and the implementation shall support
+                  one or more programming environments where the width of
+                  _pid_t_ is no greater than the width of the type _long_.
+    
+                  _Conforming to_ : POSIX.1-2001 and later.
+    
+                  _See also_ : fork(2), getpid(2), getppid(2), getsid(2),
+                  gettid(2), getpgid(2), kill(2), pidfd_open(2),
+                  sched_setscheduler(2), waitpid(2), sigqueue(3),
+                  credentials(7),
+    
+           _ptrdiff_t_
+                  _Include_ : _< stddef.h>_.
+    
+                  Used for a count of elements, and array indices.  It is
+                  the result of subtracting two pointers.  According to the
+                  C language standard, it shall be a signed integer type
+                  capable of storing values in the range [ PTRDIFF_MIN ,
+                  PTRDIFF_MAX ].
+    
+                  The length modifier for _ptrdiff_t_ for the printf(3) and
+                  the scanf(3) families of functions is t ; resulting
+                  commonly in %td or %ti for printing _ptrdiff_t_ values.
+    
+                  _Conforming to_ : C99 and later; POSIX.1-2001 and later.
+    
+                  _See also_ : the _size_t_ and _ssize_t_ types in this page.
+    
+           _regex_t_
+                  _Include_ : _< regex.h>_.
+    
+                  typedef struct {
+                      size_t  re_nsub; / Number of parenthesized subexpressions /
+                  } regex_t;
+    
+                  This is a structure type used in regular expression
+                  matching.  It holds a compiled regular expression,
+                  compiled with regcomp(3).
+    
+                  _Conforming to_ : POSIX.1-2001 and later.
+    
+                  _See also_ : regex(3)
+    
+           _regmatch_t_
+                  _Include_ : _< regex.h>_.
+    
+                  typedef struct {
+                      regoff_t    rm_so; / Byte offset from start of string
+                                            to start of substring /
+                      regoff_t    rm_eo; / Byte offset from start of string of
+                                            the first character after the end of
+                                            substring /
+                  } regmatch_t;
+    
+                  This is a structure type used in regular expression
+                  matching.
+    
+                  _Conforming to_ : POSIX.1-2001 and later.
+    
+                  _See also_ : regexec(3)
+    
+           _regoff_t_
+                  _Include_ : _< regex.h>_.
+    
+                  According to POSIX, it shall be a signed integer type
+                  capable of storing the largest value that can be stored in
+                  either a _ptrdiff_t_ type or a _ssize_t_ type.
+    
+                  _Versions_ : Prior to POSIX.1-2008, the type was capable of
+                  storing the largest value that can be stored in either an
+                  _off_t_ type or a _ssize_t_ type.
+    
+                  _Conforming to_ : POSIX.1-2001 and later.
+    
+                  _See also_ : the _regmatch_t_ structure and the _ptrdiff_t_ and
+                  _ssize_t_ types in this page.
+    
+           _sigevent_
+                  _Include_ : _< signal.h>_.  Alternatively, _< aio.h>_, _< mqueue.h>_,
+                  or _< time.h>_.
+    
+                  struct sigevent {
+                      int             sigev_notify; / Notification type /
+                      int             sigev_signo;  / Signal number /
+                      union sigval    sigev_value;  / Signal value /
+                      void          (sigev_notify_function)(union sigval);
+                                                    / Notification function /
+                      pthread_attr_t sigev_notify_attributes;
+                                                    / Notification attributes /
+                  };
+    
+                  For further details about this type, see sigevent(7).
+    
+                  _Versions_ : _< aio.h>_ and _< time.h>_ define _sigevent_ since
+                  POSIX.1-2008.
+    
+                  _Conforming to_ : POSIX.1-2001 and later.
+    
+                  _See also_ : timer_create(2), getaddrinfo_a(3),
+                  lio_listio(3), mq_notify(3)
+    
+                  See also the _aiocb_ structure in this page.
+    
+           _siginfo_t_
+                  _Include_ : _< signal.h>_.  Alternatively, _< sys/wait.h>_.
+    
+                  typedef struct {
+                      int      si_signo;  / Signal number /
+                      int      si_code;   / Signal code /
+                      pid_t    si_pid;    / Sending process ID /
+                      uid_t    si_uid;    / Real user ID of sending process /
+                      void    si_addr;   / Address of faulting instruction /
+                      int      si_status; / Exit value or signal /
+                      union sigval si_value;  / Signal value /
+                  } siginfo_t;
+    
+                  Information associated with a signal.  For further details
+                  on this structure (including additional, Linux-specific
+                  fields), see sigaction(2).
+    
+                  _Conforming to_ : POSIX.1-2001 and later.
+    
+                  _See also_ : pidfd_send_signal(2), rt_sigqueueinfo(2),
+                  sigaction(2), sigwaitinfo(2), psiginfo(3)
+    
+           _sigset_t_
+                  _Include_ : _< signal.h>_.  Alternatively, _< spawn.h>_, or
+                  _< sys/select.h>_.
+    
+                  This is a type that represents a set of signals.
+                  According to POSIX, this shall be an integer or structure
+                  type.
+    
+                  _Conforming to_ : POSIX.1-2001 and later.
+    
+                  _See also_ : epoll_pwait(2), ppoll(2), pselect(2),
+                  sigaction(2), signalfd(2), sigpending(2), sigprocmask(2),
+                  sigsuspend(2), sigwaitinfo(2), signal(7)
+    
+           _sigval_
+                  _Include_ : _< signal.h>_.
+    
+                  union sigval {
+                      int     sigval_int; / Integer value /
+                      void   sigval_ptr; / Pointer value /
+                  };
+    
+                  Data passed with a signal.
+    
+                  _Conforming to_ : POSIX.1-2001 and later.
+    
+                  _See also_ : pthread_sigqueue(3), sigqueue(3), sigevent(7)
+    
+                  See also the _sigevent_ structure and the _siginfo_t_ type in
+                  this page.
+    
+           _size_t_
+                  _Include_ : _< stddef.h>_ or _< sys/types.h>_.  Alternatively,
+                  _< aio.h>_, _< glob.h>_, _< grp.h>_, _< iconv.h>_, _< monetary.h>_,
+                  _< mqueue.h>_, _< ndbm.h>_, _< pwd.h>_, _< regex.h>_, _< search.h>_,
+                  _< signal.h>_, _< stdio.h>_, _< stdlib.h>_, _< string.h>_,
+                  _< strings.h>_, _< sys/mman.h>_, _< sys/msg.h>_, _< sys/sem.h>_,
+                  _< sys/shm.h>_, _< sys/socket.h>_, _< sys/uio.h>_, _< time.h>_,
+                  _< unistd.h>_, _< wchar.h>_, or _< wordexp.h>_.
+    
+                  Used for a count of bytes.  It is the result of the _sizeof_
+                  operator.  According to the C language standard, it shall
+                  be an unsigned integer type capable of storing values in
+                  the range [0, SIZE_MAX ].  According to POSIX, the
+                  implementation shall support one or more programming
+                  environments where the width of _size_t_ is no greater than
+                  the width of the type _long_.
+    
+                  The length modifier for _size_t_ for the printf(3) and the
+                  scanf(3) families of functions is z ; resulting commonly in
+                  %zu or %zx for printing _size_t_ values.
+    
+                  _Versions_ : _< aio.h>_, _< glob.h>_, _< grp.h>_, _< iconv.h>_,
+                  _< mqueue.h>_, _< pwd.h>_, _< signal.h>_, and _< sys/socket.h>_ define
+                  _size_t_ since POSIX.1-2008.
+    
+                  _Conforming to_ : C99 and later; POSIX.1-2001 and later.
+    
+                  _See also_ : read(2), write(2), fread(3), fwrite(3),
+                  memcmp(3), memcpy(3), memset(3), offsetof(3)
+    
+                  See also the _ptrdiff_t_ and _ssize_t_ types in this page.
+    
+           _ssize_t_
+                  _Include_ : _< sys/types.h>_.  Alternatively, _< aio.h>_,
+                  _< monetary.h>_, _< mqueue.h>_, _< stdio.h>_, _< sys/msg.h>_,
+                  _< sys/socket.h>_, _< sys/uio.h>_, or _< unistd.h>_.
+    
+                  Used for a count of bytes or an error indication.
+                  According to POSIX, it shall be a signed integer type
+                  capable of storing values at least in the range [-1,
+                  SSIZE_MAX ], and the implementation shall support one or
+                  more programming environments where the width of _ssize_t_
+                  is no greater than the width of the type _long_.
+    
+                  Glibc and most other implementations provide a length
+                  modifier for _ssize_t_ for the printf(3) and the scanf(3)
+                  families of functions, which is z ; resulting commonly in
+                  %zd or %zi for printing _ssize_t_ values.  Although z works
+                  for _ssize_t_ on most implementations, portable POSIX
+                  programs should avoid using it—for example, by converting
+                  the value to _intmax_t_ and using its length modifier ( j ).
+    
+                  _Conforming to_ : POSIX.1-2001 and later.
+    
+                  _See also_ : read(2), readlink(2), readv(2), recv(2),
+                  send(2), write(2)
+    
+                  See also the _ptrdiff_t_ and _size_t_ types in this page.
+    
+           _suseconds_t_
+                  _Include_ : _< sys/types.h>_.  Alternatively, _< sys/select.h>_, or
+                  _< sys/time.h>_.
+    
+                  Used for time in microseconds.  According to POSIX, it
+                  shall be a signed integer type capable of storing values
+                  at least in the range [-1, 1000000], and the
+                  implementation shall support one or more programming
+                  environments where the width of _suseconds_t_ is no greater
+                  than the width of the type _long_.
+    
+                  _Conforming to_ : POSIX.1-2001 and later.
+    
+                  _See also_ : the _timeval_ structure in this page.
+    
+           _time_t_
+                  _Include_ : _< time.h>_ or _< sys/types.h>_.  Alternatively,
+                  _< sched.h>_, _< sys/msg.h>_, _< sys/select.h>_, _< sys/sem.h>_,
+                  _< sys/shm.h>_, _< sys/stat.h>_, _< sys/time.h>_, or _< utime.h>_.
+    
+                  Used for time in seconds.  According to POSIX, it shall be
+                  an integer type.
+    
+                  _Versions_ : _< sched.h>_ defines _time_t_ since POSIX.1-2008.
+    
+                  _Conforming to_ : C99 and later; POSIX.1-2001 and later.
+    
+                  _See also_ : stime(2), time(2), ctime(3), difftime(3)
+    
+           _timer_t_
+                  _Include_ : _< sys/types.h>_.  Alternatively, _< time.h>_.
+    
+                  Used for timer ID returned by timer_create(2).  According
+                  to POSIX, there are no defined comparison or assignment
+                  operators for this type.
+    
+                  _Conforming to_ : POSIX.1-2001 and later.
+    
+                  _See also_ : timer_create(2), timer_delete(2),
+                  timer_getoverrun(2), timer_settime(2)
+    
+           _timespec_
+                  _Include_ : _< time.h>_.  Alternatively, _< aio.h>_, _< mqueue.h>_,
+                  _< sched.h>_, _< signal.h>_, _< sys/select.h>_, or _< sys/stat.h>_.
+    
+                  struct timespec {
+                      time_t  tv_sec;  / Seconds /
+                      long    tv_nsec; / Nanoseconds /
+                  };
+    
+                  Describes times in seconds and nanoseconds.
+    
+                  _Conforming to_ : C11 and later; POSIX.1-2001 and later.
+    
+                  _See also_ : clock_gettime(2), clock_nanosleep(2),
+                  nanosleep(2), timerfd_gettime(2), timer_gettime(2)
+    
+           _timeval_
+                  _Include_ : _< sys/time.h>_.  Alternatively, _< sys/resource.h>_,
+                  _< sys/select.h>_, or _< utmpx.h>_.
+    
+                  struct timeval {
+                      time_t      tv_sec;  / Seconds /
+                      suseconds_t tv_usec; / Microseconds /
+                  };
+    
+                  Describes times in seconds and microseconds.
+    
+                  _Conforming to_ : POSIX.1-2001 and later.
+    
+                  _See also_ : gettimeofday(2), select(2), utimes(2),
+                  adjtime(3), futimes(3), timeradd(3)
+    
+           _uid_t_
+                  _Include_ : _< sys/types.h>_.  Alternatively, _< pwd.h>_,
+                  _< signal.h>_, _< stropts.h>_, _< sys/ipc.h>_, _< sys/stat.h>_, or
+                  _< unistd.h>_.
+    
+                  A type used to hold user IDs.  According to POSIX, this
+                  shall be an integer type.
+    
+                  _Conforming to_ : POSIX.1-2001 and later.
+    
+                  _See also_ : chown(2), getuid(2), geteuid(2), getresuid(2),
+                  getpwnam (2), credentials(7)
+    
+           _uintmax_t_
+                  _Include_ : _< stdint.h>_.  Alternatively, _< inttypes.h>_.
+    
+                  An unsigned integer type capable of representing any value
+                  of any unsigned integer type supported by the
+                  implementation.  According to the C language standard, it
+                  shall be capable of storing values in the range [0,
+                  UINTMAX_MAX ].
+    
+                  The macro UINTMAX_C () expands its argument to an integer
+                  constant of type _uintmax_t_.
+    
+                  The length modifier for _uintmax_t_ for the printf(3) and
+                  the scanf(3) families of functions is j ; resulting
+                  commonly in %ju or %jx for printing _uintmax_t_ values.
+    
+                  _Conforming to_ : C99 and later; POSIX.1-2001 and later.
+    
+                  _Bugs_ : _uintmax_t_ is not large enough to represent values of
+                  type _unsigned __int128_ in implementations where _unsigned_
+                  ___int128_ is defined and _unsigned long long_ is less than
+                  128 bits wide.
+    
+                  _See also_ : the _intmax_t_ type in this page.
+    
+           _uint_ N __t_
+                  _Include_ : _< stdint.h>_.  Alternatively, _< inttypes.h>_.
+    
+                  _uint8_t_ , _uint16_t_ , _uint32_t_ , _uint64_t_
+    
+                  An unsigned integer type of a fixed width of exactly N
+                  bits, N being the value specified in its type name.
+                  According to the C language standard, they shall be
+                  capable of storing values in the range [0, UINT N _MAX ],
+                  substituting N by the appropriate number.
+    
+                  According to POSIX, _uint8_t_ , _uint16_t_ , and _uint32_t_ are
+                  required; _uint64_t_ is only required in implementations
+                  that provide integer types with width 64; and all other
+                  types of this form are optional.
+    
+                  The length modifiers for the _uint_ N __t_ types for the
+                  printf(3) family of functions are expanded by macros of
+                  the forms PRIu N, PRIo N, PRIx N, and PRIX N (defined in
+                  _< inttypes.h>_); resulting for example in %"PRIu32" or
+                  %"PRIx32" for printing _uint32_t_ values.  The length
+                  modifiers for the _uint_ N __t_ types for the scanf(3) family of
+                  functions are expanded by macros of the forms SCNu N,
+                  SCNo N, SCNx N, and SCNX N (defined in _< inttypes.h>_);
+                  resulting for example in %"SCNu16" or %"SCNx16" for
+                  scanning _uint16_t_ values.
+    
+                  _Conforming to_ : C99 and later; POSIX.1-2001 and later.
+    
+                  _See also_ : the _intmax_t_ , _int_ N __t_ , and _uintmax_t_ types in
+                  this page.
+    
+           _uintptr_t_
+                  _Include_ : _< stdint.h>_.  Alternatively, _< inttypes.h>_.
+    
+                  An unsigned integer type such that any valid ( _void _ )
+                  value can be converted to this type and back.  According
+                  to the C language standard, it shall be capable of storing
+                  values in the range [0, UINTPTR_MAX ].
+    
+                  The length modifier for _uintptr_t_ for the printf(3) family
+                  of functions is expanded by the macros PRIuPTR , PRIoPTR ,
+                  PRIxPTR , and PRIXPTR (defined in _< inttypes.h>_); resulting
+                  commonly in %"PRIuPTR" or %"PRIxPTR" for printing
+                  _uintptr_t_ values.  The length modifier for _uintptr_t_ for
+                  the scanf(3) family of functions is expanded by the macros
+                  SCNuPTR, SCNoPTR, SCNxPTR , and SCNXPTR (defined in
+                  _< inttypes.h>_); resulting commonly in %"SCNuPTR" or
+                  %"SCNxPTR" for scanning _uintptr_t_ values.
+    
+                  _Conforming to_ : C99 and later; POSIX.1-2001 and later.
+    
+                  _See also_ : the _intptr_t_ and _void _ types in this page.
+    
+           _va_list_
+                  _Include_ : _< stdarg>_.  Alternatively, _< stdio.h>_, or
+                  _< wchar.h>_.
+    
+                  Used by functions with a varying number of arguments of
+                  varying types.  The function must declare an object of
+                  type _va_list_ which is used by the macros va_start(3),
+                  va_arg(3), va_copy(3), and va_end(3) to traverse the list
+                  of arguments.
+    
+                  _Conforming to_ : C99 and later; POSIX.1-2001 and later.
+    
+                  _See also_ : va_start(3), va_arg(3), va_copy(3), va_end(3)
+    
+           _void _
+                  According to the C language standard, a pointer to any
+                  object type may be converted to a pointer to _void_ and
+                  back.  POSIX further requires that any pointer, including
+                  pointers to functions, may be converted to a pointer to
+                  _void_ and back.
+    
+                  Conversions from and to any other pointer type are done
+                  implicitly, not requiring casts at all.  Note that this
+                  feature prevents any kind of type checking: the programmer
+                  should be careful not to convert a _void _ value to a type
+                  incompatible to that of the underlying data, because that
+                  would result in undefined behavior.
+    
+                  This type is useful in function parameters and return
+                  value to allow passing values of any type.  The function
+                  will typically use some mechanism to know the real type of
+                  the data being passed via a pointer to _void_.
+    
+                  A value of this type can't be dereferenced, as it would
+                  give a value of type _void_ , which is not possible.
+                  Likewise, pointer arithmetic is not possible with this
+                  type.  However, in GNU C, pointer arithmetic is allowed as
+                  an extension to the standard; this is done by treating the
+                  size of a _void_ or of a function as 1.  A consequence of
+                  this is that _sizeof_ is also allowed on _void_ and on
+                  function types, and returns 1.
+    
+                  The conversion specifier for _void _ for the printf(3) and
+                  the scanf(3) families of functions is p.
+    
+                  _Versions_ : The POSIX requirement about compatibility
+                  between _void _ and function pointers was added in
+                  POSIX.1-2008 Technical Corrigendum 1 (2013).
+    
+                  _Conforming to_ : C99 and later; POSIX.1-2001 and later.
+    
+                  _See also_ : malloc(3), memcmp(3), memcpy(3), memset(3)
+    
+                  See also the _intptr_t_ and _uintptr_t_ types in this page.
+    
+## NOTES         top
+    
+    
+           The structures described in this manual page shall contain, at
+           least, the members shown in their definition, in no particular
+           order.
+    
+           Most of the integer types described in this page don't have a
+           corresponding length modifier for the printf(3) and the scanf(3)
+           families of functions.  To print a value of an integer type that
+           doesn't have a length modifier, it should be converted to
+           _intmax_t_ or _uintmax_t_ by an explicit cast.  To scan into a
+           variable of an integer type that doesn't have a length modifier,
+           an intermediate temporary variable of type _intmax_t_ or _uintmax_t_
+           should be used.  When copying from the temporary variable to the
+           destination variable, the value could overflow.  If the type has
+           upper and lower limits, the user should check that the value is
+           within those limits, before actually copying the value.  The
+           example below shows how these conversions should be done.
+    
+       Conventions used in this page
+           In "Conforming to" we only concern ourselves with C99 and later
+           and POSIX.1-2001 and later.  Some types may be specified in
+           earlier versions of one of these standards, but in the interests
+           of simplicity we omit details from earlier standards.
+    
+           In "Include", we first note the "primary" header(s) that define
+           the type according to either the C or POSIX.1 standards.  Under
+           "Alternatively", we note additional headers that the standards
+           specify shall define the type.
+    
+## EXAMPLES         top
+    
+    
+           The program shown below scans from a string and prints a value
+           stored in a variable of an integer type that doesn't have a
+           length modifier.  The appropriate conversions from and to
+           _intmax_t_ , and the appropriate range checks, are used as explained
+           in the notes section above.
+    
+           #include <stdint.h>
+           #include <stdio.h>
+           #include <stdlib.h>
+           #include <sys/types.h>
+    
+           int
+           main (void)
+           {
+               static const char const str = "500000 us in half a second";
+               suseconds_t us;
+               intmax_t    tmp;
+    
+               / Scan the number from the string into the temporary variable. /
+    
+               sscanf(str, "%jd", &tmp);
+    
+               / Check that the value is within the valid range of suseconds_t. /
+    
+               if (tmp < -1 || tmp > 1000000) {
+                   fprintf(stderr, "Scanned value outside valid range!\n");
+                   exit(EXIT_FAILURE);
+               }
+    
+               / Copy the value to the suseconds_t variable 'us'. /
+    
+               us = tmp;
+    
+               / Even though suseconds_t can hold the value -1, this isn't
+                  a sensible number of microseconds. /
+    
+               if (us < 0) {
+                   fprintf(stderr, "Scanned value shouldn't be negative!\n");
+                   exit(EXIT_FAILURE);
+               }
+    
+               / Print the value. /
+    
+               printf("There are %jd microseconds in half a second.\n",
+                       (intmax_t) us);
+    
+               exit(EXIT_SUCCESS);
+           }
+    
+## SEE ALSO         top
+    
+    
+           feature_test_macros(7), standards(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22           SYSTEM_DATA_TYPES(7)
+    

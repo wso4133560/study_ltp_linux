@@ -1,0 +1,104 @@
+  
+# ttyname(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    TTYNAME(3)              Linux Programmer's Manual             TTYNAME(3)
+    
+## NAME         top
+    
+    
+           ttyname, ttyname_r - return name of a terminal
+    
+## SYNOPSIS         top
+    
+    
+           #include <unistd.h>
+    
+           char ttyname(int _fd_ );
+           int ttyname_r(int _fd_ , char  _buf_ , size_t _buflen_ );
+    
+## DESCRIPTION         top
+    
+    
+           The function ttyname () returns a pointer to the null-terminated
+           pathname of the terminal device that is open on the file
+           descriptor _fd_ , or NULL on error (for example, if _fd_ is not
+           connected to a terminal).  The return value may point to static
+           data, possibly overwritten by the next call.  The function
+           ttyname_r () stores this pathname in the buffer _buf_ of length
+           _buflen_.
+    
+## RETURN VALUE         top
+    
+    
+           The function ttyname () returns a pointer to a pathname on
+           success.  On error, NULL is returned, and _errno_ is set to
+           indicate the error.  The function ttyname_r () returns 0 on
+           success, and an error number upon error.
+    
+## ERRORS         top
+    
+    
+           EBADF Bad file descriptor.
+    
+           ENODEV _fd_ refers to a slave pseudoterminal device but the
+                  corresponding pathname could not be found (see NOTES).
+    
+           ENOTTY _fd_ does not refer to a terminal device.
+    
+           ERANGE ( ttyname_r ()) _buflen_ was too small to allow storing the
+                  pathname.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌───────────────────────┬───────────────┬────────────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├───────────────────────┼───────────────┼────────────────────────┤
+           │ ttyname ()              │ Thread safety │ MT-Unsafe race:ttyname │
+           ├───────────────────────┼───────────────┼────────────────────────┤
+           │ ttyname_r ()            │ Thread safety │ MT-Safe                │
+           └───────────────────────┴───────────────┴────────────────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, 4.2BSD.
+    
+## NOTES         top
+    
+    
+           A process that keeps a file descriptor that refers to a pts(4)
+           device open when switching to another mount namespace that uses a
+           different _/dev/ptmx_ instance may still accidentally find that a
+           device path of the same name for that file descriptor exists.
+           However, this device path refers to a different device and thus
+           can't be used to access the device that the file descriptor
+           refers to.  Calling ttyname () or ttyname_r () on the file
+           descriptor in the new mount namespace will cause these functions
+           to return NULL and set _errno_ to ENODEV.
+    
+## SEE ALSO         top
+    
+    
+           tty(1), fstat(2), ctermid(3), isatty(3), pts(4)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                     TTYNAME(3)
+    

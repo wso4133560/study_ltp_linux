@@ -1,0 +1,96 @@
+  
+# ferror(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    FERROR(3)               Linux Programmer's Manual              FERROR(3)
+    
+## NAME         top
+    
+    
+           clearerr, feof, ferror - check and reset stream status
+    
+## SYNOPSIS         top
+    
+    
+           #include <stdio.h>
+    
+           void clearerr(FILE  _stream_ );
+           int feof(FILE  _stream_ );
+           int ferror(FILE  _stream_ );
+    
+## DESCRIPTION         top
+    
+    
+           The function clearerr () clears the end-of-file and error
+           indicators for the stream pointed to by _stream_.
+    
+           The function feof () tests the end-of-file indicator for the
+           stream pointed to by _stream_ , returning nonzero if it is set.  The
+           end-of-file indicator can be cleared only by the function
+           clearerr ().
+    
+           The function ferror () tests the error indicator for the stream
+           pointed to by _stream_ , returning nonzero if it is set.  The error
+           indicator can be reset only by the clearerr () function.
+    
+           For nonlocking counterparts, see unlocked_stdio(3).
+    
+## RETURN VALUE         top
+    
+    
+           The feof () function returns nonzero if the end-of-file indicator
+           is set for _stream_ ; otherwise, it returns zero.
+    
+           The feof () function returns nonzero if the error indicator is set
+           for _stream_ ; otherwise, it returns zero.
+    
+## ERRORS         top
+    
+    
+           These functions should not fail and do not set _errno_.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ clearerr (), feof (), ferror ()          │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           The functions clearerr (), feof (), and ferror () conform to C89,
+           C99, POSIX.1-2001, and POSIX.1-2008.
+    
+## NOTES         top
+    
+    
+           POSIX.1-2008 specifies that these functions shall not change the
+           value of _errno_ if _stream_ is valid.
+    
+## SEE ALSO         top
+    
+    
+           open(2), fdopen(3), fileno(3), stdio(3), unlocked_stdio(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                      FERROR(3)
+    

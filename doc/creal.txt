@@ -1,0 +1,79 @@
+  
+# creal(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | VERSIONS | ATTRIBUTES | CONFORMING TO | NOTES
+| SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    CREAL(3)                Linux Programmer's Manual               CREAL(3)
+    
+## NAME         top
+    
+    
+           creal, crealf, creall - get real part of a complex number
+    
+## SYNOPSIS         top
+    
+    
+           #include <complex.h>
+    
+           double creal(double complex _z_ );
+           float crealf(float complex _z_ );
+           long double creall(long double complex _z_ );
+    
+           Link with _-lm_.
+    
+## DESCRIPTION         top
+    
+    
+           These functions return the real part of the complex number _z_.
+    
+           One has:
+    
+               z = creal(z) + I  cimag(z)
+    
+## VERSIONS         top
+    
+    
+           These functions first appeared in glibc in version 2.1.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ creal (), crealf (), creall ()           │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           C99, POSIX.1-2001, POSIX.1-2008.
+    
+## NOTES         top
+    
+    
+           The gcc supports also __real__.  That is a GNU extension.
+    
+## SEE ALSO         top
+    
+    
+           cabs(3), cimag(3), complex(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                       CREAL(3)
+    

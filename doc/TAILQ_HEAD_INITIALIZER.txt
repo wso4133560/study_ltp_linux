@@ -1,0 +1,245 @@
+  
+# tailq(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | CONFORMING TO | BUGS | EXAMPLES
+| SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    TAILQ(3)                Linux Programmer's Manual               TAILQ(3)
+    
+## NAME         top
+    
+    
+           TAILQ_CONCAT, TAILQ_EMPTY, TAILQ_ENTRY, TAILQ_FIRST,
+           TAILQ_FOREACH, TAILQ_FOREACH_REVERSE, TAILQ_HEAD,
+           TAILQ_HEAD_INITIALIZER, TAILQ_INIT, TAILQ_INSERT_AFTER,
+           TAILQ_INSERT_BEFORE, TAILQ_INSERT_HEAD, TAILQ_INSERT_TAIL,
+           TAILQ_LAST, TAILQ_NEXT, TAILQ_PREV, TAILQ_REMOVE - implementation
+           of a doubly linked tail queue
+    
+## SYNOPSIS         top
+    
+    
+           #include <sys/queue.h>
+    
+           TAILQ_ENTRY(TYPE);
+    
+           TAILQ_HEAD(HEADNAME, TYPE);
+           TAILQ_HEAD TAILQ_HEAD_INITIALIZER(TAILQ_HEAD _head_ );
+           void TAILQ_INIT(TAILQ_HEAD  _head_ );
+    
+           int TAILQ_EMPTY(TAILQ_HEAD  _head_ );
+    
+           void TAILQ_INSERT_HEAD(TAILQ_HEAD  _head_ ,
+                                    struct TYPE  _elm_ , TAILQ_ENTRY _NAME_ );
+           void TAILQ_INSERT_TAIL(TAILQ_HEAD  _head_ ,
+                                    struct TYPE  _elm_ , TAILQ_ENTRY _NAME_ );
+           void TAILQ_INSERT_BEFORE(struct TYPE  _listelm_ ,
+                                    struct TYPE  _elm_ , TAILQ_ENTRY _NAME_ );
+           void TAILQ_INSERT_AFTER(TAILQ_HEAD  _head_ , struct TYPE  _listelm_ ,
+                                    struct TYPE  _elm_ , TAILQ_ENTRY _NAME_ );
+    
+           struct TYPE TAILQ_FIRST(TAILQ_HEAD  _head_ );
+           struct TYPE TAILQ_LAST(TAILQ_HEAD  _head_ , HEADNAME);
+           struct TYPE TAILQ_PREV(struct TYPE  _elm_ , HEADNAME, TAILQ_ENTRY _NAME_ );
+           struct TYPE TAILQ_NEXT(struct TYPE  _elm_ , TAILQ_ENTRY _NAME_ );
+    
+           TAILQ_FOREACH(struct TYPE  _var_ , TAILQ_HEAD  _head_ ,
+                                    TAILQ_ENTRY _NAME_ );
+           TAILQ_FOREACH_REVERSE(struct TYPE  _var_ , TAILQ_HEAD  _head_ , HEADNAME,
+                                    TAILQ_ENTRY _NAME_ );
+    
+           void TAILQ_REMOVE(TAILQ_HEAD  _head_ , struct TYPE  _elm_ ,
+                                    TAILQ_ENTRY _NAME_ );
+    
+           void TAILQ_CONCAT(TAILQ_HEAD  _head1_ , TAILQ_HEAD  _head2_ ,
+                                    TAILQ_ENTRY _NAME_ );
+    
+## DESCRIPTION         top
+    
+    
+           These macros define and operate on doubly linked tail queues.
+    
+           In the macro definitions, _TYPE_ is the name of a user defined
+           structure, that must contain a field of type _TAILQ_ENTRY_ , named
+           _NAME_.  The argument _HEADNAME_ is the name of a user defined
+           structure that must be declared using the macro TAILQ_HEAD ().
+    
+       Creation
+           A tail queue is headed by a structure defined by the TAILQ_HEAD ()
+           macro.  This structure contains a pair of pointers, one to the
+           first element in the queue and the other to the last element in
+           the queue.  The elements are doubly linked so that an arbitrary
+           element can be removed without traversing the queue.  New
+           elements can be added to the queue after an existing element,
+           before an existing element, at the head of the queue, or at the
+           end of the queue.  A _TAILQ_HEAD_ structure is declared as follows:
+    
+               TAILQ_HEAD(HEADNAME, TYPE) head;
+    
+           where _struct HEADNAME_ is the structure to be defined, and _struct_
+           _TYPE_ is the type of the elements to be linked into the queue.  A
+           pointer to the head of the queue can later be declared as:
+    
+               struct HEADNAME headp;
+    
+           (The names _head_ and _headp_ are user selectable.)
+    
+           TAILQ_ENTRY () declares a structure that connects the elements in
+           the queue.
+    
+           TAILQ_HEAD_INITIALIZER () evaluates to an initializer for the
+           queue _head_.
+    
+           TAILQ_INIT () initializes the queue referenced by
+    
+           TAILQ_EMPTY () evaluates to true if there are no items on the
+           queue.  _head_.
+    
+       Insertion
+           TAILQ_INSERT_HEAD () inserts the new element _elm_ at the head of
+           the queue.
+    
+           TAILQ_INSERT_TAIL () inserts the new element _elm_ at the end of the
+           queue.
+    
+           TAILQ_INSERT_BEFORE () inserts the new element _elm_ before the
+           element _listelm_.
+    
+           TAILQ_INSERT_AFTER () inserts the new element _elm_ after the
+           element _listelm_.
+    
+       Traversal
+           TAILQ_FIRST () returns the first item on the queue, or NULL if the
+           queue is empty.
+    
+           TAILQ_LAST () returns the last item on the queue.  If the queue is
+           empty the return value is NULL.
+    
+           TAILQ_PREV () returns the previous item on the queue, or NULL if
+           this item is the first.
+    
+           TAILQ_NEXT () returns the next item on the queue, or NULL if this
+           item is the last.
+    
+           TAILQ_FOREACH () traverses the queue referenced by _head_ in the
+           forward direction, assigning each element in turn to _var_.  _var_ is
+           set to NULL if the loop completes normally, or if there were no
+           elements.
+    
+           TAILQ_FOREACH_REVERSE () traverses the queue referenced by _head_ in
+           the reverse direction, assigning each element in turn to _var_.
+    
+       Removal
+           TAILQ_REMOVE () removes the element _elm_ from the queue.
+    
+       Other features
+           TAILQ_CONCAT () concatenates the queue headed by _head2_ onto the
+           end of the one headed by _head1_ removing all entries from the
+           former.
+    
+## RETURN VALUE         top
+    
+    
+           TAILQ_EMPTY () returns nonzero if the queue is empty, and zero if
+           the queue contains at least one entry.
+    
+           TAILQ_FIRST (), TAILQ_LAST (), TAILQ_PREV (), and TAILQ_NEXT ()
+           return a pointer to the first, last, previous, or next _TYPE_
+           structure, respectively.
+    
+           TAILQ_HEAD_INITIALIZER () returns an initializer that can be
+           assigned to the queue _head_.
+    
+## CONFORMING TO         top
+    
+    
+           Not in POSIX.1, POSIX.1-2001, or POSIX.1-2008.  Present on the
+           BSDs.  (TAILQ functions first appeared in 4.4BSD).
+    
+## BUGS         top
+    
+    
+           TAILQ_FOREACH () and TAILQ_FOREACH_REVERSE () don't allow _var_ to be
+           removed or freed within the loop, as it would interfere with the
+           traversal.  TAILQ_FOREACH_SAFE () and
+           TAILQ_FOREACH_REVERSE_SAFE (), which are present on the BSDs but
+           are not present in glibc, fix this limitation by allowing _var_ to
+           safely be removed from the list and freed from within the loop
+           without interfering with the traversal.
+    
+## EXAMPLES         top
+    
+    
+           #include <stddef.h>
+           #include <stdio.h>
+           #include <stdlib.h>
+           #include <sys/queue.h>
+    
+           struct entry {
+               int data;
+               TAILQ_ENTRY(entry) entries;             / Tail queue /
+           };
+    
+           TAILQ_HEAD(tailhead, entry);
+    
+           int
+           main(void)
+           {
+               struct entry n1, n2, n3, np;
+               struct tailhead head;                   / Tail queue head /
+               int i;
+    
+               TAILQ_INIT(&head);                      / Initialize the queue /
+    
+               n1 = malloc(sizeof(struct entry));      / Insert at the head /
+               TAILQ_INSERT_HEAD(&head, n1, entries);
+    
+               n1 = malloc(sizeof(struct entry));      / Insert at the tail /
+               TAILQ_INSERT_TAIL(&head, n1, entries);
+    
+               n2 = malloc(sizeof(struct entry));      / Insert after /
+               TAILQ_INSERT_AFTER(&head, n1, n2, entries);
+    
+               n3 = malloc(sizeof(struct entry));      / Insert before /
+               TAILQ_INSERT_BEFORE(n2, n3, entries);
+    
+               TAILQ_REMOVE(&head, n2, entries);       / Deletion /
+               free(n2);
+                                                       / Forward traversal /
+               i = 0;
+               TAILQ_FOREACH(np, &head, entries)
+                   np->data = i++;
+                                                       / Reverse traversal /
+               TAILQ_FOREACH_REVERSE(np, &head, tailhead, entries)
+                   printf("%i\n", np->data);
+                                                       / TailQ deletion /
+               n1 = TAILQ_FIRST(&head);
+               while (n1 != NULL) {
+                   n2 = TAILQ_NEXT(n1, entries);
+                   free(n1);
+                   n1 = n2;
+               }
+               TAILQ_INIT(&head);
+    
+               exit(EXIT_SUCCESS);
+           }
+    
+## SEE ALSO         top
+    
+    
+           insque(3), queue(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                       TAILQ(3)
+    

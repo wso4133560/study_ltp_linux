@@ -1,0 +1,112 @@
+  
+# wcsrtombs(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    WCSRTOMBS(3)            Linux Programmer's Manual           WCSRTOMBS(3)
+    
+## NAME         top
+    
+    
+           wcsrtombs - convert a wide-character string to a multibyte string
+    
+## SYNOPSIS         top
+    
+    
+           #include <wchar.h>
+    
+           size_t wcsrtombs(char restrict _dest_ , const wchar_t restrict _src_ ,
+                            size_t _len_ , mbstate_t restrict _ps_ );
+    
+## DESCRIPTION         top
+    
+    
+           If _dest_ is not NULL, the wcsrtombs () function converts the wide-
+           character string _src_ to a multibyte string starting at _dest_.  At
+           most _len_ bytes are written to _dest_.  The shift state _ps_ is
+           updated.  The conversion is effectively performed by repeatedly
+           calling _wcrtomb(dest, src, ps)_ , as long as this call succeeds,
+           and then incrementing _dest_ by the number of bytes written and
+           _src_ by one.  The conversion can stop for three reasons:
+    
+           1. A wide character has been encountered that can not be
+              represented as a multibyte sequence (according to the current
+              locale).  In this case, _src_ is left pointing to the invalid
+              wide character, _(size_t) -1_ is returned, and _errno_ is set to
+              EILSEQ.
+    
+           2. The length limit forces a stop.  In this case, _src_ is left
+              pointing to the next wide character to be converted, and the
+              number of bytes written to _dest_ is returned.
+    
+           3. The wide-character string has been completely converted,
+              including the terminating null wide character (L'\0'), which
+              has the side effect of bringing back _ps_ to the initial state.
+              In this case, _src_ is set to NULL, and the number of bytes
+              written to _dest_ , excluding the terminating null byte ('\0'),
+              is returned.
+    
+           If _dest_ is NULL, _len_ is ignored, and the conversion proceeds as
+           above, except that the converted bytes are not written out to
+           memory, and that no length limit exists.
+    
+           In both of the above cases, if _ps_ is NULL, a static anonymous
+           state known only to the wcsrtombs () function is used instead.
+    
+           The programmer must ensure that there is room for at least _len_
+           bytes at _dest_.
+    
+## RETURN VALUE         top
+    
+    
+           The wcsrtombs () function returns the number of bytes that make up
+           the converted part of multibyte sequence, not including the
+           terminating null byte.  If a wide character was encountered which
+           could not be converted, _(size_t) -1_ is returned, and _errno_ set to
+           EILSEQ.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌────────────┬───────────────┬───────────────────────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├────────────┼───────────────┼───────────────────────────────────┤
+           │ wcsrtombs () │ Thread safety │ MT-Unsafe race:wcsrtombs/!ps      │
+           └────────────┴───────────────┴───────────────────────────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C99.
+    
+## NOTES         top
+    
+    
+           The behavior of wcsrtombs () depends on the LC_CTYPE category of
+           the current locale.
+    
+           Passing NULL as _ps_ is not multithread safe.
+    
+## SEE ALSO         top
+    
+    
+           iconv(3), mbsinit(3), wcrtomb(3), wcsnrtombs(3), wcstombs(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                   WCSRTOMBS(3)
+    

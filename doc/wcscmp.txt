@@ -1,0 +1,73 @@
+  
+# wcscmp(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    WCSCMP(3)               Linux Programmer's Manual              WCSCMP(3)
+    
+## NAME         top
+    
+    
+           wcscmp - compare two wide-character strings
+    
+## SYNOPSIS         top
+    
+    
+           #include <wchar.h>
+    
+           int wcscmp(const wchar_t  _s1_ , const wchar_t  _s2_ );
+    
+## DESCRIPTION         top
+    
+    
+           The wcscmp () function is the wide-character equivalent of the
+           strcmp(3) function.  It compares the wide-character string
+           pointed to by _s1_ and the wide-character string pointed to by _s2_.
+    
+## RETURN VALUE         top
+    
+    
+           The wcscmp () function returns zero if the wide-character strings
+           at _s1_ and _s2_ are equal.  It returns an integer greater than zero
+           if at the first differing position _i_ , the corresponding wide-
+           character _s1[i]_ is greater than _s2[i]_.  It returns an integer
+           less than zero if at the first differing position _i_ , the
+           corresponding wide-character _s1[i]_ is less than _s2[i]_.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ wcscmp ()                              │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C99.
+    
+## SEE ALSO         top
+    
+    
+           strcmp(3), wcscasecmp(3), wmemcmp(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                      WCSCMP(3)
+    

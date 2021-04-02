@@ -1,0 +1,110 @@
+  
+# finite(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | ATTRIBUTES | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    FINITE(3)               Linux Programmer's Manual              FINITE(3)
+    
+## NAME         top
+    
+    
+           finite, finitef, finitel, isinf, isinff, isinfl, isnan, isnanf,
+           isnanl - BSD floating-point classification functions
+    
+## SYNOPSIS         top
+    
+    
+           #include <math.h>
+    
+           int finite(double _x_ );
+           int finitef(float _x_ );
+           int finitel(long double _x_ );
+    
+           int isinf(double _x_ );
+           int isinff(float _x_ );
+           int isinfl(long double _x_ );
+    
+           int isnan(double _x_ );
+           int isnanf(float _x_ );
+           int isnanl(long double _x_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           finite (), finitef (), finitel ():
+               / Glibc since 2.19: / _DEFAULT_SOURCE
+                   || / Glibc <= 2.19: / _BSD_SOURCE || _SVID_SOURCE
+    
+           isinf ():
+               _XOPEN_SOURCE >= 600 || _ISOC99_SOURCE
+                   || / Glibc since 2.19: / _DEFAULT_SOURCE
+                   || / Glibc <= 2.19: / _BSD_SOURCE || _SVID_SOURCE
+    
+           isinff (), isinfl ():
+               / Glibc since 2.19: / _DEFAULT_SOURCE
+                   || / Glibc <= 2.19: / _BSD_SOURCE || _SVID_SOURCE
+    
+           isnan ():
+               _XOPEN_SOURCE || _ISOC99_SOURCE
+                   || / Glibc since 2.19: / _DEFAULT_SOURCE
+                   || / Glibc <= 2.19: / _BSD_SOURCE || _SVID_SOURCE
+    
+           isnanf (), isnanl ():
+               _XOPEN_SOURCE >= 600
+                   || / Glibc since 2.19: / _DEFAULT_SOURCE
+                   || / Glibc <= 2.19: / _BSD_SOURCE || _SVID_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           The finite (), finitef (), and finitel () functions return a nonzero
+           value if _x_ is neither infinite nor a "not-a-number" (NaN) value,
+           and 0 otherwise.
+    
+           The isnan (), isnanf (), and isnanl () functions return a nonzero
+           value if _x_ is a NaN value, and 0 otherwise.
+    
+           The isinf (), isinff (), and isinfl () functions return 1 if _x_ is
+           positive infinity, -1 if _x_ is negative infinity, and 0 otherwise.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ finite (), finitef (), finitel (),       │ Thread safety │ MT-Safe │
+           │ isinf (), isinff (), isinfl (), isnan (), │               │         │
+           │ isnanf (), isnanl ()                    │               │         │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## NOTES         top
+    
+    
+           Note that these functions are obsolete.  C99 defines macros
+           isfinite (), isinf (), and isnan () (for all types) replacing them.
+           Further note that the C99 isinf () has weaker guarantees on the
+           return value.  See fpclassify(3).
+    
+## SEE ALSO         top
+    
+    
+           fpclassify(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                      FINITE(3)
+    

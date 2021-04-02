@@ -1,0 +1,99 @@
+  
+# nextup(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | VERSIONS | ATTRIBUTES |
+CONFORMING TO | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    NEXTUP(3)               Linux Programmer's Manual              NEXTUP(3)
+    
+## NAME         top
+    
+    
+           nextup, nextupf, nextupl, nextdown, nextdownf, nextdownl - return
+           next floating-point number toward positive/negative infinity
+    
+## SYNOPSIS         top
+    
+    
+           #define _GNU_SOURCE / See feature_test_macros(7) /
+           #include <math.h>
+    
+           double nextup(double _x_ );
+           float nextupf(float _x_ );
+           long double nextupl(long double _x_ );
+    
+           double nextdown(double _x_ );
+           float nextdownf(float _x_ );
+           long double nextdownl(long double _x_ );
+    
+           Link with _-lm_.
+    
+## DESCRIPTION         top
+    
+    
+           The nextup (), nextupf (), and nextupl () functions return the next
+           representable floating-point number greater than _x_.
+    
+           If _x_ is the smallest representable negative number in the
+           corresponding type, these functions return -0.  If _x_ is 0, the
+           returned value is the smallest representable positive number of
+           the corresponding type.
+    
+           If _x_ is positive infinity, the returned value is positive
+           infinity.  If _x_ is negative infinity, the returned value is the
+           largest representable finite negative number of the corresponding
+           type.
+    
+           If _x_ is Nan, the returned value is NaN.
+    
+           The value returned by _nextdown(x)_ is _-nextup(-x)_ , and similarly
+           for the other types.
+    
+## RETURN VALUE         top
+    
+    
+           See DESCRIPTION.
+    
+## VERSIONS         top
+    
+    
+           These functions first appeared in glibc in version 2.24.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ nextup (), nextupf (), nextupl (),       │ Thread safety │ MT-Safe │
+           │ nextdown (), nextdownf (), nextdownl ()  │               │         │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           These functions are described in _IEEE Std 754-2008 - Standard for_
+           _Floating-Point Arithmetic_ and _ISO/IEC TS 18661_.
+    
+## SEE ALSO         top
+    
+    
+           nearbyint(3), nextafter(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                      NEXTUP(3)
+    

@@ -1,0 +1,140 @@
+  
+# lockf(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | ATTRIBUTES |
+CONFORMING TO | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    LOCKF(3)                Linux Programmer's Manual               LOCKF(3)
+    
+## NAME         top
+    
+    
+           lockf - apply, test or remove a POSIX lock on an open file
+    
+## SYNOPSIS         top
+    
+    
+           #include <unistd.h>
+    
+           int lockf(int _fd_ , int _cmd_ , off_t _len_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           lockf ():
+               _XOPEN_SOURCE >= 500
+                   || / Glibc since 2.19: / _DEFAULT_SOURCE
+                   || / Glibc <= 2.19: / _BSD_SOURCE || _SVID_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           Apply, test, or remove a POSIX lock on a section of an open file.
+           The file is specified by _fd_ , a file descriptor open for writing,
+           the action by _cmd_ , and the section consists of byte positions
+           _pos_.. _pos_ + _len_ -1 if _len_ is positive, and _pos_ - _len_.. _pos_ -1 if _len_ is
+           negative, where _pos_ is the current file position, and if _len_ is
+           zero, the section extends from the current file position to
+           infinity, encompassing the present and future end-of-file
+           positions.  In all cases, the section may extend past current
+           end-of-file.
+    
+           On Linux, lockf () is just an interface on top of fcntl(2)
+           locking.  Many other systems implement lockf () in this way, but
+           note that POSIX.1 leaves the relationship between lockf () and
+           fcntl(2) locks unspecified.  A portable application should
+           probably avoid mixing calls to these interfaces.
+    
+           Valid operations are given below:
+    
+           F_LOCK Set an exclusive lock on the specified section of the
+                  file.  If (part of) this section is already locked, the
+                  call blocks until the previous lock is released.  If this
+                  section overlaps an earlier locked section, both are
+                  merged.  File locks are released as soon as the process
+                  holding the locks closes some file descriptor for the
+                  file.  A child process does not inherit these locks.
+    
+           F_TLOCK
+                  Same as F_LOCK but the call never blocks and returns an
+                  error instead if the file is already locked.
+    
+           F_ULOCK
+                  Unlock the indicated section of the file.  This may cause
+                  a locked section to be split into two locked sections.
+    
+           F_TEST Test the lock: return 0 if the specified section is
+                  unlocked or locked by this process; return -1, set _errno_
+                  to EAGAIN ( EACCES on some other systems), if another
+                  process holds a lock.
+    
+## RETURN VALUE         top
+    
+    
+           On success, zero is returned.  On error, -1 is returned, and
+           _errno_ is set to indicate the error.
+    
+## ERRORS         top
+    
+    
+           EACCES or EAGAIN
+                  The file is locked and F_TLOCK or F_TEST was specified, or
+                  the operation is prohibited because the file has been
+                  memory-mapped by another process.
+    
+           EBADF _fd_ is not an open file descriptor; or _cmd_ is F_LOCK or
+                  F_TLOCK and _fd_ is not a writable file descriptor.
+    
+           EDEADLK
+                  The command was F_LOCK and this lock operation would cause
+                  a deadlock.
+    
+           EINTR While waiting to acquire a lock, the call was interrupted
+                  by delivery of a signal caught by a handler; see
+                  signal(7).
+    
+           EINVAL An invalid operation was specified in _cmd_.
+    
+           ENOLCK Too many segment locks open, lock table is full.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ lockf ()                               │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, SVr4.
+    
+## SEE ALSO         top
+    
+    
+           fcntl(2), flock(2)
+    
+           _locks.txt_ and _mandatory-locking.txt_ in the Linux kernel source
+           directory _Documentation/filesystems_ (on older kernels, these
+           files are directly under the _Documentation_ directory, and
+           _mandatory-locking.txt_ is called _mandatory.txt_ )
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                       LOCKF(3)
+    

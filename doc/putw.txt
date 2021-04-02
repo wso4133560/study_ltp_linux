@@ -1,0 +1,91 @@
+  
+# getw(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+BUGS | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    GETW(3)                 Linux Programmer's Manual                GETW(3)
+    
+## NAME         top
+    
+    
+           getw, putw - input and output of words (ints)
+    
+## SYNOPSIS         top
+    
+    
+           #include <stdio.h>
+    
+           int getw(FILE  _stream_ );
+           int putw(int _w_ , FILE  _stream_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           getw (), putw ():
+               Since glibc 2.3.3:
+                   _XOPEN_SOURCE && ! (_POSIX_C_SOURCE >= 200112L)
+                       || / Glibc since 2.19: / _DEFAULT_SOURCE
+                       || / Glibc <= 2.19: / _BSD_SOURCE || _SVID_SOURCE
+               Before glibc 2.3.3:
+                   _SVID_SOURCE || _BSD_SOURCE || _XOPEN_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           getw () reads a word (that is, an _int_ ) from _stream_.  It's provided
+           for compatibility with SVr4.  We recommend you use fread(3)
+           instead.
+    
+           putw () writes the word _w_ (that is, an _int_ ) to _stream_.  It is
+           provided for compatibility with SVr4, but we recommend you use
+           fwrite(3) instead.
+    
+## RETURN VALUE         top
+    
+    
+           Normally, getw () returns the word read, and putw () returns 0.  On
+           error, they return EOF.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ getw (), putw ()                        │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           SVr4, SUSv2.  Not present in POSIX.1.
+    
+## BUGS         top
+    
+    
+           The value returned on error is also a legitimate data value.
+           ferror(3) can be used to distinguish between the two cases.
+    
+## SEE ALSO         top
+    
+    
+           ferror(3), fread(3), fwrite(3), getc(3), putc(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                        GETW(3)
+    

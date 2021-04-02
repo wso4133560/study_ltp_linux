@@ -1,0 +1,98 @@
+  
+# wcsncasecmp(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | VERSIONS | ATTRIBUTES |
+CONFORMING TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    WCSNCASECMP(3)          Linux Programmer's Manual         WCSNCASECMP(3)
+    
+## NAME         top
+    
+    
+           wcsncasecmp - compare two fixed-size wide-character strings,
+           ignoring case
+    
+## SYNOPSIS         top
+    
+    
+           #include <wchar.h>
+    
+           int wcsncasecmp(const wchar_t  _s1_ , const wchar_t  _s2_ , size_t _n_ );
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           wcsncasecmp ():
+               Since glibc 2.10:
+                   _POSIX_C_SOURCE >= 200809L
+               Before glibc 2.10:
+                   _GNU_SOURCE
+    
+## DESCRIPTION         top
+    
+    
+           The wcsncasecmp () function is the wide-character equivalent of
+           the strncasecmp(3) function.  It compares the wide-character
+           string pointed to by _s1_ and the wide-character string pointed to
+           by _s2_ , but at most _n_ wide characters from each string, ignoring
+           case differences (towupper(3), towlower(3)).
+    
+## RETURN VALUE         top
+    
+    
+           The wcsncasecmp () function returns zero if the wide-character
+           strings at _s1_ and _s2_ , truncated to at most length _n_ , are equal
+           except for case distinctions.  It returns a positive integer if
+           truncated _s1_ is greater than truncated _s2_ , ignoring case.  It
+           returns a negative integer if truncated _s1_ is smaller than
+           truncated _s2_ , ignoring case.
+    
+## VERSIONS         top
+    
+    
+           The wcsncasecmp () function is provided in glibc since version
+           2.1.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌───────────────────────────────┬───────────────┬────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├───────────────────────────────┼───────────────┼────────────────┤
+           │ wcsncasecmp ()                  │ Thread safety │ MT-Safe locale │
+           └───────────────────────────────┴───────────────┴────────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2008.  This function is not specified in POSIX.1-2001,
+           and is not widely available on other systems.
+    
+## NOTES         top
+    
+    
+           The behavior of wcsncasecmp () depends on the LC_CTYPE category of
+           the current locale.
+    
+## SEE ALSO         top
+    
+    
+           strncasecmp(3), wcsncmp(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                 WCSNCASECMP(3)
+    

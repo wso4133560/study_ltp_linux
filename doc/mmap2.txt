@@ -1,0 +1,92 @@
+  
+# mmap2(2) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | VERSIONS | CONFORMING
+TO | NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    MMAP2(2)                Linux Programmer's Manual               MMAP2(2)
+    
+## NAME         top
+    
+    
+           mmap2 - map files or devices into memory
+    
+## SYNOPSIS         top
+    
+    
+           #include <sys/mman.h>
+    
+           void mmap2(unsigned long _addr_ , unsigned long _length_ ,
+                       unsigned long _prot_ , unsigned long _flags_ ,
+                       unsigned long _fd_ , unsigned long _pgoffset_ );
+    
+## DESCRIPTION         top
+    
+    
+           This is probably not the system call that you are interested in;
+           instead, see mmap(2), which describes the glibc wrapper function
+           that invokes this system call.
+    
+           The mmap2 () system call provides the same interface as mmap(2),
+           except that the final argument specifies the offset into the file
+           in 4096-byte units (instead of bytes, as is done by mmap(2)).
+           This enables applications that use a 32-bit _off_t_ to map large
+           files (up to 2^44 bytes).
+    
+## RETURN VALUE         top
+    
+    
+           On success, mmap2 () returns a pointer to the mapped area.  On
+           error, -1 is returned and _errno_ is set to indicate the error.
+    
+## ERRORS         top
+    
+    
+           EFAULT Problem with getting the data from user space.
+    
+           EINVAL (Various platforms where the page size is not 4096 bytes.)
+                  _offset  4096_ is not a multiple of the system page size.
+    
+           mmap2 () can also return any of the errors described in mmap(2).
+    
+## VERSIONS         top
+    
+    
+           mmap2 () is available since Linux 2.3.31.
+    
+## CONFORMING TO         top
+    
+    
+           This system call is Linux-specific.
+    
+## NOTES         top
+    
+    
+           On architectures where this system call is present, the glibc
+           mmap () wrapper function invokes this system call rather than the
+           mmap(2) system call.
+    
+           This system call does not exist on x86-64.
+    
+           On ia64, the unit for _offset_ is actually the system page size,
+           rather than 4096 bytes.
+    
+## SEE ALSO         top
+    
+    
+           getpagesize(2), mmap(2), mremap(2), msync(2), shm_open(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                       MMAP2(2)
+    

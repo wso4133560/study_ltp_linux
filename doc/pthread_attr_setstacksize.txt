@@ -1,0 +1,127 @@
+  
+# pthread_attr_setstacksize(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | VERSIONS | ATTRIBUTES
+| CONFORMING TO | NOTES | BUGS | EXAMPLES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    PTHREAD_ATTR_SETSTACKSIZE(3)x Programmer's ManualAD_ATTR_SETSTACKSIZE(3)
+    
+## NAME         top
+    
+    
+           pthread_attr_setstacksize, pthread_attr_getstacksize - set/get
+           stack size attribute in thread attributes object
+    
+## SYNOPSIS         top
+    
+    
+           #include <pthread.h>
+    
+           int pthread_attr_setstacksize(pthread_attr_t  _attr_ , size_t _stacksize_ );
+           int pthread_attr_getstacksize(const pthread_attr_t restrict _attr_ ,
+                                         size_t restrict _stacksize_ );
+    
+           Compile and link with _-pthread_.
+    
+## DESCRIPTION         top
+    
+    
+           The pthread_attr_setstacksize () function sets the stack size
+           attribute of the thread attributes object referred to by _attr_ to
+           the value specified in _stacksize_.
+    
+           The stack size attribute determines the minimum size (in bytes)
+           that will be allocated for threads created using the thread
+           attributes object _attr_.
+    
+           The pthread_attr_getstacksize () function returns the stack size
+           attribute of the thread attributes object referred to by _attr_ in
+           the buffer pointed to by _stacksize_.
+    
+## RETURN VALUE         top
+    
+    
+           On success, these functions return 0; on error, they return a
+           nonzero error number.
+    
+## ERRORS         top
+    
+    
+           pthread_attr_setstacksize () can fail with the following error:
+    
+           EINVAL The stack size is less than PTHREAD_STACK_MIN (16384)
+                  bytes.
+    
+           On some systems, pthread_attr_setstacksize () can fail with the
+           error EINVAL if _stacksize_ is not a multiple of the system page
+           size.
+    
+## VERSIONS         top
+    
+    
+           These functions are provided by glibc since version 2.1.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ pthread_attr_setstacksize (),          │ Thread safety │ MT-Safe │
+           │ pthread_attr_getstacksize ()           │               │         │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008.
+    
+## NOTES         top
+    
+    
+           For details on the default stack size of new threads, see
+           pthread_create(3).
+    
+           A thread's stack size is fixed at the time of thread creation.
+           Only the main thread can dynamically grow its stack.
+    
+           The pthread_attr_setstack(3) function allows an application to
+           set both the size and location of a caller-allocated stack that
+           is to be used by a thread.
+    
+## BUGS         top
+    
+    
+           As at glibc 2.8, if the specified _stacksize_ is not a multiple of
+           STACK_ALIGN (16 bytes on most architectures), it may be rounded
+           _downward_ , in violation of POSIX.1, which says that the allocated
+           stack will be at least _stacksize_ bytes.
+    
+## EXAMPLES         top
+    
+    
+           See pthread_create(3).
+    
+## SEE ALSO         top
+    
+    
+           getrlimit(2), pthread_attr_init(3), pthread_attr_setguardsize(3),
+           pthread_attr_setstack(3), pthread_create(3), pthreads(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22   PTHREAD_ATTR_SETSTACKSIZE(3)
+    

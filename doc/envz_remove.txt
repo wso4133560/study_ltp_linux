@@ -1,0 +1,141 @@
+  
+# envz_add(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+EXAMPLES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    ENVZ_ADD(3)             Linux Programmer's Manual            ENVZ_ADD(3)
+    
+## NAME         top
+    
+    
+           envz_add, envz_entry, envz_get, envz_merge, envz_remove,
+           envz_strip - environment string support
+    
+## SYNOPSIS         top
+    
+    
+           #include <envz.h>
+    
+           error_t envz_add(char restrict _envz_ , size_t restrict _envz_len_ ,
+                          const char restrict _name_ , const char restrict _value_ );
+    
+           char envz_entry(const char restrict _envz_ , size_t _envz_len_ ,
+                          const char restrict _name_ );
+    
+           char envz_get(const char restrict _envz_ , size_t _envz_len_ ,
+                          const char restrict _name_ );
+    
+           error_t envz_merge(char restrict _envz_ , size_t restrict _envz_len_ ,
+                          const char restrict _envz2_ , size_t _envz2_len_ ,
+                          int _override_ );
+    
+           void envz_remove(char restrict _envz_ , size_t restrict _envz_len_ ,
+                          const char restrict _name_ );
+    
+           void envz_strip(char restrict _envz_ , size_t restrict _envz_len_ );
+    
+## DESCRIPTION         top
+    
+    
+           These functions are glibc-specific.
+    
+           An argz vector is a pointer to a character buffer together with a
+           length, see argz_add(3).  An envz vector is a special argz
+           vector, namely one where the strings have the form "name=value".
+           Everything after the first '=' is considered to be the value.  If
+           there is no '=', the value is taken to be NULL.  (While the value
+           in case of a trailing '=' is the empty string "".)
+    
+           These functions are for handling envz vectors.
+    
+           envz_add () adds the string " _name_ = _value_ " (in case _value_ is non-
+           NULL) or " _name_ " (in case _value_ is NULL) to the envz vector
+           ( _envz_ , _envz_len_ ) and updates _envz_ and _envz_len_.  If an entry
+           with the same _name_ existed, it is removed.
+    
+           envz_entry () looks for _name_ in the envz vector ( _envz_ , _envz_len_ )
+           and returns the entry if found, or NULL if not.
+    
+           envz_get () looks for _name_ in the envz vector ( _envz_ , _envz_len_ ) and
+           returns the value if found, or NULL if not.  (Note that the value
+           can also be NULL, namely when there is an entry for _name_ without
+           '=' sign.)
+    
+           envz_merge () adds each entry in _envz2_ to _envz_ , as if with
+           envz_add ().  If _override_ is true, then values in _envz2_ will
+           supersede those with the same name in _envz_ , otherwise not.
+    
+           envz_remove () removes the entry for _name_ from ( _envz_ , _envz_len_ )
+           if there was one.
+    
+           envz_strip () removes all entries with value NULL.
+    
+## RETURN VALUE         top
+    
+    
+           All envz functions that do memory allocation have a return type
+           of _error_t_ (an integer type), and return 0 for success, and
+           ENOMEM if an allocation error occurs.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ envz_add (), envz_entry (), envz_get (), │ Thread safety │ MT-Safe │
+           │ envz_merge (), envz_remove (),          │               │         │
+           │ envz_strip ()                          │               │         │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           These functions are a GNU extension.
+    
+## EXAMPLES         top
+    
+    
+           #include <stdio.h>
+           #include <stdlib.h>
+           #include <envz.h>
+    
+           int
+           main(int argc, char argv[], char envp[])
+           {
+               int e_len = 0;
+               char str;
+    
+               for (int i = 0; envp[i] != NULL; i++)
+                   e_len += strlen(envp[i]) + 1;
+    
+               str = envz_entry(envp, e_len, "HOME");
+               printf("%s\n", str);
+               str = envz_get(envp, e_len, "HOME");
+               printf("%s\n", str);
+               exit(EXIT_SUCCESS);
+           }
+    
+## SEE ALSO         top
+    
+    
+           argz_add(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                    ENVZ_ADD(3)
+    

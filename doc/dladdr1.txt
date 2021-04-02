@@ -1,0 +1,205 @@
+  
+# dladdr(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | VERSIONS | ATTRIBUTES |
+CONFORMING TO | BUGS | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    DLADDR(3)               Linux Programmer's Manual              DLADDR(3)
+    
+## NAME         top
+    
+    
+           dladdr, dladdr1 - translate address to symbolic information
+    
+## SYNOPSIS         top
+    
+    
+           #define _GNU_SOURCE
+           #include <dlfcn.h>
+    
+           int dladdr(void  _addr_ , Dl_info  _info_ );
+           int dladdr1(void  _addr_ , Dl_info  _info_ , void  _extra_info_ , int _flags_ );
+    
+           Link with _-ldl_.
+    
+## DESCRIPTION         top
+    
+    
+           The function dladdr () determines whether the address specified in
+           _addr_ is located in one of the shared objects loaded by the
+           calling application.  If it is, then dladdr () returns information
+           about the shared object and symbol that overlaps _addr_.  This
+           information is returned in a _Dl_info_ structure:
+    
+               typedef struct {
+                   const char dli_fname;  / Pathname of shared object that
+                                              contains address /
+                   void       dli_fbase;  / Base address at which shared
+                                              object is loaded /
+                   const char dli_sname;  / Name of symbol whose definition
+                                              overlaps _addr_ /
+                   void       dli_saddr;  / Exact address of symbol named
+                                              in _dli_sname_ /
+               } Dl_info;
+    
+           If no symbol matching _addr_ could be found, then _dli_sname_ and
+           _dli_saddr_ are set to NULL.
+    
+           The function dladdr1 () is like dladdr (), but returns additional
+           information via the argument _extra_info_.  The information
+           returned depends on the value specified in _flags_ , which can have
+           one of the following values:
+    
+           RTLD_DL_LINKMAP
+                  Obtain a pointer to the link map for the matched file.
+                  The _extra_info_ argument points to a pointer to a _link_map_
+                  structure (i.e., _struct link_map _ ), defined in _< link.h>_
+                  as:
+    
+                      struct link_map {
+                          ElfW(Addr) l_addr;  / Difference between the
+                                                 address in the ELF file and
+                                                 the address in memory /
+                          char      l_name;  / Absolute pathname where
+                                                 object was found /
+                          ElfW(Dyn) l_ld;    / Dynamic section of the
+                                                 shared object /
+                          struct link_map l_next, l_prev;
+                                              / Chain of loaded objects /
+    
+                          / Plus additional fields private to the
+                             implementation /
+                      };
+    
+           RTLD_DL_SYMENT
+                  Obtain a pointer to the ELF symbol table entry of the
+                  matching symbol.  The _extra_info_ argument is a pointer to
+                  a symbol pointer: _const ElfW(Sym) _.  The _ElfW_ () macro
+                  definition turns its argument into the name of an ELF data
+                  type suitable for the hardware architecture.  For example,
+                  on a 64-bit platform, _ElfW(Sym)_ yields the data type name
+                  _Elf64_Sym_ , which is defined in _< elf.h>_ as:
+    
+                      typedef struct  {
+                          Elf64_Word    st_name;     / Symbol name /
+                          unsigned char st_info;     / Symbol type and binding /
+                          unsigned char st_other;    / Symbol visibility /
+                          Elf64_Section st_shndx;    / Section index /
+                          Elf64_Addr    st_value;    / Symbol value /
+                          Elf64_Xword   st_size;     / Symbol size /
+                      } Elf64_Sym;
+    
+                  The _st_name_ field is an index into the string table.
+    
+                  The _st_info_ field encodes the symbol's type and binding.
+                  The type can be extracted using the macro
+                  ELF64_ST_TYPE(st_info) (or ELF32_ST_TYPE() on 32-bit
+                  platforms), which yields one of the following values:
+    
+                      Value           Description
+                      STT_NOTYPE Symbol type is unspecified
+                      STT_OBJECT Symbol is a data object
+                      STT_FUNC Symbol is a code object
+                      STT_SECTION Symbol associated with a section
+                      STT_FILE Symbol's name is filename
+                      STT_COMMON Symbol is a common data object
+                      STT_TLS Symbol is thread-local data object
+                      STT_GNU_IFUNC Symbol is indirect code object
+    
+                  The symbol binding can be extracted from the _st_info_ field
+                  using the macro ELF64_ST_BIND(st_info) (or ELF32_ST_BIND()
+                  on 32-bit platforms), which yields one of the following
+                  values:
+    
+                      Value            Description
+                      STB_LOCAL Local symbol
+                      STB_GLOBAL Global symbol
+                      STB_WEAK Weak symbol
+                      STB_GNU_UNIQUE Unique symbol
+    
+                  The _st_other_ field contains the symbol's visibility, which
+                  can be extracted using the macro
+                  ELF64_ST_VISIBILITY(st_info) (or ELF32_ST_VISIBILITY() on
+                  32-bit platforms), which yields one of the following
+                  values:
+    
+                      Value           Description
+                      STV_DEFAULT Default symbol visibility rules
+                      STV_INTERNAL Processor-specific hidden class
+                      STV_HIDDEN Symbol unavailable in other modules
+                      STV_PROTECTED Not preemptible, not exported
+    
+## RETURN VALUE         top
+    
+    
+           On success, these functions return a nonzero value.  If the
+           address specified in _addr_ could be matched to a shared object,
+           but not to a symbol in the shared object, then the
+           _info- >dli_sname_ and _info- >dli_saddr_ fields are set to NULL.
+    
+           If the address specified in _addr_ could not be matched to a shared
+           object, then these functions return 0.  In this case, an error
+           message is _not_ available via dlerror(3).
+    
+## VERSIONS         top
+    
+    
+           dladdr () is present in glibc 2.0 and later.  dladdr1 () first
+           appeared in glibc 2.3.3.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ dladdr (), dladdr1 ()                   │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           These functions are nonstandard GNU extensions that are also
+           present on Solaris.
+    
+## BUGS         top
+    
+    
+           Sometimes, the function pointers you pass to dladdr () may
+           surprise you.  On some architectures (notably i386 and x86-64),
+           _dli_fname_ and _dli_fbase_ may end up pointing back at the object
+           from which you called dladdr (), even if the function used as an
+           argument should come from a dynamically linked library.
+    
+           The problem is that the function pointer will still be resolved
+           at compile time, but merely point to the _plt_ (Procedure Linkage
+           Table) section of the original object (which dispatches the call
+           after asking the dynamic linker to resolve the symbol).  To work
+           around this, you can try to compile the code to be position-
+           independent: then, the compiler cannot prepare the pointer at
+           compile time any more and gcc(1) will generate code that just
+           loads the final symbol address from the _got_ (Global Offset Table)
+           at run time before passing it to dladdr ().
+    
+## SEE ALSO         top
+    
+    
+           dl_iterate_phdr(3), dlinfo(3), dlopen(3), dlsym(3), ld.so(8)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    Linux                          2021-03-22                      DLADDR(3)
+    

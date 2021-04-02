@@ -1,0 +1,175 @@
+  
+# argz_add(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+BUGS | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    ARGZ_ADD(3)             Linux Programmer's Manual            ARGZ_ADD(3)
+    
+## NAME         top
+    
+    
+           argz_add, argz_add_sep, argz_append, argz_count, argz_create,
+           argz_create_sep, argz_delete, argz_extract, argz_insert,
+           argz_next, argz_replace, argz_stringify - functions to handle an
+           argz list
+    
+## SYNOPSIS         top
+    
+    
+           #include <argz.h>
+    
+           error_t argz_add(char restrict _argz_ , size_t restrict _argz_len_ ,
+                           const char restrict _str_ );
+    
+           error_t argz_add_sep(char restrict _argz_ , size_t restrict _argz_len_ ,
+                           const char restrict _str_ , int _delim_ );
+    
+           error_t argz_append(char restrict _argz_ , size_t restrict _argz_len_ ,
+                           const char restrict _buf_ , size_t _buf_len_ );
+    
+           size_t argz_count(const char  _argz_ , size_t _argz_len_ );
+    
+           error_t argz_create(char const _argv_ [], char restrict _argz_ ,
+                           size_t restrict _argz_len_ );
+    
+           error_t argz_create_sep(const char restrict _str_ , int _sep_ ,
+                           char restrict _argz_ , size_t restrict _argz_len_ );
+    
+           void argz_delete(char restrict _argz_ , size_t restrict _argz_len_ ,
+                           char restrict _entry_ );
+    
+           void argz_extract(const char restrict _argz_ , size_t _argz_len_ ,
+                           char restrict _argv_ );
+    
+           error_t argz_insert(char restrict _argz_ , size_t restrict _argz_len_ ,
+                           char restrict _before_ , const char restrict _entry_ );
+    
+           char argz_next(const char restrict _argz_ , size_t _argz_len_ ,
+                           const char restrict _entry_ );
+    
+           error_t argz_replace(char restrict _argz_ , size_t restrict _argz_len_ ,
+                           const char restrict _str_ , const char restrict _with_ ,
+                           unsigned int restrict _replace_count_ );
+    
+           void argz_stringify(char  _argz_ , size_t _len_ , int _sep_ );
+    
+## DESCRIPTION         top
+    
+    
+           These functions are glibc-specific.
+    
+           An argz vector is a pointer to a character buffer together with a
+           length.  The intended interpretation of the character buffer is
+           an array of strings, where the strings are separated by null
+           bytes ('\0').  If the length is nonzero, the last byte of the
+           buffer must be a null byte.
+    
+           These functions are for handling argz vectors.  The pair (NULL,0)
+           is an argz vector, and, conversely, argz vectors of length 0 must
+           have null pointer.  Allocation of nonempty argz vectors is done
+           using malloc(3), so that free(3) can be used to dispose of them
+           again.
+    
+           argz_add () adds the string _str_ at the end of the array _argz_ , and
+           updates _argz_ and _argz_len_.
+    
+           argz_add_sep () is similar, but splits the string _str_ into
+           substrings separated by the delimiter _delim_.  For example, one
+           might use this on a UNIX search path with delimiter ':'.
+    
+           argz_append () appends the argz vector ( _buf_ , _buf_len_ ) after
+           ( _argz_ , _argz_len_ ) and updates _argz_ and _argz_len_.  (Thus,
+           _argz_len_ will be increased by _buf_len_.)
+    
+           argz_count () counts the number of strings, that is, the number of
+           null bytes ('\0'), in ( _argz_ , _argz_len_ ).
+    
+           argz_create () converts a UNIX-style argument vector _argv_ ,
+           terminated by _(char ) 0_ , into an argz vector ( _argz_ , _argz_len_ ).
+    
+           argz_create_sep () converts the null-terminated string _str_ into an
+           argz vector ( _argz_ , _argz_len_ ) by breaking it up at every
+           occurrence of the separator _sep_.
+    
+           argz_delete () removes the substring pointed to by _entry_ from the
+           argz vector ( _argz_ , _argz_len_ ) and updates _argz_ and _argz_len_.
+    
+           argz_extract () is the opposite of argz_create ().  It takes the
+           argz vector ( _argz_ , _argz_len_ ) and fills the array starting at _argv_
+           with pointers to the substrings, and a final NULL, making a UNIX-
+           style argv vector.  The array _argv_ must have room for
+           _argz_count_ ( _argz_ , _argz_len_ ) + 1 pointers.
+    
+           argz_insert () is the opposite of argz_delete ().  It inserts the
+           argument _entry_ at position _before_ into the argz vector
+           ( _argz_ , _argz_len_ ) and updates _argz_ and _argz_len_.  If _before_ is
+           NULL, then _entry_ will inserted at the end.
+    
+           argz_next () is a function to step through the argz vector.  If
+           _entry_ is NULL, the first entry is returned.  Otherwise, the entry
+           following is returned.  It returns NULL if there is no following
+           entry.
+    
+           argz_replace () replaces each occurrence of _str_ with _with_ ,
+           reallocating argz as necessary.  If _replace_count_ is non-NULL,
+           _replace_count_ will be incremented by the number of replacements.
+    
+           argz_stringify () is the opposite of argz_create_sep ().  It
+           transforms the argz vector into a normal string by replacing all
+           null bytes ('\0') except the last by _sep_.
+    
+## RETURN VALUE         top
+    
+    
+           All argz functions that do memory allocation have a return type
+           of _error_t_ (an integer type), and return 0 for success, and
+           ENOMEM if an allocation error occurs.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ argz_add (), argz_add_sep (),           │ Thread safety │ MT-Safe │
+           │ argz_append (), argz_count (),          │               │         │
+           │ argz_create (), argz_create_sep (),     │               │         │
+           │ argz_delete (), argz_extract (),        │               │         │
+           │ argz_insert (), argz_next (),           │               │         │
+           │ argz_replace (), argz_stringify ()      │               │         │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           These functions are a GNU extension.
+    
+## BUGS         top
+    
+    
+           Argz vectors without a terminating null byte may lead to
+           Segmentation Faults.
+    
+## SEE ALSO         top
+    
+    
+           envz_add(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                    ARGZ_ADD(3)
+    

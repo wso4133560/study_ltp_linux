@@ -1,0 +1,89 @@
+  
+# catgets(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    CATGETS(3)              Linux Programmer's Manual             CATGETS(3)
+    
+## NAME         top
+    
+    
+           catgets - get message from a message catalog
+    
+## SYNOPSIS         top
+    
+    
+           #include <nl_types.h>
+    
+           char catgets(nl_catd _catalog_ , int _set_number_ , int _message_number_ ,
+                         const char  _message_ );
+    
+## DESCRIPTION         top
+    
+    
+           catgets () reads the message _message_number_ , in set _set_number_ ,
+           from the message catalog identified by _catalog_ , where _catalog_ is
+           a catalog descriptor returned from an earlier call to catopen(3).
+           The fourth argument, _message_ , points to a default message string
+           which will be returned by catgets () if the identified message
+           catalog is not currently available.  The message-text is
+           contained in an internal buffer area and should be copied by the
+           application if it is to be saved or modified.  The return string
+           is always terminated with a null byte ('\0').
+    
+## RETURN VALUE         top
+    
+    
+           On success, catgets () returns a pointer to an internal buffer
+           area containing the null-terminated message string.  On failure,
+           catgets () returns the value _message_.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ catgets ()                             │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008.
+    
+## NOTES         top
+    
+    
+           The catgets () function is available only in libc.so.4.4.4c and
+           above.  The Jan 1987 X/Open Portability Guide specifies a more
+           subtle error return: _message_ is returned if the message catalog
+           specified by _catalog_ is not available, while an empty string is
+           returned when the message catalog is available but does not
+           contain the specified message.  These two possible error returns
+           seem to be discarded in SUSv2 in favor of always returning
+           _message_.
+    
+## SEE ALSO         top
+    
+    
+           catopen(3), setlocale(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                     CATGETS(3)
+    

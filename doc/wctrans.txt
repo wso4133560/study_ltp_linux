@@ -1,0 +1,85 @@
+  
+# wctrans(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    WCTRANS(3)              Linux Programmer's Manual             WCTRANS(3)
+    
+## NAME         top
+    
+    
+           wctrans - wide-character translation mapping
+    
+## SYNOPSIS         top
+    
+    
+           #include <wctype.h>
+    
+           wctrans_t wctrans(const char  _name_ );
+    
+## DESCRIPTION         top
+    
+    
+           The _wctrans_t_ type represents a mapping which can map a wide
+           character to another wide character.  Its nature is
+           implementation-dependent, but the special value _(wctrans_t) 0_
+           denotes an invalid mapping.  Nonzero _wctrans_t_ values can be
+           passed to the towctrans(3) function to actually perform the wide-
+           character mapping.
+    
+           The wctrans () function returns a mapping, given by its name.  The
+           set of valid names depends on the LC_CTYPE category of the
+           current locale, but the following names are valid in all locales.
+    
+               "tolower" - realizes the tolower(3) mapping
+               "toupper" - realizes the toupper(3) mapping
+    
+## RETURN VALUE         top
+    
+    
+           The wctrans () function returns a mapping descriptor if the _name_
+           is valid.  Otherwise, it returns _(wctrans_t) 0_.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌───────────────────────────────┬───────────────┬────────────────┐
+           │ Interface │ Attribute │ Value │
+           ├───────────────────────────────┼───────────────┼────────────────┤
+           │ wctrans ()                      │ Thread safety │ MT-Safe locale │
+           └───────────────────────────────┴───────────────┴────────────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C99.
+    
+## NOTES         top
+    
+    
+           The behavior of wctrans () depends on the LC_CTYPE category of the
+           current locale.
+    
+## SEE ALSO         top
+    
+    
+           towctrans(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                     WCTRANS(3)
+    

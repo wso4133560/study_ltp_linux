@@ -1,0 +1,83 @@
+  
+# btowc(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+NOTES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    BTOWC(3)                Linux Programmer's Manual               BTOWC(3)
+    
+## NAME         top
+    
+    
+           btowc - convert single byte to wide character
+    
+## SYNOPSIS         top
+    
+    
+           #include <wchar.h>
+    
+           wint_t btowc(int _c_ );
+    
+## DESCRIPTION         top
+    
+    
+           The btowc () function converts _c_ , interpreted as a multibyte
+           sequence of length 1, starting in the initial shift state, to a
+           wide character and returns it.  If _c_ is EOF or not a valid
+           multibyte sequence of length 1, the btowc () function returns
+           WEOF.
+    
+## RETURN VALUE         top
+    
+    
+           The btowc () function returns the wide character converted from
+           the single byte _c_.  If _c_ is EOF or not a valid multibyte sequence
+           of length 1, it returns WEOF.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ btowc ()                               │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C99.
+    
+## NOTES         top
+    
+    
+           The behavior of btowc () depends on the LC_CTYPE category of the
+           current locale.
+    
+           This function should never be used.  It does not work for
+           encodings which have state, and unnecessarily treats single bytes
+           differently from multibyte sequences.  Use either mbtowc(3) or
+           the thread-safe mbrtowc(3) instead.
+    
+## SEE ALSO         top
+    
+    
+           mbrtowc(3), mbtowc(3), wctob(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                       BTOWC(3)
+    

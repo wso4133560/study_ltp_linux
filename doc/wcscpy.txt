@@ -1,0 +1,74 @@
+  
+# wcscpy(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    WCSCPY(3)               Linux Programmer's Manual              WCSCPY(3)
+    
+## NAME         top
+    
+    
+           wcscpy - copy a wide-character string
+    
+## SYNOPSIS         top
+    
+    
+           #include <wchar.h>
+    
+           wchar_t wcscpy(wchar_t restrict _dest_ , const wchar_t restrict _src_ );
+    
+## DESCRIPTION         top
+    
+    
+           The wcscpy () function is the wide-character equivalent of the
+           strcpy(3) function.  It copies the wide-character string pointed
+           to by _src_ , including the terminating null wide character (L'\0'),
+           to the array pointed to by _dest_.
+    
+           The strings may not overlap.
+    
+           The programmer must ensure that there is room for at least
+           _wcslen(src)+1_ wide characters at _dest_.
+    
+## RETURN VALUE         top
+    
+    
+           wcscpy () returns _dest_.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ wcscpy ()                              │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008, C99.
+    
+## SEE ALSO         top
+    
+    
+           strcpy(3), wcpcpy(3), wcscat(3), wcsdup(3), wmemcpy(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                      WCSCPY(3)
+    

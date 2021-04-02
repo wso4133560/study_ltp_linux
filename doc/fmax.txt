@@ -1,0 +1,91 @@
+  
+# fmax(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | VERSIONS | ATTRIBUTES
+| CONFORMING TO | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    FMAX(3)                 Linux Programmer's Manual                FMAX(3)
+    
+## NAME         top
+    
+    
+           fmax, fmaxf, fmaxl - determine maximum of two floating-point
+           numbers
+    
+## SYNOPSIS         top
+    
+    
+           #include <math.h>
+    
+           double fmax(double _x_ , double _y_ );
+           float fmaxf(float _x_ , float _y_ );
+           long double fmaxl(long double _x_ , long double _y_ );
+    
+           Link with _-lm_.
+    
+       Feature Test Macro Requirements for glibc (see
+       feature_test_macros(7)):
+    
+           fmax (), fmaxf (), fmaxl ():
+               _ISOC99_SOURCE || _POSIX_C_SOURCE >= 200112L
+    
+## DESCRIPTION         top
+    
+    
+           These functions return the larger value of _x_ and _y_.
+    
+## RETURN VALUE         top
+    
+    
+           These functions return the maximum of _x_ and _y_.
+    
+           If one argument is a NaN, the other argument is returned.
+    
+           If both arguments are NaN, a NaN is returned.
+    
+## ERRORS         top
+    
+    
+           No errors occur.
+    
+## VERSIONS         top
+    
+    
+           These functions first appeared in glibc in version 2.1.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ fmax (), fmaxf (), fmaxl ()              │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           C99, POSIX.1-2001, POSIX.1-2008.
+    
+## SEE ALSO         top
+    
+    
+           fdim(3), fmin(3)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+                                   2021-03-22                        FMAX(3)
+    

@@ -1,0 +1,102 @@
+  
+# ftok(3) -- Linux manual page
+NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ATTRIBUTES | CONFORMING TO |
+NOTES | EXAMPLES | SEE ALSO | COLOPHON  
+  
+---  
+  
+|  
+      
+    
+    FTOK(3)                 Linux Programmer's Manual                FTOK(3)
+    
+## NAME         top
+    
+    
+           ftok - convert a pathname and a project identifier to a System V
+           IPC key
+    
+## SYNOPSIS         top
+    
+    
+           #include <sys/types.h>
+           #include <sys/ipc.h>
+    
+           key_t ftok(const char  _pathname_ , int _proj_id_ );
+    
+## DESCRIPTION         top
+    
+    
+           The ftok () function uses the identity of the file named by the
+           given _pathname_ (which must refer to an existing, accessible file)
+           and the least significant 8 bits of _proj_id_ (which must be
+           nonzero) to generate a _key_t_ type System V IPC key, suitable for
+           use with msgget(2), semget(2), or shmget(2).
+    
+           The resulting value is the same for all pathnames that name the
+           same file, when the same value of _proj_id_ is used.  The value
+           returned should be different when the (simultaneously existing)
+           files or the project IDs differ.
+    
+## RETURN VALUE         top
+    
+    
+           On success, the generated _key_t_ value is returned.  On failure -1
+           is returned, with _errno_ indicating the error as for the stat(2)
+           system call.
+    
+## ATTRIBUTES         top
+    
+    
+           For an explanation of the terms used in this section, see
+           attributes(7).
+    
+           ┌──────────────────────────────────────┬───────────────┬─────────┐
+           │ Interface │ Attribute │ Value │
+           ├──────────────────────────────────────┼───────────────┼─────────┤
+           │ ftok ()                                │ Thread safety │ MT-Safe │
+           └──────────────────────────────────────┴───────────────┴─────────┘
+    
+## CONFORMING TO         top
+    
+    
+           POSIX.1-2001, POSIX.1-2008.
+    
+## NOTES         top
+    
+    
+           On some ancient systems, the prototype was:
+    
+               key_t ftok(char  _pathname_ , char _proj_id_ );
+    
+           Today, _proj_id_ is an _int_ , but still only 8 bits are used.
+           Typical usage has an ASCII character _proj_id_ , that is why the
+           behavior is said to be undefined when _proj_id_ is zero.
+    
+           Of course, no guarantee can be given that the resulting _key_t_ is
+           unique.  Typically, a best-effort attempt combines the given
+           _proj_id_ byte, the lower 16 bits of the inode number, and the
+           lower 8 bits of the device number into a 32-bit result.
+           Collisions may easily happen, for example between files on
+           _/dev/hda1_ and files on _/dev/sda1_.
+    
+## EXAMPLES         top
+    
+    
+           See semget(2).
+    
+## SEE ALSO         top
+    
+    
+           msgget(2), semget(2), shmget(2), stat(2), sysvipc(7)
+    
+## COLOPHON         top
+    
+    
+           This page is part of release 5.11 of the Linux _man-pages_ project.
+           A description of the project, information about reporting bugs,
+           and the latest version of this page, can be found at
+           https://www.kernel.org/doc/man-pages/.
+    
+    GNU                            2021-03-22                        FTOK(3)
+    
